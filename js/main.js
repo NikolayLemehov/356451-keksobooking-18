@@ -106,11 +106,11 @@ var createDataAd = function (avatarNumber, title, locationBlock, minLocationY, m
 var dataAds = createDataAd(AVATAR_NUMBER, TITLE, map, MIN_LOCATION_Y, MAX_LOCATION_Y, MIN_PRICE, MAX_PRICE, TYPES, MAX_ROOMS, MAX_GUESTS, CHECKINS, CHECKOUTS, FEATURES, DESCRIPTION, PHOTOS, AD_QUANTITY);
 var renderAd = function (ad) {
   var adElement = pinTemplate.cloneNode(true);
-  adElement.style.left = '' + (ad.location.x - adElement.offsetWidth / 2) + 'px';
-  adElement.style.top = '' + (ad.location.y - adElement.offsetHeight) + 'px';
+  adElement.style.left = '' + ad.location.x + 'px';
+  adElement.style.top = '' + ad.location.y + 'px';
+  adElement.style.transform = 'translate(-50%, -100%)';
   adElement.querySelector('img').src = ad.author.avatar;
   adElement.querySelector('img').alt = ad.offer.title;
-  // console.log(adElement.offsetWidth, adElement.offsetHeight);
   return adElement;
 };
 var fragment = document.createDocumentFragment();
