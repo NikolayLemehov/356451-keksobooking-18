@@ -7,6 +7,7 @@ var MIN_LOCATION_Y = 130;
 var MAX_LOCATION_Y = 630;
 var MIN_PRICE = 2000;
 var MAX_PRICE = 50000;
+var ROUNDING_PRICE = 100;
 var TYPES_TRANSLATION = {
   palace: 'Дворец',
   flat: 'Квартира',
@@ -55,6 +56,7 @@ var pinTemplate = document.querySelector('#pin').content
 var filterContainerElement = map.querySelector('.map__filters-container');
 var cardTemplate = document.querySelector('#card').content
   .querySelector('.map__card');
+
 var randomInteger = function (min, max) {
   return Math.floor(min + Math.random() * (max + 1 - min));
 };
@@ -82,7 +84,7 @@ var createArraySerialInteger = function (number) {
   }
   return array;
 };
-var concatinateItemArray = function (array) {
+var concatenateItemArray = function (array) {
   var string = '' + array[0];
   if (array.length > 1) {
     for (var i = 1; i < array.length; i++) {
@@ -91,38 +93,47 @@ var concatinateItemArray = function (array) {
   }
   return string;
 };
-var createDataAd = function (avatarNumber, title, locationBlock, minLocationY, maxLocationY, minPrice, maxPrice, typesTranslation, maxRooms, maxGuests, checkins, checkouts, features, descriptions, photos, adQuantity) {
+var randomItemArray = function (array) {
+  return array[randomInteger(0, array.length - 1)];
+};
+var shuffleSliceArray = function (array) {
+  return shuffle(array).slice(randomInteger(0, array.length - 1));
+};
+var createDataAd = function (locationBlock) {
   var array = [];
-  var avatars = shuffle(createArraySerialInteger(avatarNumber));
-  var types = Object.keys(typesTranslation);
-  for (var i = 0; i < adQuantity; i++) {
+  var avatars = shuffle(createArraySerialInteger(AVATAR_NUMBER));
+  var types = Object.keys(TYPES_TRANSLATION);
+  for (var i = 0; i < AD_QUANTITY; i++) {
+    var locationX = randomInteger(1, locationBlock.offsetWidth);
+    var locationY = randomInteger(MIN_LOCATION_Y, MAX_LOCATION_Y);
     var ad = {
       'author': {
         'avatar': avatars[i],
       },
       'offer': {
-        'title': title,
-        'address': randomInteger(1, 8) + ', ' + randomInteger(minLocationY, maxLocationY),
-        'price': roundingRandomInteger(minPrice, maxPrice, 100),
-        'type': types[randomInteger(0, types.length - 1)],
-        'rooms': randomInteger(1, maxRooms),
-        'guests': randomInteger(1, maxGuests),
-        'checkin': checkins[randomInteger(0, checkins.length - 1)],
-        'checkout': checkouts[randomInteger(0, checkouts.length - 1)],
-        'features': shuffle(features).slice(randomInteger(0, features.length - 1)),
-        'description': concatinateItemArray(shuffle(descriptions).slice(randomInteger(0, descriptions.length - 1))),
-        'photos': shuffle(photos).slice(randomInteger(0, photos.length - 1)),
+        'title': TITLE,
+        'address': locationX + ', ' + locationY,
+        'price': roundingRandomInteger(MIN_PRICE, MAX_PRICE, ROUNDING_PRICE),
+        'type': randomItemArray(types),
+        'rooms': randomInteger(1, MAX_ROOMS),
+        'guests': randomInteger(1, MAX_GUESTS),
+        'checkin': randomItemArray(CHECKINS),
+        'checkout': randomItemArray(CHECKOUTS),
+        'features': shuffleSliceArray(FEATURES),
+        'description': concatenateItemArray(shuffleSliceArray(DESCRIPTIONS)),
+        'photos': shuffleSliceArray(PHOTOS),
       },
       'location': {
-        'x': randomInteger(1, map.offsetWidth),
-        'y': randomInteger(minLocationY, maxLocationY),
+        'x': locationX,
+        'y': locationY,
       },
     };
     array.push(ad);
   }
   return array;
 };
-var dataAds = createDataAd(AVATAR_NUMBER, TITLE, map, MIN_LOCATION_Y, MAX_LOCATION_Y, MIN_PRICE, MAX_PRICE, TYPES_TRANSLATION, MAX_ROOMS, MAX_GUESTS, CHECKINS, CHECKOUTS, FEATURES, DESCRIPTIONS, PHOTOS, AD_QUANTITY);
+var dataAds = createDataAd(map);
+
 var renderPin = function (ad) {
   var adElement = pinTemplate.cloneNode(true);
   adElement.style.left = ad.location.x + 'px';
@@ -133,22 +144,23 @@ var renderPin = function (ad) {
   return adElement;
 };
 var fragment = document.createDocumentFragment();
-for (var i = 0; i < dataAds.length; i++) {
-  fragment.appendChild(renderPin(dataAds[i]));
+for (var item = 0; item < dataAds.length; item++) {
+  fragment.appendChild(renderPin(dataAds[item]));
 }
 pinsElement.appendChild(fragment);
+
 var isArrayInString = function (string, array) {
-  for (var j = 0; j < array.length; j++) {
-    if (string.includes(array[j])) {
+  for (var i = 0; i < array.length; i++) {
+    if (string.includes(array[i])) {
       return true;
     }
   }
   return false;
 };
 var hideBlockInCollection = function (collection, arrayString) {
-  for (var j = 0; j < collection.length; j++) {
-    if (!isArrayInString(collection[j].getAttribute('class'), arrayString)) {
-      collection[j].style.display = 'none';
+  for (var i = 0; i < collection.length; i++) {
+    if (!isArrayInString(collection[i].getAttribute('class'), arrayString)) {
+      collection[i].style.display = 'none';
     }
   }
 };
@@ -156,9 +168,9 @@ var renderPhotos = function (photoList, photoItem, photos) {
   photoItem.src = photos[0];
   if (photos.length > 1) {
     var fragmentPhotoList = document.createDocumentFragment();
-    for (var j = 1; j < photos.length; j++) {
+    for (var i = 1; i < photos.length; i++) {
       var photoElement = photoItem.cloneNode(true);
-      photoElement.src = photos[j];
+      photoElement.src = photos[i];
       fragmentPhotoList.appendChild(photoElement);
     }
     photoList.appendChild(fragmentPhotoList);
