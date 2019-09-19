@@ -33,7 +33,15 @@ var FEATURES = [
   'elevator',
   'conditioner',
 ];
-var DESCRIPTION = 'Далеко-далеко за словесными горами в стране гласных и согласных живут рыбные тексты.';
+// var DESCRIPTION = 'Далеко-далеко за словесными горами в стране гласных и согласных живут рыбные тексты.';
+var DESCRIPTIONS = [
+  'Великолепная квартира-студия в центре Токио.',
+  'Подходит как туристам, так и бизнесменам.',
+  'Квартира полностью укомплектована и недавно отремонтирована.',
+  'Паркоместо в подземном паркинге включено в стоимость аренды квартиры, с паркинга на этаж можно подняться на лифте.',
+  'Близко от метро, всего 5 минут',
+  'Далеко-далеко за словесными горами в стране гласных и согласных живут рыбные тексты.',
+];
 var PHOTOS = [
   'http://o0.github.io/assets/images/tokyo/hotel1.jpg',
   'http://o0.github.io/assets/images/tokyo/hotel2.jpg',
@@ -75,7 +83,16 @@ var createArraySerialInteger = function (number) {
   }
   return array;
 };
-var createDataAd = function (avatarNumber, title, locationBlock, minLocationY, maxLocationY, minPrice, maxPrice, typesTranslation, maxRooms, maxGuests, checkins, checkouts, features, description, photos, adQuantity) {
+var concatinateItemArray = function (array) {
+  var string = '' + array[0];
+  if (array.length > 1) {
+    for (var i = 1; i < array.length; i++) {
+      string = string + ' ' + array[i];
+    }
+  }
+  return string;
+};
+var createDataAd = function (avatarNumber, title, locationBlock, minLocationY, maxLocationY, minPrice, maxPrice, typesTranslation, maxRooms, maxGuests, checkins, checkouts, features, descriptions, photos, adQuantity) {
   var array = [];
   var avatars = shuffle(createArraySerialInteger(avatarNumber));
   var types = Object.keys(typesTranslation);
@@ -94,7 +111,7 @@ var createDataAd = function (avatarNumber, title, locationBlock, minLocationY, m
         'checkin': checkins[randomInteger(0, checkins.length - 1)],
         'checkout': checkouts[randomInteger(0, checkouts.length - 1)],
         'features': shuffle(features).slice(randomInteger(0, features.length - 1)),
-        'description': description,
+        'description': concatinateItemArray(shuffle(descriptions).slice(randomInteger(0, descriptions.length - 1))),
         'photos': shuffle(photos).slice(randomInteger(0, photos.length - 1)),
       },
       'location': {
@@ -106,7 +123,7 @@ var createDataAd = function (avatarNumber, title, locationBlock, minLocationY, m
   }
   return array;
 };
-var dataAds = createDataAd(AVATAR_NUMBER, TITLE, map, MIN_LOCATION_Y, MAX_LOCATION_Y, MIN_PRICE, MAX_PRICE, TYPES_TRANSLATION, MAX_ROOMS, MAX_GUESTS, CHECKINS, CHECKOUTS, FEATURES, DESCRIPTION, PHOTOS, AD_QUANTITY);
+var dataAds = createDataAd(AVATAR_NUMBER, TITLE, map, MIN_LOCATION_Y, MAX_LOCATION_Y, MIN_PRICE, MAX_PRICE, TYPES_TRANSLATION, MAX_ROOMS, MAX_GUESTS, CHECKINS, CHECKOUTS, FEATURES, DESCRIPTIONS, PHOTOS, AD_QUANTITY);
 var renderPin = function (ad) {
   var adElement = pinTemplate.cloneNode(true);
   adElement.style.left = ad.location.x + 'px';
