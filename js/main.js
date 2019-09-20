@@ -57,11 +57,11 @@ var filterContainerElement = map.querySelector('.map__filters-container');
 var cardTemplate = document.querySelector('#card').content
   .querySelector('.map__card');
 
-var randomInteger = function (min, max) {
+var findRandomInteger = function (min, max) {
   return Math.floor(min + Math.random() * (max + 1 - min));
 };
 var roundingRandomInteger = function (min, max, rounding) {
-  return Math.floor(randomInteger(min, max) / rounding) * rounding;
+  return Math.floor(findRandomInteger(min, max) / rounding) * rounding;
 };
 var shuffle = function (array) {
   for (var i = array.length - 1; i > 0; i--) {
@@ -88,19 +88,19 @@ var concatenateItemArray = function (array) {
   }
   return string;
 };
-var randomItemArray = function (array) {
-  return array[randomInteger(0, array.length - 1)];
+var findRandomItemArray = function (array) {
+  return array[findRandomInteger(0, array.length - 1)];
 };
-var shuffleSliceArray = function (array) {
-  return shuffle(array).slice(randomInteger(0, array.length - 1));
+var findSliceShuffleArray = function (array) {
+  return shuffle(array).slice(findRandomInteger(0, array.length - 1));
 };
 var createDataAd = function (locationBlock) {
   var array = [];
   var avatars = shuffle(createArraySerialInteger(AVATAR_NUMBER));
   var types = Object.keys(TYPES_TRANSLATION);
   for (var i = 0; i < AD_QUANTITY; i++) {
-    var locationX = randomInteger(1, locationBlock.offsetWidth);
-    var locationY = randomInteger(MIN_LOCATION_Y, MAX_LOCATION_Y);
+    var locationX = findRandomInteger(1, locationBlock.offsetWidth);
+    var locationY = findRandomInteger(MIN_LOCATION_Y, MAX_LOCATION_Y);
     var ad = {
       'author': {
         'avatar': avatars[i],
@@ -109,14 +109,14 @@ var createDataAd = function (locationBlock) {
         'title': TITLE,
         'address': locationX + ', ' + locationY,
         'price': roundingRandomInteger(MIN_PRICE, MAX_PRICE, ROUNDING_PRICE),
-        'type': randomItemArray(types),
-        'rooms': randomInteger(1, MAX_ROOMS),
-        'guests': randomInteger(1, MAX_GUESTS),
-        'checkin': randomItemArray(CHECKINS),
-        'checkout': randomItemArray(CHECKOUTS),
-        'features': shuffleSliceArray(FEATURES),
-        'description': concatenateItemArray(shuffleSliceArray(DESCRIPTIONS)),
-        'photos': shuffleSliceArray(PHOTOS),
+        'type': findRandomItemArray(types),
+        'rooms': findRandomInteger(1, MAX_ROOMS),
+        'guests': findRandomInteger(1, MAX_GUESTS),
+        'checkin': findRandomItemArray(CHECKINS),
+        'checkout': findRandomItemArray(CHECKOUTS),
+        'features': findSliceShuffleArray(FEATURES),
+        'description': concatenateItemArray(findSliceShuffleArray(DESCRIPTIONS)),
+        'photos': findSliceShuffleArray(PHOTOS),
       },
       'location': {
         'x': locationX,
