@@ -75,12 +75,7 @@ var shuffle = function (array) {
 var createArraySerialInteger = function (number) {
   var array = [];
   for (var i = 0; i < number; i++) {
-    if (i < 9) {
-      array.push('img/avatars/user0' + (i + 1) + '.png');
-    }
-    if (i >= 9) {
-      array.push('img/avatars/user' + (i + 1) + '.png');
-    }
+    array.push('img/avatars/user' + (i < 9 ? '0' : '') + (i + 1) + '.png');
   }
   return array;
 };
