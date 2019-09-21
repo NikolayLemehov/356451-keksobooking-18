@@ -48,21 +48,14 @@ var PHOTOS = [
   'http://o0.github.io/assets/images/tokyo/hotel3.jpg',
 ];
 
-var map = document.querySelector('.map');
-map.classList.remove('map--faded');
-var pinsElement = map.querySelector('.map__pins');
-var pinTemplate = document.querySelector('#pin').content
-  .querySelector('.map__pin');
-var filterContainerElement = map.querySelector('.map__filters-container');
-var cardTemplate = document.querySelector('#card').content
-  .querySelector('.map__card');
-
 var findRandomInteger = function (min, max) {
   return Math.floor(min + Math.random() * (max + 1 - min));
 };
-var roundingRandomInteger = function (min, max, rounding) {
+
+var roundRandomInteger = function (min, max, rounding) {
   return Math.floor(findRandomInteger(min, max) / rounding) * rounding;
 };
+
 var shuffle = function (array) {
   for (var i = array.length - 1; i > 0; i--) {
     var j = Math.floor(Math.random() * (i + 1));
@@ -72,6 +65,7 @@ var shuffle = function (array) {
   }
   return array;
 };
+
 var createArraySerialInteger = function (number) {
   var array = [];
   for (var i = 0; i < number; i++) {
@@ -79,6 +73,7 @@ var createArraySerialInteger = function (number) {
   }
   return array;
 };
+
 var concatenateItemArray = function (array) {
   var string = '' + array[0];
   if (array.length > 1) {
@@ -88,12 +83,15 @@ var concatenateItemArray = function (array) {
   }
   return string;
 };
+
 var findRandomItemArray = function (array) {
   return array[findRandomInteger(0, array.length - 1)];
 };
-var findSliceShuffleArray = function (array) {
+
+var findRandomSliceShuffleArray = function (array) {
   return shuffle(array).slice(findRandomInteger(0, array.length - 1));
 };
+
 var createDataAd = function (locationBlock) {
   var array = [];
   var avatars = shuffle(createArraySerialInteger(AVATAR_NUMBER));
@@ -108,15 +106,15 @@ var createDataAd = function (locationBlock) {
       'offer': {
         'title': TITLE,
         'address': locationX + ', ' + locationY,
-        'price': roundingRandomInteger(MIN_PRICE, MAX_PRICE, ROUNDING_PRICE),
+        'price': roundRandomInteger(MIN_PRICE, MAX_PRICE, ROUNDING_PRICE),
         'type': findRandomItemArray(types),
         'rooms': findRandomInteger(1, MAX_ROOMS),
         'guests': findRandomInteger(1, MAX_GUESTS),
         'checkin': findRandomItemArray(CHECKINS),
         'checkout': findRandomItemArray(CHECKOUTS),
-        'features': findSliceShuffleArray(FEATURES),
-        'description': concatenateItemArray(findSliceShuffleArray(DESCRIPTIONS)),
-        'photos': findSliceShuffleArray(PHOTOS),
+        'features': findRandomSliceShuffleArray(FEATURES),
+        'description': concatenateItemArray(findRandomSliceShuffleArray(DESCRIPTIONS)),
+        'photos': findRandomSliceShuffleArray(PHOTOS),
       },
       'location': {
         'x': locationX,
@@ -127,7 +125,13 @@ var createDataAd = function (locationBlock) {
   }
   return array;
 };
-var dataAds = createDataAd(map);
+
+var mapElement = document.querySelector('.map');
+var dataAds = createDataAd(mapElement);
+var pinsElement = mapElement.querySelector('.map__pins');
+var pinTemplate = document.querySelector('#pin').content.querySelector('.map__pin');
+var filterContainerElement = mapElement.querySelector('.map__filters-container');
+var cardTemplate = document.querySelector('#card').content.querySelector('.map__card');
 
 var renderPin = function (ad) {
   var adElement = pinTemplate.cloneNode(true);
@@ -138,13 +142,16 @@ var renderPin = function (ad) {
   adElement.querySelector('img').alt = ad.offer.title;
   return adElement;
 };
-var fragment = document.createDocumentFragment();
-for (var item = 0; item < dataAds.length; item++) {
-  fragment.appendChild(renderPin(dataAds[item]));
-}
-pinsElement.appendChild(fragment);
 
-var isArrayInString = function (string, array) {
+var appendPinsFragment = function (data) {
+  var fragment = document.createDocumentFragment();
+  for (var element = 0; element < data.length; element++) {
+    fragment.appendChild(renderPin(data[element]));
+  }
+  pinsElement.appendChild(fragment);
+};
+
+var isArrayWordInString = function (string, array) {
   for (var i = 0; i < array.length; i++) {
     if (string.includes(array[i])) {
       return true;
@@ -152,25 +159,28 @@ var isArrayInString = function (string, array) {
   }
   return false;
 };
+
 var hideBlockInCollection = function (collection, arrayString) {
   for (var i = 0; i < collection.length; i++) {
-    if (!isArrayInString(collection[i].getAttribute('class'), arrayString)) {
+    if (!isArrayWordInString(collection[i].getAttribute('class'), arrayString)) {
       collection[i].style.display = 'none';
     }
   }
 };
-var renderPhotos = function (photoList, photoItem, photos) {
-  photoItem.src = photos[0];
+
+var renderPhotos = function (elements, element, photos) {
+  element.src = photos[0];
   if (photos.length > 1) {
     var fragmentPhotoList = document.createDocumentFragment();
     for (var i = 1; i < photos.length; i++) {
-      var photoElement = photoItem.cloneNode(true);
+      var photoElement = element.cloneNode(true);
       photoElement.src = photos[i];
       fragmentPhotoList.appendChild(photoElement);
     }
-    photoList.appendChild(fragmentPhotoList);
+    elements.appendChild(fragmentPhotoList);
   }
 };
+
 var renderCard = function (ad) {
   var cardElement = cardTemplate.cloneNode(true);
   cardElement.querySelector('.popup__title').textContent = ad.offer.title;
@@ -185,4 +195,7 @@ var renderCard = function (ad) {
   cardElement.querySelector('.popup__avatar').src = ad.author.avatar;
   return cardElement;
 };
+
+mapElement.classList.remove('map--faded');
+appendPinsFragment(dataAds);
 filterContainerElement.insertAdjacentElement('beforebegin', renderCard(dataAds[0]));
