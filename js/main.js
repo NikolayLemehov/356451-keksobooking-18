@@ -200,5 +200,6 @@ var renderCard = function (data) {
 };
 
 mapElement.classList.remove('map--faded');
+
 appendPinsFragment(dataAds);
 filterContainerElement.insertAdjacentElement('beforebegin', renderCard(dataAds[FIRST_INDEX]));
