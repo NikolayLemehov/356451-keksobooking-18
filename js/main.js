@@ -48,6 +48,7 @@ var PHOTOS = [
   'http://o0.github.io/assets/images/tokyo/hotel3.jpg',
 ];
 var FIRST_INDEX = 0;
+var ENTER_KEYCODE = 13;
 
 var findRandomInteger = function (min, max) {
   return Math.floor(min + Math.random() * (max + 1 - min));
@@ -134,6 +135,14 @@ var pinTemplate = document.querySelector('#pin').content.querySelector('.map__pi
 var filterContainerElement = mapElement.querySelector('.map__filters-container');
 var cardTemplate = document.querySelector('#card').content.querySelector('.map__card');
 
+var getCoords = function (element) {
+  var box = element.getBoundingClientRect();
+  return {
+    top: box.top + pageYOffset,
+    left: box.left + pageXOffset
+  };
+};
+
 var renderPin = function (data) {
   var adElement = pinTemplate.cloneNode(true);
   adElement.style.left = data.location.x + 'px';
@@ -199,6 +208,84 @@ var renderCard = function (data) {
   return renderElement;
 };
 
-mapElement.classList.remove('map--faded');
-appendPinsFragment(dataAds);
-filterContainerElement.insertAdjacentElement('beforebegin', renderCard(dataAds[FIRST_INDEX]));
+var setCollectionDisabled = function (collection) {
+  for (var i = 0; i < collection.length; i++) {
+    collection[i].setAttribute('disabled', 'disabled');
+  }
+};
+
+var setCollectionAbled = function (collection) {
+  for (var i = 0; i < collection.length; i++) {
+    collection[i].removeAttribute('disabled');
+  }
+};
+
+var mapFiltersSelectElement = mapElement.querySelector('.map__filter');
+var mapFilterSelectElements = mapFiltersSelectElement.querySelectorAll('.map__filters');
+var mapFeaturesSelectElement = mapElement.querySelector('.map__features');
+var adFormElement = document.querySelector('.ad-form');
+var adFormHeaderElement = adFormElement.querySelector('.ad-form-header');
+var adFormElements = adFormElement.querySelectorAll('.ad-form__element');
+var adFormAddressInput = adFormElement.querySelector('input[name="address"]');
+var mapPinMainBtn = document.querySelector('.map__pin--main');
+var pinMainStyle = getComputedStyle(mapPinMainBtn, ':after');
+
+var convertPixelToInteger = function (string) {
+  return Number(string.slice(0, -2));
+};
+
+var getTransformYFromMatrix = function (matrix) {
+  return Number(matrix.slice(matrix.lastIndexOf(', ') + 2, -1));
+};
+
+var getCoordsElementOnMap = function (element) {
+  return {
+    centerX: Math.round(getCoords(element).left - getCoords(mapElement).left +
+      convertPixelToInteger(getComputedStyle(element).width) / 2),
+    centerY: Math.round(getCoords(element).left - getCoords(mapElement).left +
+      convertPixelToInteger(getComputedStyle(element).height) / 2),
+    bottomY: Math.round(getCoords(element).left - getCoords(mapElement).left +
+      convertPixelToInteger(getComputedStyle(element).height))
+  };
+};
+
+var init = function () {
+  appendPinsFragment(dataAds);
+  filterContainerElement.insertAdjacentElement('beforebegin', renderCard(dataAds[FIRST_INDEX]));
+  // mapFiltersSelectElement.classList.add('');
+  mapFeaturesSelectElement.setAttribute('disabled', 'disabled');
+  adFormHeaderElement.setAttribute('disabled', 'disabled');
+  setCollectionDisabled(mapFilterSelectElements);
+  setCollectionDisabled(adFormElements);
+  adFormAddressInput.value = getCoordsElementOnMap(mapPinMainBtn).centerX + ', ' +
+    getCoordsElementOnMap(mapPinMainBtn).centerY;
+};
+
+var getAddressFromPinParameter = function () {
+  pinMainStyle = window.getComputedStyle(mapPinMainBtn, 'after');
+  adFormAddressInput.value = getCoordsElementOnMap(mapPinMainBtn).centerX + ', ' +
+    (getCoordsElementOnMap(mapPinMainBtn).bottomY +
+      getTransformYFromMatrix(pinMainStyle.transform) + convertPixelToInteger(pinMainStyle.borderTopWidth));
+};
+
+var activatePage = function () {
+  mapElement.classList.remove('map--faded');
+  adFormElement.classList.remove('ad-form--disabled');
+  mapFeaturesSelectElement.removeAttribute('disabled');
+  adFormHeaderElement.removeAttribute('disabled');
+  setCollectionAbled(mapFilterSelectElements);
+  setCollectionAbled(adFormElements);
+  setTimeout(getAddressFromPinParameter, 400);
+};
+
+mapPinMainBtn.addEventListener('mousedown', function () {
+  activatePage();
+});
+
+mapPinMainBtn.addEventListener('keydown', function (evt) {
+  if (evt.keyCode === ENTER_KEYCODE) {
+    activatePage();
+  }
+});
+
+init();
