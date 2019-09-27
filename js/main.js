@@ -48,7 +48,15 @@ var PHOTOS = [
   'http://o0.github.io/assets/images/tokyo/hotel3.jpg',
 ];
 var FIRST_INDEX = 0;
-var ENTER_KEYCODE = 13;
+var ENTER_KEY_CODE = 13;
+// var ESC_KEY_CODE = 27;
+var CAPACITY_FROM_ROOM_NUMBER = {
+  '1': ['1'],
+  '2': ['1', '2'],
+  '3': ['1', '2', '3'],
+  '100': ['0']
+};
+
 
 var findRandomInteger = function (min, max) {
   return Math.floor(min + Math.random() * (max + 1 - min));
@@ -223,15 +231,18 @@ var setCollectionAbled = function (collection) {
 var mapFiltersSelectElement = mapElement.querySelector('.map__filter');
 var mapFilterSelectElements = mapFiltersSelectElement.querySelectorAll('.map__filters');
 var mapFeaturesSelectElement = mapElement.querySelector('.map__features');
+var mapPinMainBtn = document.querySelector('.map__pin--main');
+var pinMainStyle = getComputedStyle(mapPinMainBtn, ':after');
+
 var adFormElement = document.querySelector('.ad-form');
 var adFormElements = adFormElement.querySelectorAll('.ad-form__element');
 var adFormHeaderElement = adFormElement.querySelector('.ad-form-header');
-var adFormTitleInput = adFormElement.querySelector('input[name="title"]');
+// var adFormTitleInput = adFormElement.querySelector('input[name="title"]');
 var adFormAddressInput = adFormElement.querySelector('input[name="address"]');
+// var adFormTypeSelect = adFormElement.querySelector('select[name="type"]');
 var adFormRoomNumberSelect = adFormElement.querySelector('select[name="rooms"]');
 var adFormCapacitySelect = adFormElement.querySelector('select[name="capacity"]');
-var mapPinMainBtn = document.querySelector('.map__pin--main');
-var pinMainStyle = getComputedStyle(mapPinMainBtn, ':after');
+var adFormSubmitBtn = adFormElement.querySelector('.ad-form__submit');
 
 var convertPixelToInteger = function (string) {
   return Number(string.slice(0, -2));
@@ -281,46 +292,43 @@ var activatePage = function () {
   setTimeout(getAddressFromPinParameter, 400);
 };
 
-var validateTitle = function () {
-  adFormTitleInput.setAttribute('value', 'minlength="30"');
-  adFormTitleInput.setAttribute('value', 'maxlength="100"');
+// var validateTitle = function () {
+//   adFormTitleInput.setAttribute('value', 'minlength="30"');
+//   adFormTitleInput.setAttribute('value', 'maxlength="100"');
+// };
+
+var createActualCapacity = function (roomValue) {
+  for (var i = 0; i < adFormCapacitySelect.options.length; i++) {
+    adFormCapacitySelect.options[i].setAttribute('disabled', 'disabled');
+  }
+  for (i = 0; i < CAPACITY_FROM_ROOM_NUMBER[roomValue].length; i++) {
+    var selector = 'option[value="' + CAPACITY_FROM_ROOM_NUMBER[roomValue][i] + '"]';
+    adFormCapacitySelect.querySelector(selector).removeAttribute('disabled');
+  }
 };
 
-var validateGuest = function () {
-  // console.log('test');
-  // var selectedRoom = adFormRoomNumberSelect.querySelector('option[selected]');
-  // var valueRoom1 = selectedRoom.getAttribute('value');
-  var valueRoom = adFormRoomNumberSelect.options[adFormRoomNumberSelect.selectedIndex].value;
-  // var selectedCapacity = adFormCapacitySelect.querySelector('option[selected]');
-  var valueCapacity = adFormCapacitySelect.options[adFormCapacitySelect.selectedIndex].value;
-  if (valueRoom === '100' && valueCapacity !== '0') {
-    // adFormCapacitySelect.setCustomValidity('При таком количестве комнат гостей быть не может.');
-    adFormRoomNumberSelect.setCustomValidity('При таком количестве комнат гостей быть не может.');
-    adFormElement.submit();
-    // console.log('При таком количестве комнат гостей быть не может.');
+var validateCapacity = function () {
+  createActualCapacity(adFormRoomNumberSelect.options[adFormRoomNumberSelect.selectedIndex].value);
+  if (adFormCapacitySelect.options[adFormCapacitySelect.selectedIndex].disabled) {
+    adFormCapacitySelect.setCustomValidity('При таком количестве комнат гостей должно быть другое количество.');
+    adFormSubmitBtn.click();
   } else {
     adFormCapacitySelect.setCustomValidity('');
   }
-  // valueRoom === '100' && valueCapacity !== '0' ? adFormTitleInput.setCustomValidity('При таком количестве комнат гостей быть не может.') :
-  //   adFormCapacitySelect.setCustomValidity('');
-  console.log(adFormCapacitySelect);
 };
 
-adFormRoomNumberSelect.addEventListener('change', validateGuest);
-
-adFormCapacitySelect.addEventListener('click', function () {
-  validateGuest();
-});
+adFormRoomNumberSelect.addEventListener('change', validateCapacity);
+adFormCapacitySelect.addEventListener('change', validateCapacity);
 
 mapPinMainBtn.addEventListener('mousedown', function () {
   activatePage();
 });
 
 mapPinMainBtn.addEventListener('keydown', function (evt) {
-  if (evt.keyCode === ENTER_KEYCODE) {
+  if (evt.keyCode === ENTER_KEY_CODE) {
     activatePage();
   }
 });
 
 init();
-activatePage();
+// activatePage();
