@@ -296,6 +296,7 @@ var validateGuest = function () {
   if (valueRoom === '100' && valueCapacity !== '0') {
     // adFormCapacitySelect.setCustomValidity('При таком количестве комнат гостей быть не может.');
     adFormRoomNumberSelect.setCustomValidity('При таком количестве комнат гостей быть не может.');
+    adFormElement.submit();
     // console.log('При таком количестве комнат гостей быть не может.');
   } else {
     adFormCapacitySelect.setCustomValidity('');
