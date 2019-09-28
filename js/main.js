@@ -48,6 +48,15 @@ var PHOTOS = [
   'http://o0.github.io/assets/images/tokyo/hotel3.jpg',
 ];
 var FIRST_INDEX = 0;
+var ENTER_KEY_CODE = 13;
+// var ESC_KEY_CODE = 27;
+var CAPACITY_FROM_ROOM_NUMBER = {
+  '1': ['1'],
+  '2': ['1', '2'],
+  '3': ['1', '2', '3'],
+  '100': ['0']
+};
+
 
 var findRandomInteger = function (min, max) {
   return Math.floor(min + Math.random() * (max + 1 - min));
@@ -134,6 +143,14 @@ var pinTemplate = document.querySelector('#pin').content.querySelector('.map__pi
 var filterContainerElement = mapElement.querySelector('.map__filters-container');
 var cardTemplate = document.querySelector('#card').content.querySelector('.map__card');
 
+var getCoords = function (element) {
+  var box = element.getBoundingClientRect();
+  return {
+    top: box.top + pageYOffset,
+    left: box.left + pageXOffset,
+  };
+};
+
 var renderPin = function (data) {
   var adElement = pinTemplate.cloneNode(true);
   adElement.style.left = data.location.x + 'px';
@@ -199,6 +216,119 @@ var renderCard = function (data) {
   return renderElement;
 };
 
-mapElement.classList.remove('map--faded');
-appendPinsFragment(dataAds);
-filterContainerElement.insertAdjacentElement('beforebegin', renderCard(dataAds[FIRST_INDEX]));
+var setCollectionDisabled = function (collection) {
+  for (var i = 0; i < collection.length; i++) {
+    collection[i].setAttribute('disabled', 'disabled');
+  }
+};
+
+var setCollectionAbled = function (collection) {
+  for (var i = 0; i < collection.length; i++) {
+    collection[i].removeAttribute('disabled');
+  }
+};
+
+var mapFiltersSelectElement = mapElement.querySelector('.map__filter');
+var mapFilterSelectElements = mapFiltersSelectElement.querySelectorAll('.map__filters');
+var mapFeaturesSelectElement = mapElement.querySelector('.map__features');
+var mapPinMainBtn = document.querySelector('.map__pin--main');
+var pinMainStyle = getComputedStyle(mapPinMainBtn, ':after');
+
+var adFormElement = document.querySelector('.ad-form');
+var adFormElements = adFormElement.querySelectorAll('.ad-form__element');
+var adFormHeaderElement = adFormElement.querySelector('.ad-form-header');
+// var adFormTitleInput = adFormElement.querySelector('input[name="title"]');
+var adFormAddressInput = adFormElement.querySelector('input[name="address"]');
+// var adFormTypeSelect = adFormElement.querySelector('select[name="type"]');
+var adFormRoomNumberSelect = adFormElement.querySelector('select[name="rooms"]');
+var adFormCapacitySelect = adFormElement.querySelector('select[name="capacity"]');
+var adFormSubmitBtn = adFormElement.querySelector('.ad-form__submit');
+
+var convertPixelToInteger = function (string) {
+  return Number(string.slice(0, -2));
+};
+
+var getTransformYFromMatrix = function (matrix) {
+  return Number(matrix.slice(matrix.lastIndexOf(', ') + 2, -1));
+};
+
+var getCoordsElementOnMap = function (element) {
+  return {
+    centerX: Math.round(getCoords(element).left - getCoords(mapElement).left +
+      convertPixelToInteger(getComputedStyle(element).width) / 2),
+    centerY: Math.round(getCoords(element).left - getCoords(mapElement).left +
+      convertPixelToInteger(getComputedStyle(element).height) / 2),
+    bottomY: Math.round(getCoords(element).left - getCoords(mapElement).left +
+      convertPixelToInteger(getComputedStyle(element).height)),
+  };
+};
+
+var init = function () {
+  appendPinsFragment(dataAds);
+  filterContainerElement.insertAdjacentElement('beforebegin', renderCard(dataAds[FIRST_INDEX]));
+  // mapFiltersSelectElement.classList.add('');
+  mapFeaturesSelectElement.setAttribute('disabled', 'disabled');
+  adFormHeaderElement.setAttribute('disabled', 'disabled');
+  setCollectionDisabled(mapFilterSelectElements);
+  setCollectionDisabled(adFormElements);
+  adFormAddressInput.value = getCoordsElementOnMap(mapPinMainBtn).centerX + ', ' +
+    getCoordsElementOnMap(mapPinMainBtn).centerY;
+};
+
+var getAddressFromPinParameter = function () {
+  pinMainStyle = window.getComputedStyle(mapPinMainBtn, 'after');
+  adFormAddressInput.value = getCoordsElementOnMap(mapPinMainBtn).centerX + ', ' +
+    (getCoordsElementOnMap(mapPinMainBtn).bottomY +
+      getTransformYFromMatrix(pinMainStyle.transform) + convertPixelToInteger(pinMainStyle.borderTopWidth));
+};
+
+var activatePage = function () {
+  mapElement.classList.remove('map--faded');
+  adFormElement.classList.remove('ad-form--disabled');
+  mapFeaturesSelectElement.removeAttribute('disabled');
+  adFormHeaderElement.removeAttribute('disabled');
+  setCollectionAbled(mapFilterSelectElements);
+  setCollectionAbled(adFormElements);
+  setTimeout(getAddressFromPinParameter, 400);
+};
+
+// var validateTitle = function () {
+//   adFormTitleInput.setAttribute('value', 'minlength="30"');
+//   adFormTitleInput.setAttribute('value', 'maxlength="100"');
+// };
+
+var createActualCapacity = function (roomValue) {
+  for (var i = 0; i < adFormCapacitySelect.options.length; i++) {
+    adFormCapacitySelect.options[i].setAttribute('disabled', 'disabled');
+  }
+  for (i = 0; i < CAPACITY_FROM_ROOM_NUMBER[roomValue].length; i++) {
+    var selector = 'option[value="' + CAPACITY_FROM_ROOM_NUMBER[roomValue][i] + '"]';
+    adFormCapacitySelect.querySelector(selector).removeAttribute('disabled');
+  }
+};
+
+var validateCapacity = function () {
+  createActualCapacity(adFormRoomNumberSelect.options[adFormRoomNumberSelect.selectedIndex].value);
+  if (adFormCapacitySelect.options[adFormCapacitySelect.selectedIndex].disabled) {
+    adFormCapacitySelect.setCustomValidity('При таком количестве комнат гостей должно быть другое количество.');
+    adFormSubmitBtn.click();
+  } else {
+    adFormCapacitySelect.setCustomValidity('');
+  }
+};
+
+adFormRoomNumberSelect.addEventListener('change', validateCapacity);
+adFormCapacitySelect.addEventListener('change', validateCapacity);
+
+mapPinMainBtn.addEventListener('mousedown', function () {
+  activatePage();
+});
+
+mapPinMainBtn.addEventListener('keydown', function (evt) {
+  if (evt.keyCode === ENTER_KEY_CODE) {
+    activatePage();
+  }
+});
+
+init();
+// activatePage();
