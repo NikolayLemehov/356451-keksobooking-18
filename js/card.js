@@ -47,13 +47,18 @@
 
   appendCardsFragment(window.data.dataAds);
 
-  var closeBtns = window.element.map.querySelectorAll('.map__card .popup__close');
   var addCloseBtnHandler = function (closeBtn, cardIndex) {
     closeBtn.addEventListener('click', function (evt) {
       evt.preventDefault();
       window.card.hidePinCard(cardIndex + 1);
     });
   };
+  var pressEscCloseBtnHandler = function (evt) {
+    if (evt.keyCode === window.util.ESC_KEY_CODE) {
+      window.card.hidePinCard(window.card.indexShowCard);
+    }
+  };
+  var closeBtns = window.element.map.querySelectorAll('.map__card .popup__close');
   for (var i = 0; i < closeBtns.length; i++) {
     addCloseBtnHandler(closeBtns[i], i);
   }
@@ -65,12 +70,23 @@
       window.element.map.querySelector('.map__card:nth-of-type(' + cardElementIndex + ')').style.display = 'block';
       this.isShowCard = true;
       this.indexShowCard = cardElementIndex;
+      document.addEventListener('keydown', pressEscCloseBtnHandler);
       // filterContainerElement.insertAdjacentElement('beforebegin', renderCard(window.data.dataAds[0]));
     },
     hidePinCard: function (cardElementIndex) {
       window.element.map.querySelector('.map__card:nth-of-type(' + cardElementIndex + ')').style.display = 'none';
+      document.removeEventListener('keydown', pressEscCloseBtnHandler);
       this.isShowCard = false;
       this.indexShowCard = 0;
     },
+    smartShowCard: function (cardElementIndex) {
+      if (!this.isShowCard) {
+        this.showPinCard(cardElementIndex);
+      }
+      if (this.indexShowCard !== cardElementIndex) {
+        this.hidePinCard(this.indexShowCard);
+        this.showPinCard(cardElementIndex);
+      }
+    }
   };
 })();

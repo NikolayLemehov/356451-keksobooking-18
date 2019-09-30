@@ -34,17 +34,20 @@
   var addPinClickHandler = function (pin, pineIndex) {
     pin.addEventListener('click', function (evt) {
       evt.preventDefault();
-      if (!window.card.isShowCard) {
-        window.card.showPinCard(pineIndex + 1);
-      }
-      if (window.card.indexShowCard !== pineIndex + 1) {
-        window.card.hidePinCard(window.card.indexShowCard);
-        window.card.showPinCard(pineIndex + 1);
-      }
+      window.card.smartShowCard(pineIndex + 1);
     });
   };
+  // var addPinEnterHandler = function (pin, pineIndex) {
+  //   pin.addEventListener('keydown', function (evt) {
+  //     evt.preventDefault();
+  //     if (evt.keyCode === window.util.ENTER_KEY_CODE) {
+  //       window.card.smartShowCard(pineIndex + 1);
+  //     }
+  //   });
+  // };
   for (var i = 0; i < pinElements.length; i++) {
     addPinClickHandler(pinElements[i], i);
+    // addPinEnterHandler(pinElements[i], i);
   }
 
   mapPinMainBtn.addEventListener('mousedown', function () {
