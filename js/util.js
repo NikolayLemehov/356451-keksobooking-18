@@ -3,7 +3,8 @@
 (function () {
   window.util = {
     ENTER_KEY_CODE: 13,
-    FIRST_INDEX: 0,
+    ESC_KEY_CODE: 27,
+    // FIRST_INDEX: 0,
     findRandomInteger: function (min, max) {
       return Math.floor(min + Math.random() * (max + 1 - min));
     },

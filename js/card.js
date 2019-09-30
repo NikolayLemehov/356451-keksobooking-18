@@ -21,6 +21,7 @@
 
   var renderCard = function (data) {
     var renderElement = cardTemplate.cloneNode(true);
+    renderElement.style.display = 'none';
     renderElement.querySelector('.popup__title').textContent = data.offer.title;
     renderElement.querySelector('.popup__text--address').textContent = data.offer.address;
     renderElement.querySelector('.popup__text--price').textContent = data.offer.price + '₽/ночь';
@@ -36,5 +37,40 @@
     return renderElement;
   };
 
-  filterContainerElement.insertAdjacentElement('beforebegin', renderCard(window.data.dataAds[window.util.FIRST_INDEX]));
+  var appendCardsFragment = function (dataArray) {
+    var fragment = document.createDocumentFragment();
+    for (var item = 0; item < dataArray.length; item++) {
+      fragment.appendChild(renderCard(dataArray[item]));
+    }
+    filterContainerElement.parentNode.insertBefore(fragment, filterContainerElement);
+  };
+
+  appendCardsFragment(window.data.dataAds);
+
+  var closeBtns = window.element.map.querySelectorAll('.map__card .popup__close');
+  var addCloseBtnHandler = function (closeBtn, cardIndex) {
+    closeBtn.addEventListener('click', function (evt) {
+      evt.preventDefault();
+      window.card.hidePinCard(cardIndex + 1);
+    });
+  };
+  for (var i = 0; i < closeBtns.length; i++) {
+    addCloseBtnHandler(closeBtns[i], i);
+  }
+
+  window.card = {
+    isShowCard: false,
+    indexShowCard: 0,
+    showPinCard: function (cardElementIndex) {
+      window.element.map.querySelector('.map__card:nth-of-type(' + cardElementIndex + ')').style.display = 'block';
+      this.isShowCard = true;
+      this.indexShowCard = cardElementIndex;
+      // filterContainerElement.insertAdjacentElement('beforebegin', renderCard(window.data.dataAds[0]));
+    },
+    hidePinCard: function (cardElementIndex) {
+      window.element.map.querySelector('.map__card:nth-of-type(' + cardElementIndex + ')').style.display = 'none';
+      this.isShowCard = false;
+      this.indexShowCard = 0;
+    },
+  };
 })();

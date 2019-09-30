@@ -30,6 +30,23 @@
 
   appendPinsFragment(window.data.dataAds);
 
+  var pinElements = pinsElement.querySelectorAll('.map__pin:not(.map__pin--main)');
+  var addPinClickHandler = function (pin, pineIndex) {
+    pin.addEventListener('click', function (evt) {
+      evt.preventDefault();
+      if (!window.card.isShowCard) {
+        window.card.showPinCard(pineIndex + 1);
+      }
+      if (window.card.indexShowCard !== pineIndex + 1) {
+        window.card.hidePinCard(window.card.indexShowCard);
+        window.card.showPinCard(pineIndex + 1);
+      }
+    });
+  };
+  for (var i = 0; i < pinElements.length; i++) {
+    addPinClickHandler(pinElements[i], i);
+  }
+
   mapPinMainBtn.addEventListener('mousedown', function () {
     window.page.activatePage();
   });
@@ -41,6 +58,7 @@
   });
 
   window.pin = {
+    // elements: pinsElement.querySelectorAll('.map__pin:not(.map__pin--main)'),
     mapPinMainBtn: mapPinMainBtn,
     getAddressFromPinParameter: function () {
       pinMainStyle = window.getComputedStyle(mapPinMainBtn, 'after');
