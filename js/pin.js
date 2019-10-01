@@ -30,6 +30,26 @@
 
   appendPinsFragment(window.data.dataAds);
 
+  var pinElements = pinsElement.querySelectorAll('.map__pin:not(.map__pin--main)');
+  var addPinClickHandler = function (pin, pineIndex) {
+    pin.addEventListener('click', function (evt) {
+      evt.preventDefault();
+      window.card.smartShowCard(pineIndex + 1);
+    });
+  };
+  // var addPinEnterHandler = function (pin, pineIndex) {
+  //   pin.addEventListener('keydown', function (evt) {
+  //     evt.preventDefault();
+  //     if (evt.keyCode === window.util.ENTER_KEY_CODE) {
+  //       window.card.smartShowCard(pineIndex + 1);
+  //     }
+  //   });
+  // };
+  for (var i = 0; i < pinElements.length; i++) {
+    addPinClickHandler(pinElements[i], i);
+    // addPinEnterHandler(pinElements[i], i);
+  }
+
   mapPinMainBtn.addEventListener('mousedown', function () {
     window.page.activatePage();
   });
@@ -41,6 +61,7 @@
   });
 
   window.pin = {
+    // elements: pinsElement.querySelectorAll('.map__pin:not(.map__pin--main)'),
     mapPinMainBtn: mapPinMainBtn,
     getAddressFromPinParameter: function () {
       pinMainStyle = window.getComputedStyle(mapPinMainBtn, 'after');

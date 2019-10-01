@@ -5,6 +5,23 @@
   var mapFilterSelectElements = mapFiltersSelectElement.querySelectorAll('.map__filters');
   var mapFeaturesSelectElement = window.element.map.querySelector('.map__features');
 
+  // var addPinClickHandler = function (pin, pineIndex) {
+  //   pin.addEventListener('click', function (evt) {
+  //     evt.preventDefault();
+  //     if (!window.card.isShowCard) {
+  //       window.card.showPinCard(pineIndex + 1);
+  //     }
+  //     if (window.card.indexShowCard !== pineIndex + 1) {
+  //       window.card.hidePinCard(window.card.indexShowCard);
+  //       window.card.showPinCard(pineIndex + 1);
+  //     }
+  //     // console.log('click', pineIndex + 1, pin);
+  //   });
+  // };
+  // for (var i = 0; i < window.pin.elements.length; i++) {
+  //   addPinClickHandler(window.pin.elements[i], i);
+  // }
+
   window.map = {
     init: function () {
       mapFeaturesSelectElement.setAttribute('disabled', 'disabled');

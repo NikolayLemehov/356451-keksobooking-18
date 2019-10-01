@@ -6,7 +6,10 @@
   var adFormHeaderElement = adFormElement.querySelector('.ad-form-header');
   // var adFormTitleInput = adFormElement.querySelector('input[name="title"]');
   var adFormAddressInput = adFormElement.querySelector('input[name="address"]');
-  // var adFormTypeSelect = adFormElement.querySelector('select[name="type"]');
+  var adFormTypeSelect = adFormElement.querySelector('select[name="type"]');
+  var adFormPriceInput = adFormElement.querySelector('input[name="price"]');
+  var adFormTimeinSelect = adFormElement.querySelector('select[name="timein"]');
+  var adFormTimeoutSelect = adFormElement.querySelector('select[name="timeout"]');
   var adFormRoomNumberSelect = adFormElement.querySelector('select[name="rooms"]');
   var adFormCapacitySelect = adFormElement.querySelector('select[name="capacity"]');
   var adFormSubmitBtn = adFormElement.querySelector('.ad-form__submit');
@@ -31,8 +34,39 @@
     }
   };
 
+  var validatePrice = function () {
+    var selected = adFormTypeSelect.options[adFormTypeSelect.selectedIndex];
+    var minPrice = window.data.PRICE_FROM_TYPE[selected.value];
+    var maxPrice = Number(adFormPriceInput.getAttribute('max'));
+    adFormPriceInput.setAttribute('min', minPrice);
+    switch (true) {
+      case (adFormPriceInput.value < minPrice):
+        adFormPriceInput.setCustomValidity('При типе жилья "' + selected.textContent +
+          '" цена должна быть не меньше чем "' + minPrice + '".');
+        adFormSubmitBtn.click();
+        break;
+      case (adFormPriceInput.value > maxPrice):
+        adFormPriceInput.setCustomValidity('Цена на жильё не может превышать ' + maxPrice + ' руб.');
+        adFormSubmitBtn.click();
+        break;
+      default :
+        adFormPriceInput.setCustomValidity('');
+    }
+  };
+
+  var validateTimeout = function () {
+    adFormTimeoutSelect.selectedIndex = adFormTimeinSelect.selectedIndex;
+  };
+  var validateTimein = function () {
+    adFormTimeinSelect.selectedIndex = adFormTimeoutSelect.selectedIndex;
+  };
+
   adFormRoomNumberSelect.addEventListener('change', validateCapacity);
   adFormCapacitySelect.addEventListener('change', validateCapacity);
+  adFormTypeSelect.addEventListener('change', validatePrice);
+  adFormPriceInput.addEventListener('change', validatePrice);
+  adFormTimeinSelect.addEventListener('change', validateTimeout);
+  adFormTimeoutSelect.addEventListener('change', validateTimein);
 
   window.form = {
     adFormAddressInput: adFormAddressInput,
@@ -44,6 +78,6 @@
       adFormElement.classList.remove('ad-form--disabled');
       adFormHeaderElement.removeAttribute('disabled');
       window.util.setCollectionAble(adFormElements);
-    }
+    },
   };
 })();
