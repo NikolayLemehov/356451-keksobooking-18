@@ -84,6 +84,8 @@
   };
 
   window.data = {
+    MIN_LOCATION_Y: MIN_LOCATION_Y,
+    MAX_LOCATION_Y: MAX_LOCATION_Y,
     TYPES_TRANSLATION: {
       palace: 'Дворец',
       house: 'Дом',

@@ -49,19 +49,26 @@
       x: evt.clientX,
       y: evt.clientY,
     };
+    var width = mapPinMainBtn.offsetWidth;
+    var height = Math.round(mapPinMainBtn.offsetHeight + window.pin.getShiftFromBottomYMainPin());
     var moveMouseHandler = function (moveEvt) {
       moveEvt.preventDefault();
       var shift = {
-        x: startCoords.x - moveEvt.clientX,
-        y: startCoords.y - moveEvt.clientY,
+        x: moveEvt.clientX - startCoords.x,
+        y: moveEvt.clientY - startCoords.y,
       };
-      startCoords = {
-        x: moveEvt.clientX,
-        y: moveEvt.clientY,
-      };
-      mapPinMainBtn.style.left = (mapPinMainBtn.offsetLeft - shift.x) + 'px';
-      mapPinMainBtn.style.top = (mapPinMainBtn.offsetTop - shift.y) + 'px';
-      window.pin.getAddressFromPinParameter();
+      var left = mapPinMainBtn.offsetLeft + shift.x;
+      var top = mapPinMainBtn.offsetTop + shift.y;
+      if (Math.round(left + width / 2) >= 0 && Math.round(left + width / 2) <= window.element.map.offsetWidth) {
+        mapPinMainBtn.style.left = left + 'px';
+        startCoords.x = moveEvt.clientX;
+        window.pin.getAddressFromPinParameter();
+      }
+      if (top + height >= window.data.MIN_LOCATION_Y && top + height <= window.data.MAX_LOCATION_Y) {
+        mapPinMainBtn.style.top = top + 'px';
+        startCoords.y = moveEvt.clientY;
+        window.pin.getAddressFromPinParameter();
+      }
     };
     var upMouseHandler = function () {
       document.removeEventListener('mousemove', moveMouseHandler);
@@ -80,12 +87,17 @@
   window.pin = {
     // elements: pinsElement.querySelectorAll('.map__pin:not(.map__pin--main)'),
     mapPinMainBtn: mapPinMainBtn,
-    getAddressFromPinParameter: function () {
+    getShiftFromBottomYMainPin: function () {
       pinMainStyle = window.getComputedStyle(mapPinMainBtn, 'after');
+      return getTransformYFromMatrix(pinMainStyle.transform) +
+        window.util.convertPixelToInteger(pinMainStyle.borderTopWidth);
+    },
+    getBottomYMainPin: function () {
+      return window.map.getCoordsElementOnMap(mapPinMainBtn).bottomY + this.getShiftFromBottomYMainPin();
+    },
+    getAddressFromPinParameter: function () {
       window.form.adFormAddressInput.value = window.map.getCoordsElementOnMap(mapPinMainBtn).centerX + ', ' +
-        (window.map.getCoordsElementOnMap(mapPinMainBtn).bottomY +
-          getTransformYFromMatrix(pinMainStyle.transform) +
-          window.util.convertPixelToInteger(pinMainStyle.borderTopWidth));
+        this.getBottomYMainPin();
     },
   };
 })();
