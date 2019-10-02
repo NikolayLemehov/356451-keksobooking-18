@@ -51,11 +51,13 @@
   }
 
   mapPinMainBtn.addEventListener('mousedown', function () {
-    window.page.activatePage();
+    if (!window.page.isActivePage) {
+      window.page.activatePage();
+    }
   });
 
   mapPinMainBtn.addEventListener('keydown', function (evt) {
-    if (evt.keyCode === window.util.ENTER_KEY_CODE) {
+    if (evt.keyCode === window.util.ENTER_KEY_CODE && !window.page.isActivePage) {
       window.page.activatePage();
     }
   });
