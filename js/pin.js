@@ -37,23 +37,38 @@
       window.card.smartShowCard(pineIndex + 1);
     });
   };
-  // var addPinEnterHandler = function (pin, pineIndex) {
-  //   pin.addEventListener('keydown', function (evt) {
-  //     evt.preventDefault();
-  //     if (evt.keyCode === window.util.ENTER_KEY_CODE) {
-  //       window.card.smartShowCard(pineIndex + 1);
-  //     }
-  //   });
-  // };
   for (var i = 0; i < pinElements.length; i++) {
     addPinClickHandler(pinElements[i], i);
-    // addPinEnterHandler(pinElements[i], i);
   }
 
-  mapPinMainBtn.addEventListener('mousedown', function () {
+  mapPinMainBtn.addEventListener('mousedown', function (evt) {
     if (!window.page.isActivePage) {
       window.page.activatePage();
     }
+    var startCoords = {
+      x: evt.clientX,
+      y: evt.clientY,
+    };
+    var moveMouseHandler = function (moveEvt) {
+      moveEvt.preventDefault();
+      var shift = {
+        x: startCoords.x - moveEvt.clientX,
+        y: startCoords.y - moveEvt.clientY,
+      };
+      startCoords = {
+        x: moveEvt.clientX,
+        y: moveEvt.clientY,
+      };
+      mapPinMainBtn.style.left = (mapPinMainBtn.offsetLeft - shift.x) + 'px';
+      mapPinMainBtn.style.top = (mapPinMainBtn.offsetTop - shift.y) + 'px';
+      window.pin.getAddressFromPinParameter();
+    };
+    var upMouseHandler = function () {
+      document.removeEventListener('mousemove', moveMouseHandler);
+      document.removeEventListener('mouseup', upMouseHandler);
+    };
+    document.addEventListener('mousemove', moveMouseHandler);
+    document.addEventListener('mouseup', upMouseHandler);
   });
 
   mapPinMainBtn.addEventListener('keydown', function (evt) {
