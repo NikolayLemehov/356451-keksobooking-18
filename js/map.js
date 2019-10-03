@@ -36,9 +36,9 @@
       return {
         centerX: Math.round(window.util.getCoords(element).left - window.util.getCoords(window.element.map).left +
           window.util.convertPixelToInteger(getComputedStyle(element).width) / 2),
-        centerY: Math.round(window.util.getCoords(element).left - window.util.getCoords(window.element.map).left +
+        centerY: Math.round(window.util.getCoords(element).top - window.util.getCoords(window.element.map).top +
           window.util.convertPixelToInteger(getComputedStyle(element).height) / 2),
-        bottomY: Math.round(window.util.getCoords(element).left - window.util.getCoords(window.element.map).left +
+        bottomY: Math.round(window.util.getCoords(element).top - window.util.getCoords(window.element.map).top +
           window.util.convertPixelToInteger(getComputedStyle(element).height)),
       };
     },
