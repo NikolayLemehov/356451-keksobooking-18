@@ -5,7 +5,16 @@
   var pinTemplate = document.querySelector('#pin').content.querySelector('.map__pin');
   var mapPinMainBtn = document.querySelector('.map__pin--main');
   var pinMainStyle = getComputedStyle(mapPinMainBtn, ':after');
-
+  var pinUtils = {
+    getShiftFromBottomYMainPin: function () {
+      pinMainStyle = window.getComputedStyle(mapPinMainBtn, 'after');
+      return getTransformYFromMatrix(pinMainStyle.transform) +
+        window.util.convertPixelToInteger(pinMainStyle.borderTopWidth);
+    },
+    getBottomYMainPin: function () {
+      return window.map.getCoordsElementOnMap(mapPinMainBtn).bottomY + this.getShiftFromBottomYMainPin();
+    },
+  };
   var renderPin = function (data) {
     var adElement = pinTemplate.cloneNode(true);
     adElement.style.left = data.location.x + 'px';
@@ -44,13 +53,14 @@
   mapPinMainBtn.addEventListener('mousedown', function (evt) {
     if (!window.page.isActivePage) {
       window.page.activatePage();
+      return;
     }
     var startCoords = {
       x: evt.clientX,
       y: evt.clientY,
     };
     var width = mapPinMainBtn.offsetWidth;
-    var height = Math.round(mapPinMainBtn.offsetHeight + window.pin.getShiftFromBottomYMainPin());
+    var height = Math.round(mapPinMainBtn.offsetHeight + pinUtils.getShiftFromBottomYMainPin());
     var moveMouseHandler = function (moveEvt) {
       moveEvt.preventDefault();
       var shift = {
@@ -87,17 +97,17 @@
   window.pin = {
     // elements: pinsElement.querySelectorAll('.map__pin:not(.map__pin--main)'),
     mapPinMainBtn: mapPinMainBtn,
-    getShiftFromBottomYMainPin: function () {
-      pinMainStyle = window.getComputedStyle(mapPinMainBtn, 'after');
-      return getTransformYFromMatrix(pinMainStyle.transform) +
-        window.util.convertPixelToInteger(pinMainStyle.borderTopWidth);
-    },
-    getBottomYMainPin: function () {
-      return window.map.getCoordsElementOnMap(mapPinMainBtn).bottomY + this.getShiftFromBottomYMainPin();
-    },
+    // getShiftFromBottomYMainPin: function () {
+    //   pinMainStyle = window.getComputedStyle(mapPinMainBtn, 'after');
+    //   return getTransformYFromMatrix(pinMainStyle.transform) +
+    //     window.util.convertPixelToInteger(pinMainStyle.borderTopWidth);
+    // },
+    // getBottomYMainPin: function () {
+    //   return window.map.getCoordsElementOnMap(mapPinMainBtn).bottomY + this.getShiftFromBottomYMainPin();
+    // },
     getAddressFromPinParameter: function () {
       window.form.adFormAddressInput.value = window.map.getCoordsElementOnMap(mapPinMainBtn).centerX + ', ' +
-        this.getBottomYMainPin();
+        pinUtils.getBottomYMainPin();
     },
   };
 })();
