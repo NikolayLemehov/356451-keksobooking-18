@@ -48,10 +48,6 @@
       window.card.hidePinCard(window.card.indexShowCard);
     }
   };
-  var closeBtns = window.element.map.querySelectorAll('.map__card .popup__close');
-  for (var i = 0; i < closeBtns.length; i++) {
-    addCloseBtnHandler(closeBtns[i], i);
-  }
 
   window.card = {
     isShowCard: false,
@@ -84,6 +80,12 @@
         fragment.appendChild(renderCard(dataArray[item]));
       }
       filterContainerElement.parentNode.insertBefore(fragment, filterContainerElement);
+    },
+    addCloseBtnHandlers: function () {
+      var closeBtns = window.element.map.querySelectorAll('.map__card .popup__close');
+      for (var i = 0; i < closeBtns.length; i++) {
+        addCloseBtnHandler(closeBtns[i], i);
+      }
     },
   };
 })();
