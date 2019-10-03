@@ -25,30 +25,16 @@
     return adElement;
   };
 
-  var appendPinsFragment = function (dataArray) {
-    var fragment = document.createDocumentFragment();
-    for (var item = 0; item < dataArray.length; item++) {
-      fragment.appendChild(renderPin(dataArray[item]));
-    }
-    pinsElement.appendChild(fragment);
-  };
-
   var getTransformYFromMatrix = function (matrix) {
     return Number(matrix.slice(matrix.lastIndexOf(', ') + 2, -1));
   };
 
-  appendPinsFragment(window.data.dataAds);
-
-  var pinElements = pinsElement.querySelectorAll('.map__pin:not(.map__pin--main)');
   var addPinClickHandler = function (pin, pineIndex) {
     pin.addEventListener('click', function (evt) {
       evt.preventDefault();
       window.card.smartShowCard(pineIndex + 1);
     });
   };
-  for (var i = 0; i < pinElements.length; i++) {
-    addPinClickHandler(pinElements[i], i);
-  }
 
   mapPinMainBtn.addEventListener('mousedown', function (evt) {
     if (!window.page.isActivePage) {
@@ -95,16 +81,20 @@
   });
 
   window.pin = {
-    // elements: pinsElement.querySelectorAll('.map__pin:not(.map__pin--main)'),
     mapPinMainBtn: mapPinMainBtn,
-    // getShiftFromBottomYMainPin: function () {
-    //   pinMainStyle = window.getComputedStyle(mapPinMainBtn, 'after');
-    //   return getTransformYFromMatrix(pinMainStyle.transform) +
-    //     window.util.convertPixelToInteger(pinMainStyle.borderTopWidth);
-    // },
-    // getBottomYMainPin: function () {
-    //   return window.map.getCoordsElementOnMap(mapPinMainBtn).bottomY + this.getShiftFromBottomYMainPin();
-    // },
+    appendPinsFragment: function (dataArray) {
+      var fragment = document.createDocumentFragment();
+      for (var item = 0; item < dataArray.length; item++) {
+        fragment.appendChild(renderPin(dataArray[item]));
+      }
+      pinsElement.appendChild(fragment);
+    },
+    addPinClickHandlers: function () {
+      var pinElements = pinsElement.querySelectorAll('.map__pin:not(.map__pin--main)');
+      for (var i = 0; i < pinElements.length; i++) {
+        addPinClickHandler(pinElements[i], i);
+      }
+    },
     getAddressFromPinParameter: function () {
       window.form.adFormAddressInput.value = window.map.getCoordsElementOnMap(mapPinMainBtn).centerX + ', ' +
         pinUtils.getBottomYMainPin();
