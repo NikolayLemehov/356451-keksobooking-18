@@ -4,15 +4,15 @@
   window.page = {
     isActivePage: false,
     activatePage: function () {
-      window.map.activeElement();
-      window.form.activeElement();
+      window.map.activateElement();
+      window.form.activateElement();
       setTimeout(window.pin.getAddressFromPinParameter, 400);
       this.isActivePage = true;
     },
-    successHandler: function (dataArray) {
+    onSuccess: function (dataArray) {
       window.pin.appendPinsFragment(dataArray);
       window.card.appendCardsFragment(dataArray);
-      window.pin.addPinClickHandlers();
+      window.pin.addPinsClickHandler();
       window.card.addCloseBtnHandlers();
     },
   };

@@ -89,7 +89,7 @@
       }
       pinsElement.appendChild(fragment);
     },
-    addPinClickHandlers: function () {
+    addPinsClickHandler: function () {
       var pinElements = pinsElement.querySelectorAll('.map__pin:not(.map__pin--main)');
       for (var i = 0; i < pinElements.length; i++) {
         addPinClickHandler(pinElements[i], i);

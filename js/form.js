@@ -68,13 +68,25 @@
   adFormTimeinSelect.addEventListener('change', validateTimeout);
   adFormTimeoutSelect.addEventListener('change', validateTimein);
 
+  var deactivateElement = function () {
+    adFormElement.classList.add('ad-form--disabled');
+    adFormHeaderElement.setAttribute('disabled', 'disabled');
+    window.util.setCollectionDisabled(adFormElements);
+  };
+
+  adFormSubmitBtn.addEventListener('click', function (evt) {
+    evt.preventDefault();
+    window.backend.save(new FormData(adFormElement), window.page.onSuccess, window.error.onError);
+    deactivateElement();
+  });
+
   window.form = {
     adFormAddressInput: adFormAddressInput,
     init: function () {
       adFormHeaderElement.setAttribute('disabled', 'disabled');
       window.util.setCollectionDisabled(adFormElements);
     },
-    activeElement: function () {
+    activateElement: function () {
       adFormElement.classList.remove('ad-form--disabled');
       adFormHeaderElement.removeAttribute('disabled');
       window.util.setCollectionAble(adFormElements);
