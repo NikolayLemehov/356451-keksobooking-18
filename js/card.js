@@ -57,7 +57,6 @@
       this.isShowCard = true;
       this.indexShowCard = cardElementIndex;
       document.addEventListener('keydown', pressEscCloseBtnHandler);
-      // filterContainerElement.insertAdjacentElement('beforebegin', renderCard(window.data.dataAds[0]));
     },
     hidePinCard: function (cardElementIndex) {
       window.element.map.querySelector('.map__card:nth-of-type(' + cardElementIndex + ')').style.display = 'none';

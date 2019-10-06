@@ -68,12 +68,40 @@
   adFormTimeinSelect.addEventListener('change', validateTimeout);
   adFormTimeoutSelect.addEventListener('change', validateTimein);
 
+  var successTemplate = document.querySelector('#success').content.querySelector('.success');
+  var addSuccess = function () {
+    var element = successTemplate.cloneNode(true);
+    window.element.main.appendChild(element);
+    return window.element.main.querySelector('.success');
+  };
+  var successElement = addSuccess();
+  successElement.style.display = 'none';
+  var showSuccessFormSend = function () {
+    successElement.style.display = 'block';
+    document.addEventListener('keydown', pressEscSuccessHandler);
+    successElement.addEventListener('click', clickSuccessHandler);
+  };
+  var pressEscSuccessHandler = function (evt) {
+    if (evt.keyCode === window.util.ESC_KEY_CODE) {
+      successElement.style.display = 'none';
+      document.removeEventListener('keydown', pressEscSuccessHandler);
+    }
+  };
+  var clickSuccessHandler = function (evt) {
+    if (successElement.style.display === 'block') {
+      evt.preventDefault();
+      successElement.style.display = 'none';
+      successElement.removeEventListener('click', clickSuccessHandler);
+    }
+  };
+
   adFormSubmitBtn.addEventListener('click', function (evt) {
     if (adFormElement.checkValidity()) {
       evt.preventDefault();
       window.backend.save(new FormData(adFormElement), window.page.onSuccess, window.error.onError);
       window.page.deactivatePage();
       adFormElement.reset();
+      showSuccessFormSend();
     }
   });
   window.form = {
