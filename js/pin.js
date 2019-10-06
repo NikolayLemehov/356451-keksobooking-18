@@ -80,8 +80,15 @@
     }
   });
 
+  var startCoordsPinMainLeft = '' + window.map.getCoordsElementOnMap(mapPinMainBtn).leftX + 'px';
+  var startCoordsPinMainTop = '' + window.map.getCoordsElementOnMap(mapPinMainBtn).topY + 'px';
+
   window.pin = {
     mapPinMainBtn: mapPinMainBtn,
+    moveToStartCoordsPinMain: function () {
+      mapPinMainBtn.style.left = startCoordsPinMainLeft;
+      mapPinMainBtn.style.top = startCoordsPinMainTop;
+    },
     appendPinsFragment: function (dataArray) {
       var fragment = document.createDocumentFragment();
       for (var item = 0; item < dataArray.length; item++) {
