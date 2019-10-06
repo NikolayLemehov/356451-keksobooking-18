@@ -37,13 +37,13 @@
     return renderElement;
   };
 
-  var addCloseBtnHandler = function (closeBtn, cardIndex) {
+  var onAddCloseBtnClick = function (closeBtn, cardIndex) {
     closeBtn.addEventListener('click', function (evt) {
       evt.preventDefault();
       window.card.hidePinCard(cardIndex + 1);
     });
   };
-  var pressEscCloseBtnHandler = function (evt) {
+  var onCloseBtnPressEsc = function (evt) {
     if (evt.keyCode === window.util.ESC_KEY_CODE) {
       window.card.hidePinCard(window.card.indexShowCard);
     }
@@ -56,11 +56,11 @@
       window.element.map.querySelector('.map__card:nth-of-type(' + cardElementIndex + ')').style.display = 'block';
       this.isShowCard = true;
       this.indexShowCard = cardElementIndex;
-      document.addEventListener('keydown', pressEscCloseBtnHandler);
+      document.addEventListener('keydown', onCloseBtnPressEsc);
     },
     hidePinCard: function (cardElementIndex) {
       window.element.map.querySelector('.map__card:nth-of-type(' + cardElementIndex + ')').style.display = 'none';
-      document.removeEventListener('keydown', pressEscCloseBtnHandler);
+      document.removeEventListener('keydown', onCloseBtnPressEsc);
       this.isShowCard = false;
       this.indexShowCard = 0;
     },
@@ -80,10 +80,10 @@
       }
       filterContainerElement.parentNode.insertBefore(fragment, filterContainerElement);
     },
-    addCloseBtnHandlers: function () {
+    onAddCloseBtnsClick: function () {
       var closeBtns = window.element.map.querySelectorAll('.map__card .popup__close');
       for (var i = 0; i < closeBtns.length; i++) {
-        addCloseBtnHandler(closeBtns[i], i);
+        onAddCloseBtnClick(closeBtns[i], i);
       }
     },
   };

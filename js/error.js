@@ -12,20 +12,20 @@
 
   var errorMessageElement = errorElement.querySelector('.error__message');
   var errorBtn = errorElement.querySelector('.error__button');
-  var clickErrorBtnHandler = function (evt) {
+  var onErrorBtnClick = function (evt) {
     evt.preventDefault();
     errorElement.style.display = 'none';
   };
-  errorBtn.addEventListener('click', clickErrorBtnHandler);
-  var pressEscErrorHandler = function (evt) {
+  errorBtn.addEventListener('click', onErrorBtnClick);
+  var onErrorPressEsc = function (evt) {
     if (evt.keyCode === window.util.ESC_KEY_CODE) {
       errorElement.style.display = 'none';
-      document.removeEventListener('keydown', pressEscErrorHandler);
+      document.removeEventListener('keydown', onErrorPressEsc);
     }
   };
   var showError = function () {
     errorElement.style.display = 'block';
-    document.addEventListener('keydown', pressEscErrorHandler);
+    document.addEventListener('keydown', onErrorPressEsc);
   };
 
   window.error = {

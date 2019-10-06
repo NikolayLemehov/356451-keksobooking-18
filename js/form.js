@@ -61,12 +61,24 @@
     adFormTimeinSelect.selectedIndex = adFormTimeoutSelect.selectedIndex;
   };
 
-  adFormRoomNumberSelect.addEventListener('change', validateCapacity);
-  adFormCapacitySelect.addEventListener('change', validateCapacity);
-  adFormTypeSelect.addEventListener('change', validatePrice);
-  adFormPriceInput.addEventListener('change', validatePrice);
-  adFormTimeinSelect.addEventListener('change', validateTimeout);
-  adFormTimeoutSelect.addEventListener('change', validateTimein);
+  adFormRoomNumberSelect.addEventListener('change', function () {
+    validateCapacity();
+  });
+  adFormCapacitySelect.addEventListener('change', function () {
+    validateCapacity();
+  });
+  adFormTypeSelect.addEventListener('change', function () {
+    validatePrice();
+  });
+  adFormPriceInput.addEventListener('change', function () {
+    validatePrice();
+  });
+  adFormTimeinSelect.addEventListener('change', function () {
+    validateTimeout();
+  });
+  adFormTimeinSelect.addEventListener('change', function () {
+    validateTimein();
+  });
 
   var successTemplate = document.querySelector('#success').content.querySelector('.success');
   var addSuccess = function () {
@@ -78,23 +90,23 @@
   var successElement = addSuccess();
   var showSuccessFormSend = function () {
     successElement.style.display = 'block';
-    document.addEventListener('keydown', pressEscSuccessHandler);
-    successElement.addEventListener('click', clickSuccessHandler);
+    document.addEventListener('keydown', onSuccessPressEsc);
+    successElement.addEventListener('click', onSuccessClick);
   };
-  var pressEscSuccessHandler = function (evt) {
+  var onSuccessPressEsc = function (evt) {
     if (evt.keyCode === window.util.ESC_KEY_CODE) {
       successElement.style.display = 'none';
-      document.removeEventListener('keydown', pressEscSuccessHandler);
+      document.removeEventListener('keydown', onSuccessPressEsc);
     }
   };
-  var clickSuccessHandler = function (evt) {
+  var onSuccessClick = function (evt) {
     if (successElement.style.display === 'block') {
       evt.preventDefault();
       successElement.style.display = 'none';
-      successElement.removeEventListener('click', clickSuccessHandler);
+      successElement.removeEventListener('click', onSuccessClick);
     }
   };
-  var saveSuccessHandler = function () {
+  var onSuccessSave = function () {
     showSuccessFormSend();
     window.page.deactivatePage();
     adFormElement.reset();
@@ -102,7 +114,7 @@
   adFormSubmitBtn.addEventListener('click', function (evt) {
     if (adFormElement.checkValidity()) {
       evt.preventDefault();
-      window.backend.save(new FormData(adFormElement), saveSuccessHandler, window.error.onError);
+      window.backend.save(new FormData(adFormElement), onSuccessSave, window.error.onError);
     }
   });
   window.form = {

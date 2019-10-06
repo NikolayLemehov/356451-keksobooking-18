@@ -17,11 +17,11 @@
         window.map.getCoordsElementOnMap(window.pin.mapPinMainBtn).centerY;
       this.isActivePage = false;
     },
-    loadSuccessHandler: function (dataArray) {
+    onSuccessLoad: function (dataArray) {
       window.pin.appendPinsFragment(dataArray);
       window.card.appendCardsFragment(dataArray);
-      window.pin.addPinsClickHandler();
-      window.card.addCloseBtnHandlers();
+      window.pin.onAddPinsClick();
+      window.card.onAddCloseBtnsClick();
     },
   };
 })();
