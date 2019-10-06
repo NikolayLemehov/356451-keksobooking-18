@@ -2,5 +2,5 @@
 
 (function () {
   window.page.deactivatePage();
-  window.backend.load(window.page.onSuccess, window.error.onError);
+  window.backend.load(window.page.loadSuccessHandler, window.error.onError);
 })();

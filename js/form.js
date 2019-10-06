@@ -71,11 +71,11 @@
   var successTemplate = document.querySelector('#success').content.querySelector('.success');
   var addSuccess = function () {
     var element = successTemplate.cloneNode(true);
+    element.style.display = 'none';
     window.element.main.appendChild(element);
     return window.element.main.querySelector('.success');
   };
   var successElement = addSuccess();
-  successElement.style.display = 'none';
   var showSuccessFormSend = function () {
     successElement.style.display = 'block';
     document.addEventListener('keydown', pressEscSuccessHandler);
@@ -94,14 +94,15 @@
       successElement.removeEventListener('click', clickSuccessHandler);
     }
   };
-
+  var saveSuccessHandler = function () {
+    showSuccessFormSend();
+    window.page.deactivatePage();
+    adFormElement.reset();
+  };
   adFormSubmitBtn.addEventListener('click', function (evt) {
     if (adFormElement.checkValidity()) {
       evt.preventDefault();
-      window.backend.save(new FormData(adFormElement), window.page.onSuccess, window.error.onError);
-      window.page.deactivatePage();
-      adFormElement.reset();
-      showSuccessFormSend();
+      window.backend.save(new FormData(adFormElement), saveSuccessHandler, window.error.onError);
     }
   });
   window.form = {
