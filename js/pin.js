@@ -106,5 +106,8 @@
       window.form.adFormAddressInput.value = window.map.getCoordsElementOnMap(mapPinMainBtn).centerX + ', ' +
         pinUtils.getBottomYMainPin();
     },
+    removePinElements: function () {
+      window.util.removeCollection(pinsElement.querySelectorAll('.map__pin:not(.map__pin--main)'));
+    },
   };
 })();

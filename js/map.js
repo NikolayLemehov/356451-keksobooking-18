@@ -10,6 +10,8 @@
       mapFeaturesSelectElement.setAttribute('disabled', 'disabled');
       window.util.setCollectionDisabled(mapFilterSelectElements);
       window.element.map.classList.add('map--faded');
+      window.pin.removePinElements();
+      window.card.removeCardElements();
     },
     activateElement: function () {
       window.element.map.classList.remove('map--faded');

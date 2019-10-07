@@ -6,7 +6,7 @@
     activatePage: function () {
       window.map.activateElement();
       window.form.activateElement();
-      window.backend.load(window.page.onSuccessLoad, window.error.onError);
+      window.backend.load(this.onSuccessLoad, window.error.onError);
       setTimeout(window.pin.getAddressFromPinParameter, 400);
       this.isActivePage = true;
     },
