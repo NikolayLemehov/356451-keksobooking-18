@@ -88,26 +88,27 @@
     return window.element.main.querySelector('.success');
   };
   var successElement = addSuccess();
-  var showSuccessFormSend = function () {
+
+  var showSuccess = function () {
     successElement.style.display = 'block';
     document.addEventListener('keydown', onSuccessEscKeyDown);
-    successElement.addEventListener('click', onSuccessClick);
+    document.addEventListener('click', onSuccessClick);
   };
   var onSuccessEscKeyDown = function (evt) {
     if (evt.keyCode === window.util.ESC_KEY_CODE) {
       successElement.style.display = 'none';
       document.removeEventListener('keydown', onSuccessEscKeyDown);
+      document.removeEventListener('click', onSuccessClick);
     }
   };
   var onSuccessClick = function (evt) {
-    if (successElement.style.display === 'block') {
-      evt.preventDefault();
-      successElement.style.display = 'none';
-      successElement.removeEventListener('click', onSuccessClick);
-    }
+    evt.preventDefault();
+    successElement.style.display = 'none';
+    document.removeEventListener('keydown', onSuccessEscKeyDown);
+    document.removeEventListener('click', onSuccessClick);
   };
   var onSuccessSave = function () {
-    showSuccessFormSend();
+    showSuccess();
     window.page.deactivatePage();
     adFormElement.reset();
   };
