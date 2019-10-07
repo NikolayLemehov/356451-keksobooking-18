@@ -43,7 +43,7 @@
       window.card.hidePinCard(cardIndex + 1);
     });
   };
-  var onCloseBtnKeyDownEsc = function (evt) {
+  var onCloseBtnEscKeyDown = function (evt) {
     if (evt.keyCode === window.util.ESC_KEY_CODE) {
       window.card.hidePinCard(window.card.indexShowCard);
     }
@@ -56,11 +56,11 @@
       window.element.map.querySelector('.map__card:nth-of-type(' + cardElementIndex + ')').style.display = 'block';
       this.isShowCard = true;
       this.indexShowCard = cardElementIndex;
-      document.addEventListener('keydown', onCloseBtnKeyDownEsc);
+      document.addEventListener('keydown', onCloseBtnEscKeyDown);
     },
     hidePinCard: function (cardElementIndex) {
       window.element.map.querySelector('.map__card:nth-of-type(' + cardElementIndex + ')').style.display = 'none';
-      document.removeEventListener('keydown', onCloseBtnKeyDownEsc);
+      document.removeEventListener('keydown', onCloseBtnEscKeyDown);
       this.isShowCard = false;
       this.indexShowCard = 0;
     },

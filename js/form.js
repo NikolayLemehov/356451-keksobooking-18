@@ -90,13 +90,13 @@
   var successElement = addSuccess();
   var showSuccessFormSend = function () {
     successElement.style.display = 'block';
-    document.addEventListener('keydown', onSuccessKeyDownEsc);
+    document.addEventListener('keydown', onSuccessEscKeyDown);
     successElement.addEventListener('click', onSuccessClick);
   };
-  var onSuccessKeyDownEsc = function (evt) {
+  var onSuccessEscKeyDown = function (evt) {
     if (evt.keyCode === window.util.ESC_KEY_CODE) {
       successElement.style.display = 'none';
-      document.removeEventListener('keydown', onSuccessKeyDownEsc);
+      document.removeEventListener('keydown', onSuccessEscKeyDown);
     }
   };
   var onSuccessClick = function (evt) {

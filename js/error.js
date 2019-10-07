@@ -17,15 +17,15 @@
     errorElement.style.display = 'none';
   };
   errorBtn.addEventListener('click', onErrorBtnClick);
-  var onErrorKeyDownEsc = function (evt) {
+  var onErrorEscKeyDown = function (evt) {
     if (evt.keyCode === window.util.ESC_KEY_CODE) {
       errorElement.style.display = 'none';
-      document.removeEventListener('keydown', onErrorKeyDownEsc);
+      document.removeEventListener('keydown', onErrorEscKeyDown);
     }
   };
   var showError = function () {
     errorElement.style.display = 'block';
-    document.addEventListener('keydown', onErrorKeyDownEsc);
+    document.addEventListener('keydown', onErrorEscKeyDown);
   };
 
   window.error = {
