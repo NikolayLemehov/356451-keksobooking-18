@@ -2,5 +2,4 @@
 
 (function () {
   window.page.deactivatePage();
-  window.backend.load(window.page.onSuccessLoad, window.error.onError);
 })();
