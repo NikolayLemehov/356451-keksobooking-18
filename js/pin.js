@@ -29,7 +29,7 @@
     return Number(matrix.slice(matrix.lastIndexOf(', ') + 2, -1));
   };
 
-  var addPinClickHandler = function (pin, pineIndex) {
+  var onAddPinClick = function (pin, pineIndex) {
     pin.addEventListener('click', function (evt) {
       evt.preventDefault();
       window.card.smartShowCard(pineIndex + 1);
@@ -47,7 +47,7 @@
     };
     var width = mapPinMainBtn.offsetWidth;
     var height = Math.round(mapPinMainBtn.offsetHeight + pinUtils.getShiftFromBottomYMainPin());
-    var moveMouseHandler = function (moveEvt) {
+    var onMouseMove = function (moveEvt) {
       moveEvt.preventDefault();
       var shift = {
         x: moveEvt.clientX - startCoords.x,
@@ -66,12 +66,12 @@
         window.pin.getAddressFromPinParameter();
       }
     };
-    var upMouseHandler = function () {
-      document.removeEventListener('mousemove', moveMouseHandler);
-      document.removeEventListener('mouseup', upMouseHandler);
+    var onMouseUp = function () {
+      document.removeEventListener('mousemove', onMouseMove);
+      document.removeEventListener('mouseup', onMouseUp);
     };
-    document.addEventListener('mousemove', moveMouseHandler);
-    document.addEventListener('mouseup', upMouseHandler);
+    document.addEventListener('mousemove', onMouseMove);
+    document.addEventListener('mouseup', onMouseUp);
   });
 
   mapPinMainBtn.addEventListener('keydown', function (evt) {
@@ -80,8 +80,15 @@
     }
   });
 
+  var startCoordsPinMainLeft = '' + window.map.getCoordsElementOnMap(mapPinMainBtn).leftX + 'px';
+  var startCoordsPinMainTop = '' + window.map.getCoordsElementOnMap(mapPinMainBtn).topY + 'px';
+
   window.pin = {
     mapPinMainBtn: mapPinMainBtn,
+    moveToStartCoordsPinMain: function () {
+      mapPinMainBtn.style.left = startCoordsPinMainLeft;
+      mapPinMainBtn.style.top = startCoordsPinMainTop;
+    },
     appendPinsFragment: function (dataArray) {
       var fragment = document.createDocumentFragment();
       for (var item = 0; item < dataArray.length; item++) {
@@ -89,10 +96,10 @@
       }
       pinsElement.appendChild(fragment);
     },
-    addPinClickHandlers: function () {
+    onAddPinsClick: function () {
       var pinElements = pinsElement.querySelectorAll('.map__pin:not(.map__pin--main)');
       for (var i = 0; i < pinElements.length; i++) {
-        addPinClickHandler(pinElements[i], i);
+        onAddPinClick(pinElements[i], i);
       }
     },
     getAddressFromPinParameter: function () {
