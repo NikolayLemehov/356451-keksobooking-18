@@ -91,21 +91,22 @@
 
   var showSuccess = function () {
     successElement.style.display = 'block';
-    document.addEventListener('keydown', onSuccessEscKeyDown);
-    document.addEventListener('click', onSuccessClick);
+    document.addEventListener('keydown', onDocumentEscKeyDown);
+    document.addEventListener('click', onDocumentClick);
   };
-  var onSuccessEscKeyDown = function (evt) {
+  var hideSuccess = function () {
+    successElement.style.display = 'none';
+    document.removeEventListener('keydown', onDocumentEscKeyDown);
+    document.removeEventListener('click', onDocumentClick);
+  };
+  var onDocumentEscKeyDown = function (evt) {
     if (evt.keyCode === window.util.ESC_KEY_CODE) {
-      successElement.style.display = 'none';
-      document.removeEventListener('keydown', onSuccessEscKeyDown);
-      document.removeEventListener('click', onSuccessClick);
+      hideSuccess();
     }
   };
-  var onSuccessClick = function (evt) {
+  var onDocumentClick = function (evt) {
     evt.preventDefault();
-    successElement.style.display = 'none';
-    document.removeEventListener('keydown', onSuccessEscKeyDown);
-    document.removeEventListener('click', onSuccessClick);
+    hideSuccess();
   };
   var onSuccessSave = function () {
     showSuccess();
