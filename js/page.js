@@ -21,7 +21,7 @@
     onSuccessLoad: function (dataArray) {
       window.pin.appendPinsFragment(dataArray);
       window.card.appendCardsFragment(dataArray);
-      window.pin.onAddPinsClick();
+      window.pin.addPinsClick();
       window.card.onAddCloseBtnsClick();
     },
   };

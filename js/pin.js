@@ -29,13 +29,6 @@
     return Number(matrix.slice(matrix.lastIndexOf(', ') + 2, -1));
   };
 
-  var onAddPinClick = function (pin, pineIndex) {
-    pin.addEventListener('click', function (evt) {
-      evt.preventDefault();
-      window.card.smartShowCard(pineIndex + 1);
-    });
-  };
-
   mapPinMainBtn.addEventListener('mousedown', function (evt) {
     if (!window.page.isActivePage) {
       window.page.activatePage();
@@ -96,11 +89,14 @@
       }
       pinsElement.appendChild(fragment);
     },
-    onAddPinsClick: function () {
+    addPinsClick: function () {
       var pinElements = pinsElement.querySelectorAll('.map__pin:not(.map__pin--main)');
-      for (var i = 0; i < pinElements.length; i++) {
-        onAddPinClick(pinElements[i], i);
-      }
+      Array.from(pinElements).forEach(function (pin, pineIndex) {
+        pin.addEventListener('click', function (evt) {
+          evt.preventDefault();
+          window.card.smartShowCard(pineIndex + 1);
+        });
+      });
     },
     getAddressFromPinParameter: function () {
       window.form.adFormAddressInput.value = window.map.getCoordsElementOnMap(mapPinMainBtn).centerX + ', ' +
