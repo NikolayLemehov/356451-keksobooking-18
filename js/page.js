@@ -22,7 +22,7 @@
       window.pin.appendPinsFragment(dataArray);
       window.card.appendCardsFragment(dataArray);
       window.pin.addPinsClick();
-      window.card.onAddCloseBtnsClick();
+      window.card.addCloseBtnsClick();
     },
   };
 })();

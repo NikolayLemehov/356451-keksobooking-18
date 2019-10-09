@@ -37,13 +37,6 @@
     return renderElement;
   };
 
-  var onAddCloseBtnClick = function (closeBtn, cardIndex) {
-    closeBtn.addEventListener('click', function (evt) {
-      evt.preventDefault();
-      window.card.hidePinCard(cardIndex + 1);
-    });
-  };
-
   window.card = {
     isShowCard: false,
     indexShowCard: 0,
@@ -80,11 +73,14 @@
       }
       filterContainerElement.parentNode.insertBefore(fragment, filterContainerElement);
     },
-    onAddCloseBtnsClick: function () {
+    addCloseBtnsClick: function () {
       var closeBtns = window.element.map.querySelectorAll('.map__card .popup__close');
-      for (var i = 0; i < closeBtns.length; i++) {
-        onAddCloseBtnClick(closeBtns[i], i);
-      }
+      Array.from(closeBtns).forEach(function (closeBtn, cardIndex) {
+        closeBtn.addEventListener('click', function (evt) {
+          evt.preventDefault();
+          window.card.hidePinCard(cardIndex + 1);
+        });
+      });
     },
     removeCardElements: function () {
       window.util.removeCollection(window.element.map.querySelectorAll('.map__card'));
