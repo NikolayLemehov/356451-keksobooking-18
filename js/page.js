@@ -18,9 +18,10 @@
         window.map.getCoordsElementOnMap(window.pin.mapPinMainBtn).centerY;
       this.isActivePage = false;
     },
-    onSuccessLoad: function (dataArray) {
-      window.pin.appendPinsFragment(dataArray);
-      window.card.appendCardsFragment(dataArray);
+    onSuccessLoad: function (data) {
+      var filteredData = window.filter(data);
+      window.pin.appendPinsFragment(filteredData);
+      window.card.appendCardsFragment(filteredData);
       window.pin.addPinsClick();
       window.card.addCloseBtnsClick();
     },
