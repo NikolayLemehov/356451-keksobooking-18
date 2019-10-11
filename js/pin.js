@@ -1,6 +1,7 @@
 'use strict';
 
 (function () {
+  var PIN_LIMIT = 5;
   var pinsElement = window.element.map.querySelector('.map__pins');
   var pinTemplate = document.querySelector('#pin').content.querySelector('.map__pin');
   var mapPinMainBtn = document.querySelector('.map__pin--main');
@@ -23,6 +24,24 @@
     adElement.querySelector('img').src = data.author.avatar;
     adElement.querySelector('img').alt = data.offer.title;
     return adElement;
+  };
+  var appendPinsFragment = function (dataArray) {
+    var fragment = document.createDocumentFragment();
+    var takeNumber = dataArray.length > PIN_LIMIT ? PIN_LIMIT : dataArray.length;
+    for (var item = 0; item < takeNumber; item++) {
+      fragment.appendChild(renderPin(dataArray[item]));
+    }
+    window.pin.removePinElements();
+    pinsElement.appendChild(fragment);
+  };
+  var addPinsClick = function () {
+    var pinElements = pinsElement.querySelectorAll('.map__pin:not(.map__pin--main)');
+    Array.from(pinElements).forEach(function (pin, pineIndex) {
+      pin.addEventListener('click', function (evt) {
+        evt.preventDefault();
+        window.card.smartShowCard(pineIndex + 1);
+      });
+    });
   };
 
   var getTransformYFromMatrix = function (matrix) {
@@ -82,21 +101,10 @@
       mapPinMainBtn.style.left = startCoordsPinMainLeft;
       mapPinMainBtn.style.top = startCoordsPinMainTop;
     },
-    appendPinsFragment: function (dataArray) {
-      var fragment = document.createDocumentFragment();
-      for (var item = 0; item < dataArray.length; item++) {
-        fragment.appendChild(renderPin(dataArray[item]));
-      }
-      pinsElement.appendChild(fragment);
-    },
-    addPinsClick: function () {
-      var pinElements = pinsElement.querySelectorAll('.map__pin:not(.map__pin--main)');
-      Array.from(pinElements).forEach(function (pin, pineIndex) {
-        pin.addEventListener('click', function (evt) {
-          evt.preventDefault();
-          window.card.smartShowCard(pineIndex + 1);
-        });
-      });
+    addPinsElement: function (dataArray) {
+      appendPinsFragment(dataArray);
+      addPinsClick();
+      window.card.addCardsElement(dataArray);
     },
     getAddressFromPinParameter: function () {
       window.form.adFormAddressInput.value = window.map.getCoordsElementOnMap(mapPinMainBtn).centerX + ', ' +

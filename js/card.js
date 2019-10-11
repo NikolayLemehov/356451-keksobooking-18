@@ -36,6 +36,22 @@
     renderElement.querySelector('.popup__avatar').src = data.author.avatar;
     return renderElement;
   };
+  var appendCardsFragment = function (dataArray) {
+    var fragment = document.createDocumentFragment();
+    for (var item = 0; item < dataArray.length; item++) {
+      fragment.appendChild(renderCard(dataArray[item]));
+    }
+    filterContainerElement.parentNode.insertBefore(fragment, filterContainerElement);
+  };
+  var addCloseBtnsClick = function () {
+    var closeBtns = window.element.map.querySelectorAll('.map__card .popup__close');
+    Array.from(closeBtns).forEach(function (closeBtn, cardIndex) {
+      closeBtn.addEventListener('click', function (evt) {
+        evt.preventDefault();
+        window.card.hidePinCard(cardIndex + 1);
+      });
+    });
+  };
 
   window.card = {
     isShowCard: false,
@@ -66,21 +82,9 @@
         this.showPinCard(cardElementIndex);
       }
     },
-    appendCardsFragment: function (dataArray) {
-      var fragment = document.createDocumentFragment();
-      for (var item = 0; item < dataArray.length; item++) {
-        fragment.appendChild(renderCard(dataArray[item]));
-      }
-      filterContainerElement.parentNode.insertBefore(fragment, filterContainerElement);
-    },
-    addCloseBtnsClick: function () {
-      var closeBtns = window.element.map.querySelectorAll('.map__card .popup__close');
-      Array.from(closeBtns).forEach(function (closeBtn, cardIndex) {
-        closeBtn.addEventListener('click', function (evt) {
-          evt.preventDefault();
-          window.card.hidePinCard(cardIndex + 1);
-        });
-      });
+    addCardsElement: function (dataArray) {
+      appendCardsFragment(dataArray);
+      addCloseBtnsClick();
     },
     removeCardElements: function () {
       window.util.removeCollection(window.element.map.querySelectorAll('.map__card'));

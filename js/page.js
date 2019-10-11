@@ -19,11 +19,8 @@
       this.isActivePage = false;
     },
     onSuccessLoad: function (data) {
-      var filteredData = window.filter(data);
-      window.pin.appendPinsFragment(filteredData);
-      window.card.appendCardsFragment(filteredData);
-      window.pin.addPinsClick();
-      window.card.addCloseBtnsClick();
+      window.filter.ads = data;
+      window.filter.updateAds();
     },
   };
 })();
