@@ -37,30 +37,23 @@
     return renderElement;
   };
 
-  var onAddCloseBtnClick = function (closeBtn, cardIndex) {
-    closeBtn.addEventListener('click', function (evt) {
-      evt.preventDefault();
-      window.card.hidePinCard(cardIndex + 1);
-    });
-  };
-  var onCloseBtnEscKeyDown = function (evt) {
-    if (evt.keyCode === window.util.ESC_KEY_CODE) {
-      window.card.hidePinCard(window.card.indexShowCard);
-    }
-  };
-
   window.card = {
     isShowCard: false,
     indexShowCard: 0,
+    onDocumentCardEscKeyDown: function (evt) {
+      if (evt.keyCode === window.util.ESC_KEY_CODE) {
+        window.card.hidePinCard(window.card.indexShowCard);
+      }
+    },
     showPinCard: function (cardElementIndex) {
       window.element.map.querySelector('.map__card:nth-of-type(' + cardElementIndex + ')').style.display = 'block';
       this.isShowCard = true;
       this.indexShowCard = cardElementIndex;
-      document.addEventListener('keydown', onCloseBtnEscKeyDown);
+      document.addEventListener('keydown', this.onDocumentCardEscKeyDown);
     },
     hidePinCard: function (cardElementIndex) {
       window.element.map.querySelector('.map__card:nth-of-type(' + cardElementIndex + ')').style.display = 'none';
-      document.removeEventListener('keydown', onCloseBtnEscKeyDown);
+      document.removeEventListener('keydown', this.onDocumentCardEscKeyDown);
       this.isShowCard = false;
       this.indexShowCard = 0;
     },
@@ -80,11 +73,18 @@
       }
       filterContainerElement.parentNode.insertBefore(fragment, filterContainerElement);
     },
-    onAddCloseBtnsClick: function () {
+    addCloseBtnsClick: function () {
       var closeBtns = window.element.map.querySelectorAll('.map__card .popup__close');
-      for (var i = 0; i < closeBtns.length; i++) {
-        onAddCloseBtnClick(closeBtns[i], i);
-      }
+      Array.from(closeBtns).forEach(function (closeBtn, cardIndex) {
+        closeBtn.addEventListener('click', function (evt) {
+          evt.preventDefault();
+          window.card.hidePinCard(cardIndex + 1);
+        });
+      });
+    },
+    removeCardElements: function () {
+      window.util.removeCollection(window.element.map.querySelectorAll('.map__card'));
+      this.isShowCard = false;
     },
   };
 })();
