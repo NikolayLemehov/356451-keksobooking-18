@@ -3,6 +3,7 @@
 (function () {
   window.page = {
     isActivePage: false,
+    data: [],
     activatePage: function () {
       window.map.activateElement();
       window.form.activateElement();
@@ -19,7 +20,7 @@
       this.isActivePage = false;
     },
     onSuccessLoad: function (data) {
-      window.filter.ads = data;
+      window.page.data = data;
       window.filter.updateAds();
     },
   };

@@ -41,6 +41,9 @@
     for (var item = 0; item < dataArray.length; item++) {
       fragment.appendChild(renderCard(dataArray[item]));
     }
+    document.querySelectorAll('.map__card').forEach(function (it) {
+      it.remove();
+    });
     filterContainerElement.parentNode.insertBefore(fragment, filterContainerElement);
   };
   var addCloseBtnsClick = function () {

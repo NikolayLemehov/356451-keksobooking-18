@@ -1,30 +1,27 @@
 'use strict';
 
 (function () {
-  var ads = [];
-  // var getRank = function (ad) {
-  //   var rank = 0;
-  //
-  //   if (wizard.colorCoat === coatColor) {
-  //     rank += 2;
-  //   }
-  //   if (wizard.colorEyes === eyesColor) {
-  //     rank += 1;
-  //   }
-  //
-  //   return rank;
-  // };
-  // var filterType = function () {
-  //
-  // };
   var housingTypeSelect = document.querySelector('#housing-type');
-  housingTypeSelect.addEventListener('change', function () {
-    // filterType();
+  var type = housingTypeSelect.options[housingTypeSelect.selectedIndex].value;
+  housingTypeSelect.addEventListener('change', function (evt) {
+    evt.preventDefault();
+    onTypeChange(housingTypeSelect.options[housingTypeSelect.selectedIndex].value);
   });
+  var onTypeChange = function (filterType) {
+    type = filterType;
+    window.filter.updateAds();
+  };
   window.filter = {
-    ads: ads,
     updateAds: function () {
-      window.pin.addPinsElement(this.ads);
+      var filteredAds = window.page.data.slice();
+      filteredAds = filteredAds.filter(function (it) {
+        if (type === 'any') {
+          return true;
+        }
+        return it.offer.type === type;
+
+      });
+      window.pin.addPinsElement(filteredAds);
     },
   };
 })();
