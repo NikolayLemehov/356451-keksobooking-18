@@ -16,6 +16,8 @@
     activateElement: function () {
       window.element.map.classList.remove('map--faded');
       mapFeaturesSelectElement.removeAttribute('disabled');
+    },
+    activateFilter: function () {
       window.util.setCollectionAble(mapFilterSelectElements);
     },
     getCoordsElementOnMap: function (element) {

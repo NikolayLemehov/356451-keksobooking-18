@@ -33,6 +33,7 @@
     }
     window.pin.removePinElements();
     pinsElement.appendChild(fragment);
+    window.map.activateFilter();
   };
   var addPinsClick = function () {
     var pinElements = pinsElement.querySelectorAll('.map__pin:not(.map__pin--main)');

@@ -3,12 +3,12 @@
 (function () {
   var housingTypeSelect = document.querySelector('#housing-type');
   var type = housingTypeSelect.options[housingTypeSelect.selectedIndex].value;
-  housingTypeSelect.addEventListener('change', function (evt) {
-    evt.preventDefault();
+  housingTypeSelect.addEventListener('change', function () {
     onTypeChange(housingTypeSelect.options[housingTypeSelect.selectedIndex].value);
   });
   var onTypeChange = function (filterType) {
     type = filterType;
+    window.card.hidePinCard(window.card.indexShowCard);
     window.filter.updateAds();
   };
   window.filter = {
