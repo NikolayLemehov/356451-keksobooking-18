@@ -90,7 +90,7 @@
   };
 
   window.filter = {
-    updateAds: function () {
+    updateAds: window.debounce(function () {
       var filteredAds = window.page.data.slice();
       filteredAds = filteredAds.filter(function (it) {
         var features = it.offer.features;
@@ -102,6 +102,6 @@
         return booleanTypeMatch && booleanRoomMatch && booleanGuestMatch && isPriceMatch && isFeatures(features);
       });
       window.pin.addPinsElement(filteredAds);
-    },
+    }),
   };
 })();
