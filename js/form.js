@@ -39,6 +39,7 @@
     var minPrice = window.data.PRICE_FROM_TYPE[selected.value];
     var maxPrice = Number(adFormPriceInput.getAttribute('max'));
     adFormPriceInput.setAttribute('min', minPrice);
+    adFormPriceInput.setAttribute('placeholder', minPrice);
     switch (true) {
       case (adFormPriceInput.value < minPrice):
         adFormPriceInput.setCustomValidity('При типе жилья "' + selected.textContent +
