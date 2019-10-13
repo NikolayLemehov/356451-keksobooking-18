@@ -14,18 +14,27 @@
   var errorBtn = errorElement.querySelector('.error__button');
   var onErrorBtnClick = function (evt) {
     evt.preventDefault();
-    errorElement.style.display = 'none';
+    hideErrorElement();
   };
   errorBtn.addEventListener('click', onErrorBtnClick);
-  var onErrorEscKeyDown = function (evt) {
+  var onDocumentErrorEscKeyDown = function (evt) {
     if (evt.keyCode === window.util.ESC_KEY_CODE) {
-      errorElement.style.display = 'none';
-      document.removeEventListener('keydown', onErrorEscKeyDown);
+      hideErrorElement();
     }
   };
   var showError = function () {
+    if (window.card.isShowCard) {
+      document.removeEventListener('keydown', window.card.onDocumentCardEscKeyDown);
+    }
     errorElement.style.display = 'block';
-    document.addEventListener('keydown', onErrorEscKeyDown);
+    document.addEventListener('keydown', onDocumentErrorEscKeyDown);
+  };
+  var hideErrorElement = function () {
+    if (window.card.isShowCard) {
+      document.addEventListener('keydown', window.card.onDocumentCardEscKeyDown);
+    }
+    errorElement.style.display = 'none';
+    document.removeEventListener('keydown', onDocumentErrorEscKeyDown);
   };
 
   window.error = {

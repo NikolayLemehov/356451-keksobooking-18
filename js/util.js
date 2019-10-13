@@ -36,6 +36,11 @@
         collection[i].removeAttribute('disabled');
       }
     },
+    removeCollection: function (collection) {
+      for (var i = 0; i < collection.length; i++) {
+        collection[i].remove();
+      }
+    },
     convertPixelToInteger: function (string) {
       return Number(string.slice(0, -2));
     },

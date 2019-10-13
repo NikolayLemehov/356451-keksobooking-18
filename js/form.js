@@ -90,28 +90,31 @@
   var successElement = addSuccess();
 
   var showSuccess = function () {
+    if (window.card.isShowCard) {
+      document.removeEventListener('keydown', window.card.onDocumentCardEscKeyDown);
+    }
     successElement.style.display = 'block';
-    document.addEventListener('keydown', onDocumentEscKeyDown);
-    document.addEventListener('click', onDocumentClick);
+    document.addEventListener('keydown', onDocumentSuccessEscKeyDown);
+    document.addEventListener('click', onDocumentSuccessClick);
   };
   var hideSuccess = function () {
     successElement.style.display = 'none';
-    document.removeEventListener('keydown', onDocumentEscKeyDown);
-    document.removeEventListener('click', onDocumentClick);
+    document.removeEventListener('keydown', onDocumentSuccessEscKeyDown);
+    document.removeEventListener('click', onDocumentSuccessClick);
   };
-  var onDocumentEscKeyDown = function (evt) {
+  var onDocumentSuccessEscKeyDown = function (evt) {
     if (evt.keyCode === window.util.ESC_KEY_CODE) {
       hideSuccess();
     }
   };
-  var onDocumentClick = function (evt) {
+  var onDocumentSuccessClick = function (evt) {
     evt.preventDefault();
     hideSuccess();
   };
   var onSuccessSave = function () {
     showSuccess();
-    window.page.deactivatePage();
     adFormElement.reset();
+    window.page.deactivatePage();
   };
   adFormSubmitBtn.addEventListener('click', function (evt) {
     if (adFormElement.checkValidity()) {

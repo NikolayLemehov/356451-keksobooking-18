@@ -36,31 +36,43 @@
     renderElement.querySelector('.popup__avatar').src = data.author.avatar;
     return renderElement;
   };
-
-  var onAddCloseBtnClick = function (closeBtn, cardIndex) {
-    closeBtn.addEventListener('click', function (evt) {
-      evt.preventDefault();
-      window.card.hidePinCard(cardIndex + 1);
-    });
-  };
-  var onCloseBtnEscKeyDown = function (evt) {
-    if (evt.keyCode === window.util.ESC_KEY_CODE) {
-      window.card.hidePinCard(window.card.indexShowCard);
+  var appendCardsFragment = function (dataArray) {
+    var fragment = document.createDocumentFragment();
+    for (var item = 0; item < dataArray.length; item++) {
+      fragment.appendChild(renderCard(dataArray[item]));
     }
+    document.querySelectorAll('.map__card').forEach(function (it) {
+      it.remove();
+    });
+    filterContainerElement.parentNode.insertBefore(fragment, filterContainerElement);
+  };
+  var addCloseBtnsClick = function () {
+    var closeBtns = window.element.map.querySelectorAll('.map__card .popup__close');
+    Array.from(closeBtns).forEach(function (closeBtn, cardIndex) {
+      closeBtn.addEventListener('click', function (evt) {
+        evt.preventDefault();
+        window.card.hidePinCard(cardIndex + 1);
+      });
+    });
   };
 
   window.card = {
     isShowCard: false,
     indexShowCard: 0,
+    onDocumentCardEscKeyDown: function (evt) {
+      if (evt.keyCode === window.util.ESC_KEY_CODE) {
+        window.card.hidePinCard(window.card.indexShowCard);
+      }
+    },
     showPinCard: function (cardElementIndex) {
       window.element.map.querySelector('.map__card:nth-of-type(' + cardElementIndex + ')').style.display = 'block';
       this.isShowCard = true;
       this.indexShowCard = cardElementIndex;
-      document.addEventListener('keydown', onCloseBtnEscKeyDown);
+      document.addEventListener('keydown', this.onDocumentCardEscKeyDown);
     },
     hidePinCard: function (cardElementIndex) {
       window.element.map.querySelector('.map__card:nth-of-type(' + cardElementIndex + ')').style.display = 'none';
-      document.removeEventListener('keydown', onCloseBtnEscKeyDown);
+      document.removeEventListener('keydown', this.onDocumentCardEscKeyDown);
       this.isShowCard = false;
       this.indexShowCard = 0;
     },
@@ -73,18 +85,13 @@
         this.showPinCard(cardElementIndex);
       }
     },
-    appendCardsFragment: function (dataArray) {
-      var fragment = document.createDocumentFragment();
-      for (var item = 0; item < dataArray.length; item++) {
-        fragment.appendChild(renderCard(dataArray[item]));
-      }
-      filterContainerElement.parentNode.insertBefore(fragment, filterContainerElement);
+    addCardsElement: function (dataArray) {
+      appendCardsFragment(dataArray);
+      addCloseBtnsClick();
     },
-    onAddCloseBtnsClick: function () {
-      var closeBtns = window.element.map.querySelectorAll('.map__card .popup__close');
-      for (var i = 0; i < closeBtns.length; i++) {
-        onAddCloseBtnClick(closeBtns[i], i);
-      }
+    removeCardElements: function () {
+      window.util.removeCollection(window.element.map.querySelectorAll('.map__card'));
+      this.isShowCard = false;
     },
   };
 })();
