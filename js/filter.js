@@ -27,6 +27,17 @@
     price = filterPrice;
     doPerChangeFilterAd();
   };
+  var toGradePrice = function (priceNumber) {
+    switch (true) {
+      case (priceNumber < 10000):
+        return 'low';
+      case (priceNumber >= 10000 && priceNumber <= 50000):
+        return 'middle';
+      case (priceNumber > 50000):
+        return 'high';
+    }
+    return null;
+  };
 
   var housingRoomsSelect = document.querySelector('#housing-rooms');
   var roomNumber = housingRoomsSelect.options[housingRoomsSelect.selectedIndex].value;
@@ -48,30 +59,49 @@
     doPerChangeFilterAd();
   };
 
-  var toGradePrice = function (priceNumber) {
-    switch (true) {
-      case (priceNumber < 10000):
-        return 'low';
-      case (priceNumber >= 10000 && priceNumber <= 50000):
-        return 'middle';
-      case (priceNumber > 50000):
-        return 'high';
+  var presenceFeature = [];
+  var featuresElements = document.querySelectorAll('#housing-features input[name="features"]');
+  featuresElements.forEach(function (checkbox) {
+    var feature = checkbox.getAttribute('value');
+    if (checkbox.checked) {
+      presenceFeature.push(feature);
     }
-    return null;
+    checkbox.addEventListener('change', function () {
+      onFeaturesChange(feature, checkbox.checked);
+    });
+  });
+  var onFeaturesChange = function (feature, presence) {
+    if (presence) {
+      presenceFeature.push(feature);
+    } else {
+      var index = presenceFeature.indexOf(feature);
+      presenceFeature.splice(index, 1);
+    }
+    doPerChangeFilterAd();
+  };
+  var isFeatures = function (dataFeatures) {
+    var booleanFit = true;
+    presenceFeature.forEach(function (feature) {
+      booleanFit = booleanFit && !!dataFeatures.find(function (it) {
+        return feature === it;
+      });
+    });
+    return booleanFit;
   };
 
   window.filter = {
-    updateAds: function () {
+    updateAds: window.debounce(function () {
       var filteredAds = window.page.data.slice();
       filteredAds = filteredAds.filter(function (it) {
+        var features = it.offer.features;
         var booleanTypeMatch = type === it.offer.type || type === 'any';
         var priceNumber = it.offer.price;
         var isPriceMatch = price === toGradePrice(priceNumber) || price === 'any';
         var booleanRoomMatch = roomNumber === it.offer.rooms.toString() || roomNumber === 'any';
         var booleanGuestMatch = guestNumber === it.offer.guests.toString() || guestNumber === 'any';
-        return booleanTypeMatch && booleanRoomMatch && booleanGuestMatch && isPriceMatch;
+        return booleanTypeMatch && booleanRoomMatch && booleanGuestMatch && isPriceMatch && isFeatures(features);
       });
       window.pin.addPinsElement(filteredAds);
-    },
+    }),
   };
 })();
