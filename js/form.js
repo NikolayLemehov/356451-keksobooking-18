@@ -122,6 +122,7 @@
       window.backend.save(new FormData(adFormElement), onSuccessSave, window.error.onError);
     }
   });
+
   window.form = {
     adFormAddressInput: adFormAddressInput,
     deactivate: function () {
