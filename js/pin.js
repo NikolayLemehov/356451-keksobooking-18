@@ -50,7 +50,7 @@
   };
 
   mapPinMainBtn.addEventListener('mousedown', function (evt) {
-    if (!window.page.isActivePage) {
+    if (!window.page.booleanActivePage) {
       window.page.activatePage();
       return;
     }
@@ -88,7 +88,7 @@
   });
 
   mapPinMainBtn.addEventListener('keydown', function (evt) {
-    if (evt.keyCode === window.util.ENTER_KEY_CODE && !window.page.isActivePage) {
+    if (evt.keyCode === window.util.ENTER_KEY_CODE && !window.page.booleanActivePage) {
       window.page.activatePage();
     }
   });

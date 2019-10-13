@@ -18,6 +18,16 @@
     doPerChangeFilterAd();
   };
 
+  var housingPriceSelect = document.querySelector('#housing-price');
+  var price = housingPriceSelect.options[housingPriceSelect.selectedIndex].value;
+  housingPriceSelect.addEventListener('change', function () {
+    onPriceChange(housingPriceSelect.options[housingPriceSelect.selectedIndex].value);
+  });
+  var onPriceChange = function (filterPrice) {
+    price = filterPrice;
+    doPerChangeFilterAd();
+  };
+
   var housingRoomsSelect = document.querySelector('#housing-rooms');
   var roomNumber = housingRoomsSelect.options[housingRoomsSelect.selectedIndex].value;
   housingRoomsSelect.addEventListener('change', function () {
@@ -38,14 +48,28 @@
     doPerChangeFilterAd();
   };
 
+  var toGradePrice = function (priceNumber) {
+    switch (true) {
+      case (priceNumber < 10000):
+        return 'low';
+      case (priceNumber >= 10000 && priceNumber <= 50000):
+        return 'middle';
+      case (priceNumber > 50000):
+        return 'high';
+    }
+    return null;
+  };
+
   window.filter = {
     updateAds: function () {
       var filteredAds = window.page.data.slice();
       filteredAds = filteredAds.filter(function (it) {
-        var isTypeMatch = type === it.offer.type || type === 'any';
-        var isRoomMatch = roomNumber === it.offer.rooms.toString() || roomNumber === 'any';
-        var isGuestMatch = guestNumber === it.offer.guests.toString() || guestNumber === 'any';
-        return isTypeMatch && isRoomMatch && isGuestMatch;
+        var booleanTypeMatch = type === it.offer.type || type === 'any';
+        var priceNumber = it.offer.price;
+        var isPriceMatch = price === toGradePrice(priceNumber) || price === 'any';
+        var booleanRoomMatch = roomNumber === it.offer.rooms.toString() || roomNumber === 'any';
+        var booleanGuestMatch = guestNumber === it.offer.guests.toString() || guestNumber === 'any';
+        return booleanTypeMatch && booleanRoomMatch && booleanGuestMatch && isPriceMatch;
       });
       window.pin.addPinsElement(filteredAds);
     },
