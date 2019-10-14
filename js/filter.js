@@ -88,6 +88,9 @@
     });
     return booleanFit;
   };
+  var mapFiltersSelectElement = window.element.map.querySelector('.map__filter');
+  var mapFilterSelectElements = mapFiltersSelectElement.querySelectorAll('.map__filters');
+  var mapFeaturesSelectElement = window.element.map.querySelector('.map__features');
 
   window.filter = {
     updateAds: window.debounce(function () {
@@ -103,5 +106,13 @@
       });
       window.pin.addPinsElement(filteredAds);
     }),
+    activate: function () {
+      window.util.setCollectionAble(mapFilterSelectElements);
+      mapFeaturesSelectElement.removeAttribute('disabled');
+    },
+    deactivate: function () {
+      window.util.setCollectionDisabled(mapFilterSelectElements);
+      mapFeaturesSelectElement.setAttribute('disabled', 'disabled');
+    },
   };
 })();

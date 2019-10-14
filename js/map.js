@@ -1,24 +1,15 @@
 'use strict';
 
 (function () {
-  var mapFiltersSelectElement = window.element.map.querySelector('.map__filter');
-  var mapFilterSelectElements = mapFiltersSelectElement.querySelectorAll('.map__filters');
-  var mapFeaturesSelectElement = window.element.map.querySelector('.map__features');
-
   window.map = {
     deactivate: function () {
-      mapFeaturesSelectElement.setAttribute('disabled', 'disabled');
-      window.util.setCollectionDisabled(mapFilterSelectElements);
+      window.filter.deactivate();
       window.element.map.classList.add('map--faded');
       window.pin.removePinElements();
       window.card.removeCardElements();
     },
-    activateElement: function () {
+    activate: function () {
       window.element.map.classList.remove('map--faded');
-      mapFeaturesSelectElement.removeAttribute('disabled');
-    },
-    activateFilter: function () {
-      window.util.setCollectionAble(mapFilterSelectElements);
     },
     getCoordsElementOnMap: function (element) {
       return {

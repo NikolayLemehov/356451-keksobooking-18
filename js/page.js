@@ -5,8 +5,8 @@
     booleanActivePage: false,
     data: [],
     activatePage: function () {
-      window.map.activateElement();
-      window.form.activateElement();
+      window.map.activate();
+      window.form.activate();
       window.backend.load(this.onSuccessLoad, window.error.onError);
       setTimeout(window.pin.getAddressFromPinParameter, 400);
       this.booleanActivePage = true;
