@@ -79,7 +79,7 @@
   adFormTimeinSelect.addEventListener('change', function () {
     validateTimeout();
   });
-  adFormTimeinSelect.addEventListener('change', function () {
+  adFormTimeoutSelect.addEventListener('change', function () {
     validateTimein();
   });
 
