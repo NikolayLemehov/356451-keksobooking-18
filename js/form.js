@@ -4,7 +4,7 @@
   var adFormElement = document.querySelector('.ad-form');
   var adFormElements = adFormElement.querySelectorAll('.ad-form__element');
   var adFormHeaderElement = adFormElement.querySelector('.ad-form-header');
-  // var adFormTitleInput = adFormElement.querySelector('input[name="title"]');
+  var adFormTitleInput = adFormElement.querySelector('input[name="title"]');
   var adFormAddressInput = adFormElement.querySelector('input[name="address"]');
   var adFormTypeSelect = adFormElement.querySelector('select[name="type"]');
   var adFormPriceInput = adFormElement.querySelector('input[name="price"]');
@@ -130,6 +130,26 @@
       window.backend.save(new FormData(adFormElement), onSuccessSave, window.error.onError);
     }
   });
+
+  var toColorInvalid = function (element) {
+    element.style.backgroundColor = 'red';
+  };
+  var toColorValid = function (element) {
+    element.style.backgroundColor = 'white';
+  };
+  var setColorErrorBeforeSubmitForm = function (checkedField) {
+    checkedField.addEventListener('invalid', function () {
+      toColorInvalid(checkedField);
+    });
+    checkedField.addEventListener('change', function () {
+      if (checkedField.checkValidity()) {
+        toColorValid(checkedField);
+      }
+    });
+  };
+  setColorErrorBeforeSubmitForm(adFormTitleInput);
+  setColorErrorBeforeSubmitForm(adFormPriceInput);
+  setColorErrorBeforeSubmitForm(adFormCapacitySelect);
 
   window.form = {
     adFormAddressInput: adFormAddressInput,
