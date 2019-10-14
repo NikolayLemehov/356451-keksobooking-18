@@ -88,8 +88,8 @@
     });
     return booleanFit;
   };
-  var mapFiltersSelectElement = window.element.map.querySelector('.map__filter');
-  var mapFilterSelectElements = mapFiltersSelectElement.querySelectorAll('.map__filters');
+  var mapFiltersForm = window.element.map.querySelector('.map__filters');
+  var mapFilterSelectElements = mapFiltersForm.querySelectorAll('.map__filter');
   var mapFeaturesSelectElement = window.element.map.querySelector('.map__features');
 
   window.filter = {
@@ -111,6 +111,7 @@
       mapFeaturesSelectElement.removeAttribute('disabled');
     },
     deactivate: function () {
+      mapFiltersForm.reset();
       window.util.setCollectionDisabled(mapFilterSelectElements);
       mapFeaturesSelectElement.setAttribute('disabled', 'disabled');
     },

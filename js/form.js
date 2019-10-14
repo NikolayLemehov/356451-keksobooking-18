@@ -34,15 +34,17 @@
     }
   };
 
+  var selectedType = adFormTypeSelect.options[adFormTypeSelect.selectedIndex];
+  var minPrice = window.data.PRICE_FROM_TYPE[selectedType.value];
   var validatePrice = function () {
-    var selected = adFormTypeSelect.options[adFormTypeSelect.selectedIndex];
-    var minPrice = window.data.PRICE_FROM_TYPE[selected.value];
+    selectedType = adFormTypeSelect.options[adFormTypeSelect.selectedIndex];
+    minPrice = window.data.PRICE_FROM_TYPE[selectedType.value];
     var maxPrice = Number(adFormPriceInput.getAttribute('max'));
     adFormPriceInput.setAttribute('min', minPrice);
     adFormPriceInput.setAttribute('placeholder', minPrice);
     switch (true) {
       case (adFormPriceInput.value < minPrice):
-        adFormPriceInput.setCustomValidity('При типе жилья "' + selected.textContent +
+        adFormPriceInput.setCustomValidity('При типе жилья "' + selectedType.textContent +
           '" цена должна быть не меньше чем "' + minPrice + '".');
         adFormSubmitBtn.click();
         break;
@@ -115,6 +117,11 @@
   var onSuccessSave = function () {
     showSuccess();
     adFormElement.reset();
+
+    selectedType = adFormTypeSelect.options[adFormTypeSelect.selectedIndex];
+    minPrice = window.data.PRICE_FROM_TYPE[selectedType.value];
+    adFormPriceInput.setAttribute('placeholder', minPrice);
+
     window.page.deactivatePage();
   };
   adFormSubmitBtn.addEventListener('click', function (evt) {
