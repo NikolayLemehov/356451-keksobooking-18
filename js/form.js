@@ -28,7 +28,6 @@
     createActualCapacity(adFormRoomNumberSelect.options[adFormRoomNumberSelect.selectedIndex].value);
     if (adFormCapacitySelect.options[adFormCapacitySelect.selectedIndex].disabled) {
       adFormCapacitySelect.setCustomValidity('При таком количестве комнат гостей должно быть другое количество.');
-      adFormSubmitBtn.click();
     } else {
       adFormCapacitySelect.setCustomValidity('');
     }
@@ -46,11 +45,9 @@
       case (adFormPriceInput.value < minPrice):
         adFormPriceInput.setCustomValidity('При типе жилья "' + selectedType.textContent +
           '" цена должна быть не меньше чем "' + minPrice + '".');
-        adFormSubmitBtn.click();
         break;
       case (adFormPriceInput.value > maxPrice):
         adFormPriceInput.setCustomValidity('Цена на жильё не может превышать ' + maxPrice + ' руб.');
-        adFormSubmitBtn.click();
         break;
       default :
         adFormPriceInput.setCustomValidity('');
@@ -137,19 +134,19 @@
   var toColorValid = function (element) {
     element.style.backgroundColor = 'white';
   };
-  var setColorErrorBeforeSubmitForm = function (checkedField) {
-    checkedField.addEventListener('invalid', function () {
-      toColorInvalid(checkedField);
-    });
-    checkedField.addEventListener('change', function () {
-      if (checkedField.checkValidity()) {
-        toColorValid(checkedField);
-      }
+  var setColorErrorBeforeSubmitForm = function (checkedFields) {
+    checkedFields.forEach(function (checkedField) {
+      checkedField.addEventListener('invalid', function () {
+        toColorInvalid(checkedField);
+      });
+      checkedField.addEventListener('change', function () {
+        if (checkedField.checkValidity()) {
+          toColorValid(checkedField);
+        }
+      });
     });
   };
-  setColorErrorBeforeSubmitForm(adFormTitleInput);
-  setColorErrorBeforeSubmitForm(adFormPriceInput);
-  setColorErrorBeforeSubmitForm(adFormCapacitySelect);
+  setColorErrorBeforeSubmitForm([adFormTitleInput, adFormPriceInput, adFormCapacitySelect]);
 
   window.form = {
     adFormAddressInput: adFormAddressInput,
