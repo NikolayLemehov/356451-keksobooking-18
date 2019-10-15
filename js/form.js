@@ -4,7 +4,7 @@
   var adFormElement = document.querySelector('.ad-form');
   var adFormElements = adFormElement.querySelectorAll('.ad-form__element');
   var adFormHeaderElement = adFormElement.querySelector('.ad-form-header');
-  // var adFormTitleInput = adFormElement.querySelector('input[name="title"]');
+  var adFormTitleInput = adFormElement.querySelector('input[name="title"]');
   var adFormAddressInput = adFormElement.querySelector('input[name="address"]');
   var adFormTypeSelect = adFormElement.querySelector('select[name="type"]');
   var adFormPriceInput = adFormElement.querySelector('input[name="price"]');
@@ -28,26 +28,26 @@
     createActualCapacity(adFormRoomNumberSelect.options[adFormRoomNumberSelect.selectedIndex].value);
     if (adFormCapacitySelect.options[adFormCapacitySelect.selectedIndex].disabled) {
       adFormCapacitySelect.setCustomValidity('При таком количестве комнат гостей должно быть другое количество.');
-      adFormSubmitBtn.click();
     } else {
       adFormCapacitySelect.setCustomValidity('');
     }
   };
 
+  var selectedType = adFormTypeSelect.options[adFormTypeSelect.selectedIndex];
+  var minPrice = window.data.PRICE_FROM_TYPE[selectedType.value];
   var validatePrice = function () {
-    var selected = adFormTypeSelect.options[adFormTypeSelect.selectedIndex];
-    var minPrice = window.data.PRICE_FROM_TYPE[selected.value];
+    selectedType = adFormTypeSelect.options[adFormTypeSelect.selectedIndex];
+    minPrice = window.data.PRICE_FROM_TYPE[selectedType.value];
     var maxPrice = Number(adFormPriceInput.getAttribute('max'));
     adFormPriceInput.setAttribute('min', minPrice);
+    adFormPriceInput.setAttribute('placeholder', minPrice);
     switch (true) {
       case (adFormPriceInput.value < minPrice):
-        adFormPriceInput.setCustomValidity('При типе жилья "' + selected.textContent +
+        adFormPriceInput.setCustomValidity('При типе жилья "' + selectedType.textContent +
           '" цена должна быть не меньше чем "' + minPrice + '".');
-        adFormSubmitBtn.click();
         break;
       case (adFormPriceInput.value > maxPrice):
         adFormPriceInput.setCustomValidity('Цена на жильё не может превышать ' + maxPrice + ' руб.');
-        adFormSubmitBtn.click();
         break;
       default :
         adFormPriceInput.setCustomValidity('');
@@ -76,7 +76,7 @@
   adFormTimeinSelect.addEventListener('change', function () {
     validateTimeout();
   });
-  adFormTimeinSelect.addEventListener('change', function () {
+  adFormTimeoutSelect.addEventListener('change', function () {
     validateTimein();
   });
 
@@ -114,6 +114,11 @@
   var onSuccessSave = function () {
     showSuccess();
     adFormElement.reset();
+
+    selectedType = adFormTypeSelect.options[adFormTypeSelect.selectedIndex];
+    minPrice = window.data.PRICE_FROM_TYPE[selectedType.value];
+    adFormPriceInput.setAttribute('placeholder', minPrice);
+
     window.page.deactivatePage();
   };
   adFormSubmitBtn.addEventListener('click', function (evt) {
@@ -122,6 +127,27 @@
       window.backend.save(new FormData(adFormElement), onSuccessSave, window.error.onError);
     }
   });
+
+  var toColorInvalid = function (element) {
+    element.style.backgroundColor = 'red';
+  };
+  var toColorValid = function (element) {
+    element.style.backgroundColor = 'white';
+  };
+  var setColorErrorBeforeSubmitForm = function (checkedFields) {
+    checkedFields.forEach(function (checkedField) {
+      checkedField.addEventListener('invalid', function () {
+        toColorInvalid(checkedField);
+      });
+      checkedField.addEventListener('change', function () {
+        if (checkedField.checkValidity()) {
+          toColorValid(checkedField);
+        }
+      });
+    });
+  };
+  setColorErrorBeforeSubmitForm([adFormTitleInput, adFormPriceInput, adFormCapacitySelect]);
+
   window.form = {
     adFormAddressInput: adFormAddressInput,
     deactivate: function () {
@@ -129,10 +155,11 @@
       adFormHeaderElement.setAttribute('disabled', 'disabled');
       window.util.setCollectionDisabled(adFormElements);
     },
-    activateElement: function () {
+    activate: function () {
       adFormElement.classList.remove('ad-form--disabled');
       adFormHeaderElement.removeAttribute('disabled');
       window.util.setCollectionAble(adFormElements);
+      createActualCapacity(adFormRoomNumberSelect.options[adFormRoomNumberSelect.selectedIndex].value);
     },
   };
 })();
