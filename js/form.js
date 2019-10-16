@@ -127,6 +127,10 @@
       window.backend.save(new FormData(adFormElement), onSuccessSave, window.error.onError);
     }
   });
+  var adFormResetBtn = document.querySelector('.ad-form__reset');
+  adFormResetBtn.addEventListener('click', function () {
+    window.page.deactivatePage();
+  });
 
   var toColorInvalid = function (element) {
     element.style.backgroundColor = 'red';
@@ -154,6 +158,7 @@
       adFormElement.classList.add('ad-form--disabled');
       adFormHeaderElement.setAttribute('disabled', 'disabled');
       window.util.setCollectionDisabled(adFormElements);
+      window.images.deactivate();
     },
     activate: function () {
       adFormElement.classList.remove('ad-form--disabled');
