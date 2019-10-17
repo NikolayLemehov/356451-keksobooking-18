@@ -2,8 +2,10 @@
 
 (function () {
   window.util = {
-    ENTER_KEY_CODE: 13,
-    ESC_KEY_CODE: 27,
+    KEY_CODE: {
+      ENTER: 13,
+      ESC: 27,
+    },
     getCoords: function (element) {
       var box = element.getBoundingClientRect();
       return {

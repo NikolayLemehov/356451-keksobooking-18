@@ -24,7 +24,7 @@
     document.removeEventListener('click', onDocumentSuccessClick);
   };
   var onDocumentSuccessEscKeyDown = function (evt) {
-    if (evt.keyCode === window.util.ESC_KEY_CODE) {
+    if (evt.keyCode === window.util.KEY_CODE.ESC) {
       hideSuccess();
     }
   };

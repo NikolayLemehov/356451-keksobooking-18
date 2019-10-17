@@ -88,7 +88,7 @@
   });
 
   mapPinMainBtn.addEventListener('keydown', function (evt) {
-    if (evt.keyCode === window.util.ENTER_KEY_CODE && !window.page.booleanActive) {
+    if (evt.keyCode === window.util.KEY_CODE.ENTER && !window.page.booleanActive) {
       window.page.activate();
     }
   });

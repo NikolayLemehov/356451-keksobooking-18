@@ -60,7 +60,7 @@
     isShowCard: false,
     indexShowCard: 0,
     onDocumentCardEscKeyDown: function (evt) {
-      if (evt.keyCode === window.util.ESC_KEY_CODE) {
+      if (evt.keyCode === window.util.KEY_CODE.ESC) {
         window.card.hidePinCard(window.card.indexShowCard);
       }
     },
