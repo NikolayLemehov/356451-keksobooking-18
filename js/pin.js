@@ -73,7 +73,7 @@
         startCoords.x = moveEvt.clientX;
         window.pin.getAddressFromPinParameter();
       }
-      if (top + height >= window.data.MIN_LOCATION_Y && top + height <= window.data.MAX_LOCATION_Y) {
+      if (top + height >= window.data.LOCATION_Y.MIN && top + height <= window.data.LOCATION_Y.MAX) {
         mapPinMainBtn.style.top = top + 'px';
         startCoords.y = moveEvt.clientY;
         window.pin.getAddressFromPinParameter();
