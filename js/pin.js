@@ -50,8 +50,8 @@
   };
 
   mapPinMainBtn.addEventListener('mousedown', function (evt) {
-    if (!window.page.booleanActivePage) {
-      window.page.activatePage();
+    if (!window.page.booleanActive) {
+      window.page.activate();
       return;
     }
     var startCoords = {
@@ -88,8 +88,8 @@
   });
 
   mapPinMainBtn.addEventListener('keydown', function (evt) {
-    if (evt.keyCode === window.util.ENTER_KEY_CODE && !window.page.booleanActivePage) {
-      window.page.activatePage();
+    if (evt.keyCode === window.util.ENTER_KEY_CODE && !window.page.booleanActive) {
+      window.page.activate();
     }
   });
 

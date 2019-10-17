@@ -119,7 +119,7 @@
     minPrice = window.data.PRICE_FROM_TYPE[selectedType.value];
     adFormPriceInput.setAttribute('placeholder', minPrice);
 
-    window.page.deactivatePage();
+    window.page.deactivate();
   };
   adFormSubmitBtn.addEventListener('click', function (evt) {
     if (adFormElement.checkValidity()) {
@@ -129,7 +129,7 @@
   });
   var adFormResetBtn = document.querySelector('.ad-form__reset');
   adFormResetBtn.addEventListener('click', function () {
-    window.page.deactivatePage();
+    window.page.deactivate();
   });
 
   var toColorInvalid = function (element) {
