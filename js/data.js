@@ -6,19 +6,19 @@
       MIN: 130,
       MAX: 630,
     },
-    TYPES_TRANSLATION: {
+    typeTranslationMap: {
       palace: 'Дворец',
       house: 'Дом',
       flat: 'Квартира',
       bungalo: 'Бунгало',
     },
-    PRICE_FROM_TYPE: {
+    typeToPrice: {
       palace: 10000,
       house: 5000,
       flat: 1000,
       bungalo: 0,
     },
-    CAPACITY_FROM_ROOM_NUMBER: {
+    roomNumberToCapacity: {
       '1': ['1'],
       '2': ['1', '2'],
       '3': ['1', '2', '3'],

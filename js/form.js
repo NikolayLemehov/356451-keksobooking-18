@@ -18,8 +18,8 @@
     for (var i = 0; i < adFormCapacitySelect.options.length; i++) {
       adFormCapacitySelect.options[i].setAttribute('disabled', 'disabled');
     }
-    for (i = 0; i < window.data.CAPACITY_FROM_ROOM_NUMBER[roomValue].length; i++) {
-      var selector = 'option[value="' + window.data.CAPACITY_FROM_ROOM_NUMBER[roomValue][i] + '"]';
+    for (i = 0; i < window.data.roomNumberToCapacity[roomValue].length; i++) {
+      var selector = 'option[value="' + window.data.roomNumberToCapacity[roomValue][i] + '"]';
       adFormCapacitySelect.querySelector(selector).removeAttribute('disabled');
     }
   };
@@ -34,10 +34,10 @@
   };
 
   var selectedType = adFormTypeSelect.options[adFormTypeSelect.selectedIndex];
-  var minPrice = window.data.PRICE_FROM_TYPE[selectedType.value];
+  var minPrice = window.data.typeToPrice[selectedType.value];
   var validatePrice = function () {
     selectedType = adFormTypeSelect.options[adFormTypeSelect.selectedIndex];
-    minPrice = window.data.PRICE_FROM_TYPE[selectedType.value];
+    minPrice = window.data.typeToPrice[selectedType.value];
     var maxPrice = Number(adFormPriceInput.getAttribute('max'));
     adFormPriceInput.setAttribute('min', minPrice);
     adFormPriceInput.setAttribute('placeholder', minPrice);
@@ -111,7 +111,7 @@
     },
     getActualPlaceholderPrice: function () {
       selectedType = adFormTypeSelect.options[adFormTypeSelect.selectedIndex];
-      minPrice = window.data.PRICE_FROM_TYPE[selectedType.value];
+      minPrice = window.data.typeToPrice[selectedType.value];
       adFormPriceInput.setAttribute('placeholder', minPrice);
     },
   };
