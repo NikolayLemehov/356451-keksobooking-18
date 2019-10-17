@@ -57,7 +57,7 @@
   };
 
   window.card = {
-    isShowCard: false,
+    booleanShowCard: false,
     indexShowCard: 0,
     onDocumentCardEscKeyDown: function (evt) {
       if (evt.keyCode === window.util.KEY_CODE.ESC) {
@@ -66,18 +66,18 @@
     },
     showPinCard: function (cardElementIndex) {
       window.element.map.querySelector('.map__card:nth-of-type(' + cardElementIndex + ')').style.display = 'block';
-      this.isShowCard = true;
+      this.booleanShowCard = true;
       this.indexShowCard = cardElementIndex;
       document.addEventListener('keydown', this.onDocumentCardEscKeyDown);
     },
     hidePinCard: function (cardElementIndex) {
       window.element.map.querySelector('.map__card:nth-of-type(' + cardElementIndex + ')').style.display = 'none';
       document.removeEventListener('keydown', this.onDocumentCardEscKeyDown);
-      this.isShowCard = false;
+      this.booleanShowCard = false;
       this.indexShowCard = 0;
     },
     smartShowCard: function (cardElementIndex) {
-      if (!this.isShowCard) {
+      if (!this.booleanShowCard) {
         this.showPinCard(cardElementIndex);
       }
       if (this.indexShowCard !== cardElementIndex) {
@@ -91,7 +91,7 @@
     },
     removeCardElements: function () {
       window.util.removeCollection(window.element.map.querySelectorAll('.map__card'));
-      this.isShowCard = false;
+      this.booleanShowCard = false;
     },
   };
 })();

@@ -2,7 +2,7 @@
 
 (function () {
   var doPerChangeFilterAd = function () {
-    if (window.card.isShowCard) {
+    if (window.card.booleanShowCard) {
       window.card.hidePinCard(window.card.indexShowCard);
     }
     window.filter.updateAds();
@@ -99,10 +99,10 @@
         var features = it.offer.features;
         var booleanTypeMatch = type === it.offer.type || type === 'any';
         var priceNumber = it.offer.price;
-        var isPriceMatch = price === toGradePrice(priceNumber) || price === 'any';
+        var booleanPriceMatch = price === toGradePrice(priceNumber) || price === 'any';
         var booleanRoomMatch = roomNumber === it.offer.rooms.toString() || roomNumber === 'any';
         var booleanGuestMatch = guestNumber === it.offer.guests.toString() || guestNumber === 'any';
-        return booleanTypeMatch && booleanRoomMatch && booleanGuestMatch && isPriceMatch && isFeatures(features);
+        return booleanTypeMatch && booleanRoomMatch && booleanGuestMatch && booleanPriceMatch && isFeatures(features);
       });
       window.pin.addPinsElement(filteredAds);
     }),
