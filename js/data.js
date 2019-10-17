@@ -1,12 +1,9 @@
 'use strict';
 
 (function () {
-  var MIN_LOCATION_Y = 130;
-  var MAX_LOCATION_Y = 630;
-
   window.data = {
-    MIN_LOCATION_Y: MIN_LOCATION_Y,
-    MAX_LOCATION_Y: MAX_LOCATION_Y,
+    MIN_LOCATION_Y: 130,
+    MAX_LOCATION_Y: 630,
     TYPES_TRANSLATION: {
       palace: 'Дворец',
       house: 'Дом',
