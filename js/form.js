@@ -88,28 +88,11 @@
   });
   var adFormResetBtn = document.querySelector('.ad-form__reset');
   adFormResetBtn.addEventListener('click', function () {
+    adFormElement.reset();
     window.page.deactivate();
   });
 
-  var toColorInvalid = function (element) {
-    element.style.backgroundColor = 'red';
-  };
-  var toColorValid = function (element) {
-    element.style.backgroundColor = 'white';
-  };
-  var setColorErrorBeforeSubmitForm = function (checkedFields) {
-    checkedFields.forEach(function (checkedField) {
-      checkedField.addEventListener('invalid', function () {
-        toColorInvalid(checkedField);
-      });
-      checkedField.addEventListener('change', function () {
-        if (checkedField.checkValidity()) {
-          toColorValid(checkedField);
-        }
-      });
-    });
-  };
-  setColorErrorBeforeSubmitForm([adFormTitleInput, adFormPriceInput, adFormCapacitySelect]);
+  window.colorError.setBeforeSubmitForm([adFormTitleInput, adFormPriceInput, adFormCapacitySelect]);
 
   window.form = {
     adFormAddressInput: adFormAddressInput,
