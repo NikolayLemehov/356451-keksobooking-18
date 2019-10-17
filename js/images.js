@@ -20,7 +20,7 @@
     adFormHeaderPreviewImg.src = reader.result;
   };
   var addHousingPhoto = function (reader) {
-    adFormPhotoUploadElement.after(renderPreview2(reader.result));
+    adFormPhotoUploadElement.after(renderPreview(reader.result));
   };
 
   var fileChooserAvatarInput = document.querySelector('#avatar');
@@ -34,7 +34,7 @@
   var adFormPhotoUploadElement = document.querySelector('.ad-form__upload');
   var fileChooserImagesInput = document.querySelector('#images');
   var adFormPhotoElement = document.querySelector('.ad-form__photo');
-  var renderPreview2 = function (src) {
+  var renderPreview = function (src) {
     var element = adFormPhotoElement.cloneNode(true);
     element.style.backgroundImage = 'url(' + src + ')';
     element.style.backgroundSize = 'contain';
