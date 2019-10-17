@@ -59,12 +59,12 @@
     doPerChangeFilterAd();
   };
 
-  var presenceFeature = [];
+  var presenceFeatures = [];
   var featuresElements = document.querySelectorAll('#housing-features input[name="features"]');
   featuresElements.forEach(function (checkbox) {
     var feature = checkbox.getAttribute('value');
     if (checkbox.checked) {
-      presenceFeature.push(feature);
+      presenceFeatures.push(feature);
     }
     checkbox.addEventListener('change', function () {
       onFeaturesChange(feature, checkbox.checked);
@@ -72,16 +72,16 @@
   });
   var onFeaturesChange = function (feature, presence) {
     if (presence) {
-      presenceFeature.push(feature);
+      presenceFeatures.push(feature);
     } else {
-      var index = presenceFeature.indexOf(feature);
-      presenceFeature.splice(index, 1);
+      var index = presenceFeatures.indexOf(feature);
+      presenceFeatures.splice(index, 1);
     }
     doPerChangeFilterAd();
   };
   var isFeatures = function (dataFeatures) {
     var booleanFit = true;
-    presenceFeature.forEach(function (feature) {
+    presenceFeatures.forEach(function (feature) {
       booleanFit = booleanFit && !!dataFeatures.find(function (it) {
         return feature === it;
       });

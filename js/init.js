@@ -1,5 +1,5 @@
 'use strict';
 
 (function () {
-  window.page.deactivatePage();
+  window.page.deactivate();
 })();

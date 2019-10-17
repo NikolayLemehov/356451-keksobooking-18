@@ -80,86 +80,39 @@
     validateTimein();
   });
 
-  var successTemplate = document.querySelector('#success').content.querySelector('.success');
-  var addSuccess = function () {
-    var element = successTemplate.cloneNode(true);
-    element.style.display = 'none';
-    window.element.main.appendChild(element);
-    return window.element.main.querySelector('.success');
-  };
-  var successElement = addSuccess();
-
-  var showSuccess = function () {
-    if (window.card.isShowCard) {
-      document.removeEventListener('keydown', window.card.onDocumentCardEscKeyDown);
-    }
-    successElement.style.display = 'block';
-    document.addEventListener('keydown', onDocumentSuccessEscKeyDown);
-    document.addEventListener('click', onDocumentSuccessClick);
-  };
-  var hideSuccess = function () {
-    successElement.style.display = 'none';
-    document.removeEventListener('keydown', onDocumentSuccessEscKeyDown);
-    document.removeEventListener('click', onDocumentSuccessClick);
-  };
-  var onDocumentSuccessEscKeyDown = function (evt) {
-    if (evt.keyCode === window.util.ESC_KEY_CODE) {
-      hideSuccess();
-    }
-  };
-  var onDocumentSuccessClick = function (evt) {
-    evt.preventDefault();
-    hideSuccess();
-  };
-  var onSuccessSave = function () {
-    showSuccess();
-    adFormElement.reset();
-
-    selectedType = adFormTypeSelect.options[adFormTypeSelect.selectedIndex];
-    minPrice = window.data.PRICE_FROM_TYPE[selectedType.value];
-    adFormPriceInput.setAttribute('placeholder', minPrice);
-
-    window.page.deactivatePage();
-  };
   adFormSubmitBtn.addEventListener('click', function (evt) {
     if (adFormElement.checkValidity()) {
       evt.preventDefault();
-      window.backend.save(new FormData(adFormElement), onSuccessSave, window.error.onError);
+      window.backend.save(new FormData(adFormElement), window.success.onSave, window.error.onError);
     }
   });
+  var adFormResetBtn = document.querySelector('.ad-form__reset');
+  adFormResetBtn.addEventListener('click', function () {
+    adFormElement.reset();
+    window.page.deactivate();
+  });
 
-  var toColorInvalid = function (element) {
-    element.style.backgroundColor = 'red';
-  };
-  var toColorValid = function (element) {
-    element.style.backgroundColor = 'white';
-  };
-  var setColorErrorBeforeSubmitForm = function (checkedFields) {
-    checkedFields.forEach(function (checkedField) {
-      checkedField.addEventListener('invalid', function () {
-        toColorInvalid(checkedField);
-      });
-      checkedField.addEventListener('change', function () {
-        if (checkedField.checkValidity()) {
-          toColorValid(checkedField);
-        }
-      });
-    });
-  };
-  setColorErrorBeforeSubmitForm([adFormTitleInput, adFormPriceInput, adFormCapacitySelect]);
+  window.colorError.setBeforeSubmitForm([adFormTitleInput, adFormPriceInput, adFormCapacitySelect]);
 
   window.form = {
     adFormAddressInput: adFormAddressInput,
+    adFormElement: adFormElement,
     deactivate: function () {
       adFormElement.classList.add('ad-form--disabled');
       adFormHeaderElement.setAttribute('disabled', 'disabled');
       window.util.setCollectionDisabled(adFormElements);
+      window.images.deactivate();
     },
     activate: function () {
       adFormElement.classList.remove('ad-form--disabled');
       adFormHeaderElement.removeAttribute('disabled');
       window.util.setCollectionAble(adFormElements);
       createActualCapacity(adFormRoomNumberSelect.options[adFormRoomNumberSelect.selectedIndex].value);
+    },
+    getActualPlaceholderPrice: function () {
+      selectedType = adFormTypeSelect.options[adFormTypeSelect.selectedIndex];
+      minPrice = window.data.PRICE_FROM_TYPE[selectedType.value];
+      adFormPriceInput.setAttribute('placeholder', minPrice);
     },
   };
 })();
