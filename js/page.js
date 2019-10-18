@@ -4,6 +4,12 @@
   window.page = {
     booleanActive: false,
     data: [],
+    actualData: [],
+    getActualData: function (data) {
+      return data.filter(function (it) {
+        return !!it.offer;
+      });
+    },
     activate: function () {
       window.map.activate();
       window.form.activate();

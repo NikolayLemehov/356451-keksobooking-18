@@ -36,6 +36,7 @@
   window.success = {
     onLoad: function (data) {
       window.page.data = data;
+      window.page.actualData = window.page.getActualData(data);
       window.filter.updateAds();
     },
     onSave: function () {

@@ -94,7 +94,7 @@
 
   window.filter = {
     updateAds: window.debounce(function () {
-      var filteredAds = window.page.data.slice();
+      var filteredAds = window.page.actualData.slice();
       filteredAds = filteredAds.filter(function (it) {
         var features = it.offer.features;
         var booleanTypeMatch = type === it.offer.type || type === 'any';
