@@ -108,7 +108,7 @@
       window.card.addElements(dataArray);
     },
     getAddressFromElementParameter: function () {
-      window.form.adFormAddressInput.value = window.map.getCoordsElementOnMap(mapPinMainBtn).centerX + ', ' +
+      window.form.addressInput.value = window.map.getCoordsElementOnMap(mapPinMainBtn).centerX + ', ' +
         pinUtils.getBottomYMainPin();
     },
     removeElements: function () {

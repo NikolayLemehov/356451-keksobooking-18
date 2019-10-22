@@ -95,7 +95,7 @@
   window.colorError.setBeforeSubmitForm([adFormTitleInput, adFormPriceInput, adFormCapacitySelect]);
 
   window.form = {
-    adFormAddressInput: adFormAddressInput,
+    addressInput: adFormAddressInput,
     adFormElement: adFormElement,
     deactivate: function () {
       adFormElement.classList.add('ad-form--disabled');
