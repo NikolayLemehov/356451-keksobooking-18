@@ -15,13 +15,13 @@
   var adFormSubmitBtn = adFormElement.querySelector('.ad-form__submit');
 
   var createActualCapacity = function (roomValue) {
-    for (var i = 0; i < adFormCapacitySelect.options.length; i++) {
-      adFormCapacitySelect.options[i].setAttribute('disabled', 'disabled');
-    }
-    for (i = 0; i < window.data.roomNumberToCapacity[roomValue].length; i++) {
+    Array.from(adFormCapacitySelect.options).forEach(function (it, i) {
+      this[i].setAttribute('disabled', 'disabled');
+    }, adFormCapacitySelect.options);
+    Array.from(window.data.roomNumberToCapacity[roomValue]).forEach(function (it, i) {
       var selector = 'option[value="' + window.data.roomNumberToCapacity[roomValue][i] + '"]';
       adFormCapacitySelect.querySelector(selector).removeAttribute('disabled');
-    }
+    }, window.data.roomNumberToCapacity[roomValue]);
   };
 
   var validateCapacity = function () {
