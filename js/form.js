@@ -96,7 +96,7 @@
 
   window.form = {
     addressInput: adFormAddressInput,
-    adFormElement: adFormElement,
+    element: adFormElement,
     deactivate: function () {
       adFormElement.classList.add('ad-form--disabled');
       adFormHeaderElement.setAttribute('disabled', 'disabled');

@@ -41,7 +41,7 @@
     },
     onSave: function () {
       showSuccess();
-      window.form.adFormElement.reset();
+      window.form.element.reset();
       window.form.getActualPlaceholderPrice();
       window.page.deactivate();
     },
