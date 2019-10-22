@@ -37,10 +37,8 @@
     document.removeEventListener('keydown', onDocumentErrorEscKeyDown);
   };
 
-  window.error = {
-    on: function (errorMessage) {
-      showError();
-      errorMessageElement.textContent = errorMessage;
-    },
+  window.onError = function (errorMessage) {
+    showError();
+    errorMessageElement.textContent = errorMessage;
   };
 })();

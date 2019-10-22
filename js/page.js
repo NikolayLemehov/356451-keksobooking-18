@@ -13,7 +13,7 @@
     activate: function () {
       window.map.activate();
       window.form.activate();
-      window.backend.load(window.success.onLoad, window.error.on);
+      window.backend.load(window.success.onLoad, window.onError);
       setTimeout(window.pin.getAddressFromElementParameter, 400);
       this.booleanActive = true;
     },
