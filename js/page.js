@@ -14,7 +14,7 @@
       window.map.activate();
       window.form.activate();
       window.backend.load(window.success.onLoad, window.error.on);
-      setTimeout(window.pin.getAddressFromPinParameter, 400);
+      setTimeout(window.pin.getAddressFromElementParameter, 400);
       this.booleanActive = true;
     },
     deactivate: function () {

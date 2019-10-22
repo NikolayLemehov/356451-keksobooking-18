@@ -71,12 +71,12 @@
       if (Math.round(left + width / 2) >= 0 && Math.round(left + width / 2) <= window.element.map.offsetWidth) {
         mapPinMainBtn.style.left = left + 'px';
         startCoords.x = moveEvt.clientX;
-        window.pin.getAddressFromPinParameter();
+        window.pin.getAddressFromElementParameter();
       }
       if (top + height >= window.data.LOCATION_Y.MIN && top + height <= window.data.LOCATION_Y.MAX) {
         mapPinMainBtn.style.top = top + 'px';
         startCoords.y = moveEvt.clientY;
-        window.pin.getAddressFromPinParameter();
+        window.pin.getAddressFromElementParameter();
       }
     };
     var onMouseUp = function () {
@@ -107,7 +107,7 @@
       addPinsClick();
       window.card.addElements(dataArray);
     },
-    getAddressFromPinParameter: function () {
+    getAddressFromElementParameter: function () {
       window.form.adFormAddressInput.value = window.map.getCoordsElementOnMap(mapPinMainBtn).centerX + ', ' +
         pinUtils.getBottomYMainPin();
     },
