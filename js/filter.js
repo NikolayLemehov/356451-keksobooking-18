@@ -1,6 +1,10 @@
 'use strict';
 
 (function () {
+  var PriceSeparator = {
+    LOW: 1000,
+    HIGH: 50000,
+  };
   var doPerChangeFilterAd = function () {
     if (window.card.booleanShow) {
       window.card.hide(window.card.indexShow);
@@ -29,11 +33,11 @@
   };
   var toGradePrice = function (priceNumber) {
     switch (true) {
-      case (priceNumber < 10000):
+      case (priceNumber < PriceSeparator.LOW):
         return 'low';
-      case (priceNumber >= 10000 && priceNumber <= 50000):
+      case (priceNumber >= PriceSeparator.LOW && priceNumber <= PriceSeparator.HIGH):
         return 'middle';
-      case (priceNumber > 50000):
+      case (priceNumber > PriceSeparator.HIGH):
         return 'high';
     }
     return null;
