@@ -98,7 +98,7 @@
 
   window.pin = {
     mainBtn: mapPinMainBtn,
-    moveToStartCoordsPinMain: function () {
+    moveToStartCoordsMain: function () {
       mapPinMainBtn.style.left = startCoordsPinMainLeft;
       mapPinMainBtn.style.top = startCoordsPinMainTop;
     },

@@ -20,7 +20,7 @@
     deactivate: function () {
       window.map.deactivate();
       window.form.deactivate();
-      window.pin.moveToStartCoordsPinMain();
+      window.pin.moveToStartCoordsMain();
       window.form.adFormAddressInput.value = window.map.getCoordsElementOnMap(window.pin.mainBtn).centerX + ', ' +
         window.map.getCoordsElementOnMap(window.pin.mainBtn).centerY;
       this.booleanActive = false;
