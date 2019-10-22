@@ -105,7 +105,7 @@
     addPinsElement: function (dataArray) {
       appendPinsFragment(dataArray);
       addPinsClick();
-      window.card.addCardsElement(dataArray);
+      window.card.addElements(dataArray);
     },
     getAddressFromPinParameter: function () {
       window.form.adFormAddressInput.value = window.map.getCoordsElementOnMap(mapPinMainBtn).centerX + ', ' +

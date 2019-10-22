@@ -119,7 +119,7 @@
         this.show(cardElementIndex);
       }
     },
-    addCardsElement: function (dataArray) {
+    addElements: function (dataArray) {
       appendCardsFragment(dataArray);
       addCloseBtnsClick();
     },
