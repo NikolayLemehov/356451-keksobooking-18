@@ -92,7 +92,7 @@
     window.page.deactivate();
   });
 
-  window.colorError.setBeforeSubmitForm([adFormTitleInput, adFormPriceInput, adFormCapacitySelect]);
+  window.setColorErrorBeforeSubmitForm([adFormTitleInput, adFormPriceInput, adFormCapacitySelect]);
 
   window.form = {
     addressInput: adFormAddressInput,
