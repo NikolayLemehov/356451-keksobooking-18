@@ -5,6 +5,13 @@
     LOW: 1000,
     HIGH: 50000,
   };
+  var Anyone = {
+    TYPE: 'any',
+    PRICE: 'any',
+    ROOM: 'any',
+    GUEST: 'any',
+  };
+
   var doPerChangeFilterAd = function () {
     if (window.card.booleanShow) {
       window.card.hide(window.card.indexShow);
@@ -101,11 +108,11 @@
       var filteredAds = window.page.actualData.slice();
       filteredAds = filteredAds.filter(function (it) {
         var features = it.offer.features;
-        var booleanTypeMatch = type === it.offer.type || type === 'any';
+        var booleanTypeMatch = type === it.offer.type || type === Anyone.TYPE;
         var priceNumber = it.offer.price;
-        var booleanPriceMatch = price === toGradePrice(priceNumber) || price === 'any';
-        var booleanRoomMatch = roomNumber === it.offer.rooms.toString() || roomNumber === 'any';
-        var booleanGuestMatch = guestNumber === it.offer.guests.toString() || guestNumber === 'any';
+        var booleanPriceMatch = price === toGradePrice(priceNumber) || price === Anyone.PRICE;
+        var booleanRoomMatch = roomNumber === it.offer.rooms.toString() || roomNumber === Anyone.ROOM;
+        var booleanGuestMatch = guestNumber === it.offer.guests.toString() || guestNumber === Anyone.GUEST;
         return booleanTypeMatch && booleanRoomMatch && booleanGuestMatch && booleanPriceMatch && isFeatures(features);
       });
       window.pin.addElements(filteredAds);
