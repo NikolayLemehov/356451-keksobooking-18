@@ -85,7 +85,7 @@
     closeBtns.forEach(function (closeBtn, cardIndex) {
       closeBtn.addEventListener('click', function (evt) {
         evt.preventDefault();
-        window.card.hidePinCard(cardIndex + 1);
+        window.card.hide(cardIndex + 1);
       });
     });
   };
@@ -95,7 +95,7 @@
     indexShow: 0,
     onDocumentEscKeyDown: function (evt) {
       if (evt.keyCode === window.util.KEY_CODE.ESC) {
-        window.card.hidePinCard(this.indexShow);
+        window.card.hide(this.indexShow);
       }
     },
     show: function (cardElementIndex) {
@@ -104,7 +104,7 @@
       this.indexShow = cardElementIndex;
       document.addEventListener('keydown', this.onDocumentEscKeyDown);
     },
-    hidePinCard: function (cardElementIndex) {
+    hide: function (cardElementIndex) {
       window.element.map.querySelector('.map__card:nth-of-type(' + cardElementIndex + ')').style.display = 'none';
       document.removeEventListener('keydown', this.onDocumentEscKeyDown);
       this.booleanShow = false;
@@ -115,7 +115,7 @@
         this.show(cardElementIndex);
       }
       if (this.indexShow !== cardElementIndex) {
-        this.hidePinCard(this.indexShow);
+        this.hide(this.indexShow);
         this.show(cardElementIndex);
       }
     },

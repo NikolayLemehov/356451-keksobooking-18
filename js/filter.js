@@ -3,7 +3,7 @@
 (function () {
   var doPerChangeFilterAd = function () {
     if (window.card.booleanShow) {
-      window.card.hidePinCard(window.card.indexShow);
+      window.card.hide(window.card.indexShow);
     }
     window.filter.updateAds();
   };
