@@ -91,31 +91,31 @@
   };
 
   window.card = {
-    booleanShowCard: false,
-    indexShowCard: 0,
+    booleanShow: false,
+    indexShow: 0,
     onDocumentCardEscKeyDown: function (evt) {
       if (evt.keyCode === window.util.KEY_CODE.ESC) {
-        window.card.hidePinCard(window.card.indexShowCard);
+        window.card.hidePinCard(this.indexShow);
       }
     },
     showPinCard: function (cardElementIndex) {
       window.element.map.querySelector('.map__card:nth-of-type(' + cardElementIndex + ')').style.display = 'block';
-      this.booleanShowCard = true;
-      this.indexShowCard = cardElementIndex;
+      this.booleanShow = true;
+      this.indexShow = cardElementIndex;
       document.addEventListener('keydown', this.onDocumentCardEscKeyDown);
     },
     hidePinCard: function (cardElementIndex) {
       window.element.map.querySelector('.map__card:nth-of-type(' + cardElementIndex + ')').style.display = 'none';
       document.removeEventListener('keydown', this.onDocumentCardEscKeyDown);
-      this.booleanShowCard = false;
-      this.indexShowCard = 0;
+      this.booleanShow = false;
+      this.indexShow = 0;
     },
     smartShowCard: function (cardElementIndex) {
-      if (!this.booleanShowCard) {
+      if (!this.booleanShow) {
         this.showPinCard(cardElementIndex);
       }
-      if (this.indexShowCard !== cardElementIndex) {
-        this.hidePinCard(this.indexShowCard);
+      if (this.indexShow !== cardElementIndex) {
+        this.hidePinCard(this.indexShow);
         this.showPinCard(cardElementIndex);
       }
     },
@@ -125,7 +125,7 @@
     },
     removeCardElements: function () {
       window.util.removeCollection(window.element.map.querySelectorAll('.map__card'));
-      this.booleanShowCard = false;
+      this.booleanShow = false;
     },
   };
 })();

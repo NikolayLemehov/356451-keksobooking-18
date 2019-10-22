@@ -2,8 +2,8 @@
 
 (function () {
   var doPerChangeFilterAd = function () {
-    if (window.card.booleanShowCard) {
-      window.card.hidePinCard(window.card.indexShowCard);
+    if (window.card.booleanShow) {
+      window.card.hidePinCard(window.card.indexShow);
     }
     window.filter.updateAds();
   };

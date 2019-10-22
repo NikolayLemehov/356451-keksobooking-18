@@ -11,7 +11,7 @@
   var successElement = addSuccess();
 
   var showSuccess = function () {
-    if (window.card.booleanShowCard) {
+    if (window.card.booleanShow) {
       document.removeEventListener('keydown', window.card.onDocumentCardEscKeyDown);
     }
     successElement.style.display = 'block';
