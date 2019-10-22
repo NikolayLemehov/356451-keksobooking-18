@@ -22,26 +22,26 @@
       return false;
     },
     hideBlockInCollection: function (collection, arrayString) {
-      for (var i = 0; i < collection.length; i++) {
-        if (!this.isArrayWordInString(collection[i].getAttribute('class'), arrayString)) {
-          collection[i].style.display = 'none';
+      collection.forEach(function (it) {
+        if (!window.util.isArrayWordInString(it.getAttribute('class'), arrayString)) {
+          it.style.display = 'none';
         }
-      }
+      });
     },
     setCollectionDisabled: function (collection) {
-      for (var i = 0; i < collection.length; i++) {
-        collection[i].setAttribute('disabled', 'disabled');
-      }
+      collection.forEach(function (it) {
+        it.setAttribute('disabled', 'disabled');
+      });
     },
     setCollectionAble: function (collection) {
-      for (var i = 0; i < collection.length; i++) {
-        collection[i].removeAttribute('disabled');
-      }
+      collection.forEach(function (it) {
+        it.removeAttribute('disabled');
+      });
     },
     removeCollection: function (collection) {
-      for (var i = 0; i < collection.length; i++) {
-        collection[i].remove();
-      }
+      collection.forEach(function (it) {
+        it.remove();
+      });
     },
     convertPixelToInteger: function (string) {
       return Number(string.slice(0, -2));
