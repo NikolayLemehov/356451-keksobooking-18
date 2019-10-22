@@ -12,9 +12,9 @@
 
   var appendPhotos = function (dataArray, parentElement) {
     var fragment = document.createDocumentFragment();
-    for (var item = 0; item < dataArray.length; item++) {
-      fragment.appendChild(renderPhotos(dataArray[item]));
-    }
+    dataArray.forEach(function (it) {
+      fragment.appendChild(renderPhotos(it));
+    });
     parentElement.appendChild(fragment);
     parentElement.querySelector('.popup__photo').remove();
   };
@@ -72,9 +72,9 @@
   };
   var appendCardsFragment = function (dataArray) {
     var fragment = document.createDocumentFragment();
-    for (var item = 0; item < dataArray.length; item++) {
-      fragment.appendChild(renderCard(dataArray[item]));
-    }
+    dataArray.forEach(function (it) {
+      fragment.appendChild(renderCard(it));
+    });
     document.querySelectorAll('.map__card').forEach(function (it) {
       it.remove();
     });
