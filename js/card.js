@@ -123,7 +123,7 @@
       appendCardsFragment(dataArray);
       addCloseBtnsClick();
     },
-    removeCardElements: function () {
+    removeElements: function () {
       window.util.removeCollection(window.element.map.querySelectorAll('.map__card'));
       this.booleanShow = false;
     },

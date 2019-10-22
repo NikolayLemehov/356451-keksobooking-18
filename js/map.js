@@ -6,7 +6,7 @@
       window.filter.deactivate();
       window.element.map.classList.add('map--faded');
       window.pin.removePinElements();
-      window.card.removeCardElements();
+      window.card.removeElements();
     },
     activate: function () {
       window.element.map.classList.remove('map--faded');
