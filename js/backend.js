@@ -1,7 +1,7 @@
 'use strict';
 
 (function () {
-  var onServer = function (xhr, onSuccess, onError) {
+  var addServerListener = function (xhr, onSuccess, onError) {
     xhr.responseType = 'json';
     xhr.addEventListener('load', function () {
       if (xhr.status === 200) {
@@ -22,14 +22,14 @@
     load: function (onSuccess, onError) {
       var URL = 'https://js.dump.academy/keksobooking/data';
       var xhr = new XMLHttpRequest();
-      onServer(xhr, onSuccess, onError);
+      addServerListener(xhr, onSuccess, onError);
       xhr.open('GET', URL);
       xhr.send();
     },
     save: function (data, onSuccess, onError) {
       var URL = 'https://js.dump.academy/keksobooking';
       var xhr = new XMLHttpRequest();
-      onServer(xhr, onSuccess, onError);
+      addServerListener(xhr, onSuccess, onError);
       xhr.open('POST', URL);
       xhr.send(data);
     },
