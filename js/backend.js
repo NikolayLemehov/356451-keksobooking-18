@@ -2,6 +2,7 @@
 
 (function () {
   var SUCCESS_CODE = 200;
+  var TIME_WITHOUT_ERROR = 2000;
   var addServerListener = function (xhr, onSuccess, onError) {
     xhr.responseType = 'json';
     xhr.addEventListener('load', function () {
@@ -17,7 +18,7 @@
     xhr.addEventListener('timeout', function () {
       onError('Запрос не успел выполниться за ' + xhr.timeout + 'мс');
     });
-    xhr.timeout = 2000;
+    xhr.timeout = TIME_WITHOUT_ERROR;
   };
   window.backend = {
     load: function (onSuccess, onError) {
