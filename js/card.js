@@ -98,7 +98,7 @@
         window.card.hidePinCard(this.indexShow);
       }
     },
-    showPin: function (cardElementIndex) {
+    show: function (cardElementIndex) {
       window.element.map.querySelector('.map__card:nth-of-type(' + cardElementIndex + ')').style.display = 'block';
       this.booleanShow = true;
       this.indexShow = cardElementIndex;
@@ -112,11 +112,11 @@
     },
     smartShowCard: function (cardElementIndex) {
       if (!this.booleanShow) {
-        this.showPin(cardElementIndex);
+        this.show(cardElementIndex);
       }
       if (this.indexShow !== cardElementIndex) {
         this.hidePinCard(this.indexShow);
-        this.showPin(cardElementIndex);
+        this.show(cardElementIndex);
       }
     },
     addCardsElement: function (dataArray) {
