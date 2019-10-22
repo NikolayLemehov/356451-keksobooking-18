@@ -97,7 +97,7 @@
   var startCoordsPinMainTop = '' + window.map.getCoordsElementOnMap(mapPinMainBtn).topY + 'px';
 
   window.pin = {
-    mapPinMainBtn: mapPinMainBtn,
+    mainBtn: mapPinMainBtn,
     moveToStartCoordsPinMain: function () {
       mapPinMainBtn.style.left = startCoordsPinMainLeft;
       mapPinMainBtn.style.top = startCoordsPinMainTop;

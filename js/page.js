@@ -21,8 +21,8 @@
       window.map.deactivate();
       window.form.deactivate();
       window.pin.moveToStartCoordsPinMain();
-      window.form.adFormAddressInput.value = window.map.getCoordsElementOnMap(window.pin.mapPinMainBtn).centerX + ', ' +
-        window.map.getCoordsElementOnMap(window.pin.mapPinMainBtn).centerY;
+      window.form.adFormAddressInput.value = window.map.getCoordsElementOnMap(window.pin.mainBtn).centerX + ', ' +
+        window.map.getCoordsElementOnMap(window.pin.mainBtn).centerY;
       this.booleanActive = false;
     },
   };
