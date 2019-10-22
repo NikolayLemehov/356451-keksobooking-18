@@ -101,7 +101,7 @@
       adFormElement.classList.add('ad-form--disabled');
       adFormHeaderElement.setAttribute('disabled', 'disabled');
       window.util.setCollectionDisabled(adFormElements);
-      window.images.deactivate();
+      window.deactivateImages();
     },
     activate: function () {
       adFormElement.classList.remove('ad-form--disabled');

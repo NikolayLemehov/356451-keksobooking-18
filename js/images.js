@@ -49,11 +49,9 @@
     });
   });
 
-  window.images = {
-    deactivate: function () {
-      var collection = document.querySelectorAll('.ad-form__photo-container .ad-form__photo:not(:last-of-type)');
-      adFormHeaderPreviewImg.src = avatarSrcDefault;
-      window.util.removeCollection(collection);
-    },
+  window.deactivateImages = function () {
+    var collection = document.querySelectorAll('.ad-form__photo-container .ad-form__photo:not(:last-of-type)');
+    adFormHeaderPreviewImg.src = avatarSrcDefault;
+    window.util.removeCollection(collection);
   };
 })();
