@@ -38,7 +38,7 @@
   };
 
   window.error = {
-    onError: function (errorMessage) {
+    on: function (errorMessage) {
       showError();
       errorMessageElement.textContent = errorMessage;
     },
