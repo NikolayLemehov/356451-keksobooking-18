@@ -6,6 +6,7 @@
   var pinTemplate = document.querySelector('#pin').content.querySelector('.map__pin');
   var mapPinMainBtn = document.querySelector('.map__pin--main');
   var pinMainStyle = getComputedStyle(mapPinMainBtn, ':after');
+  var mapPinMainSvg = mapPinMainBtn.querySelector('svg');
   var pinUtils = {
     getShiftFromBottomYMainPin: function () {
       pinMainStyle = window.getComputedStyle(mapPinMainBtn, 'after');
@@ -45,10 +46,16 @@
     });
   };
 
+  var getAddressFromPinParameter = function () {
+    window.form.addressInput.value = window.map.getCoordsPinOnElement(mapPinMainBtn).centerX + ', ' +
+      pinUtils.getBottomYMainPin();
+  };
   var getTransformYFromMatrix = function (matrix) {
     return Number(matrix.slice(matrix.lastIndexOf(', ') + 2, -1));
   };
-
+  mapPinMainSvg.addEventListener('transitionend', function () {
+    getAddressFromPinParameter();
+  });
   mapPinMainBtn.addEventListener('mousedown', function (evt) {
     if (!window.page.booleanActive) {
       window.page.activate();
@@ -71,12 +78,12 @@
       if (Math.round(left + width / 2) >= 0 && Math.round(left + width / 2) <= window.element.map.offsetWidth) {
         mapPinMainBtn.style.left = left + 'px';
         startCoords.x = moveEvt.clientX;
-        window.pin.getAddressFromElementParameter();
+        getAddressFromPinParameter();
       }
       if (top + height >= window.data.LOCATION_Y.MIN && top + height <= window.data.LOCATION_Y.MAX) {
         mapPinMainBtn.style.top = top + 'px';
         startCoords.y = moveEvt.clientY;
-        window.pin.getAddressFromElementParameter();
+        getAddressFromPinParameter();
       }
     };
     var onMouseUp = function () {
@@ -106,10 +113,6 @@
       appendPinsFragment(dataArray);
       addPinsClick();
       window.card.addElements(dataArray);
-    },
-    getAddressFromElementParameter: function () {
-      window.form.addressInput.value = window.map.getCoordsPinOnElement(mapPinMainBtn).centerX + ', ' +
-        pinUtils.getBottomYMainPin();
     },
     removeElements: function () {
       window.util.removeCollection(pinsElement.querySelectorAll('.map__pin:not(.map__pin--main)'));
