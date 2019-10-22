@@ -102,7 +102,7 @@
       mapPinMainBtn.style.left = startCoordsPinMainLeft;
       mapPinMainBtn.style.top = startCoordsPinMainTop;
     },
-    addPinsElement: function (dataArray) {
+    addElements: function (dataArray) {
       appendPinsFragment(dataArray);
       addPinsClick();
       window.card.addElements(dataArray);

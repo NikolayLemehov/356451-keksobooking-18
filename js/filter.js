@@ -104,7 +104,7 @@
         var booleanGuestMatch = guestNumber === it.offer.guests.toString() || guestNumber === 'any';
         return booleanTypeMatch && booleanRoomMatch && booleanGuestMatch && booleanPriceMatch && isFeatures(features);
       });
-      window.pin.addPinsElement(filteredAds);
+      window.pin.addElements(filteredAds);
     }),
     activate: function () {
       window.util.setCollectionAble(mapFilterSelectElements);
