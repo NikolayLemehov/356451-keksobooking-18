@@ -14,12 +14,9 @@
       };
     },
     isArrayWordInString: function (string, array) {
-      for (var i = 0; i < array.length; i++) {
-        if (string.includes(array[i])) {
-          return true;
-        }
-      }
-      return false;
+      return array.some(function (it) {
+        return string.includes(it);
+      });
     },
     hideBlockInCollection: function (collection, arrayString) {
       collection.forEach(function (it) {
