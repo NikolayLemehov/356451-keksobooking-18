@@ -13,7 +13,7 @@
         window.util.convertPixelToInteger(pinMainStyle.borderTopWidth);
     },
     getBottomYMainPin: function () {
-      return window.map.getCoordsElementOnMap(mapPinMainBtn).bottomY + this.getShiftFromBottomYMainPin();
+      return window.map.getCoordsPinOnElement(mapPinMainBtn).bottomY + this.getShiftFromBottomYMainPin();
     },
   };
   var renderPin = function (data) {
@@ -93,8 +93,8 @@
     }
   });
 
-  var startCoordsPinMainLeft = '' + window.map.getCoordsElementOnMap(mapPinMainBtn).leftX + 'px';
-  var startCoordsPinMainTop = '' + window.map.getCoordsElementOnMap(mapPinMainBtn).topY + 'px';
+  var startCoordsPinMainLeft = '' + window.map.getCoordsPinOnElement(mapPinMainBtn).leftX + 'px';
+  var startCoordsPinMainTop = '' + window.map.getCoordsPinOnElement(mapPinMainBtn).topY + 'px';
 
   window.pin = {
     mainBtn: mapPinMainBtn,
@@ -108,7 +108,7 @@
       window.card.addElements(dataArray);
     },
     getAddressFromElementParameter: function () {
-      window.form.addressInput.value = window.map.getCoordsElementOnMap(mapPinMainBtn).centerX + ', ' +
+      window.form.addressInput.value = window.map.getCoordsPinOnElement(mapPinMainBtn).centerX + ', ' +
         pinUtils.getBottomYMainPin();
     },
     removeElements: function () {

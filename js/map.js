@@ -11,7 +11,7 @@
     activate: function () {
       window.element.map.classList.remove('map--faded');
     },
-    getCoordsElementOnMap: function (element) {
+    getCoordsPinOnElement: function (element) {
       return {
         leftX: Math.round(window.util.getCoords(element).left - window.util.getCoords(window.element.map).left),
         centerX: Math.round(window.util.getCoords(element).left - window.util.getCoords(window.element.map).left +
