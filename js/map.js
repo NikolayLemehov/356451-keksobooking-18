@@ -5,7 +5,7 @@
     deactivate: function () {
       window.filter.deactivate();
       window.element.map.classList.add('map--faded');
-      window.pin.removePinElements();
+      window.pin.removeElements();
       window.card.removeElements();
     },
     activate: function () {
