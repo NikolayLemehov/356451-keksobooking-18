@@ -12,7 +12,7 @@
 
   var showSuccess = function () {
     if (window.card.booleanShow) {
-      document.removeEventListener('keydown', window.card.onDocumentCardEscKeyDown);
+      document.removeEventListener('keydown', window.card.onDocumentEscKeyDown);
     }
     successElement.style.display = 'block';
     document.addEventListener('keydown', onDocumentSuccessEscKeyDown);

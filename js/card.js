@@ -93,7 +93,7 @@
   window.card = {
     booleanShow: false,
     indexShow: 0,
-    onDocumentCardEscKeyDown: function (evt) {
+    onDocumentEscKeyDown: function (evt) {
       if (evt.keyCode === window.util.KEY_CODE.ESC) {
         window.card.hidePinCard(this.indexShow);
       }
@@ -102,11 +102,11 @@
       window.element.map.querySelector('.map__card:nth-of-type(' + cardElementIndex + ')').style.display = 'block';
       this.booleanShow = true;
       this.indexShow = cardElementIndex;
-      document.addEventListener('keydown', this.onDocumentCardEscKeyDown);
+      document.addEventListener('keydown', this.onDocumentEscKeyDown);
     },
     hidePinCard: function (cardElementIndex) {
       window.element.map.querySelector('.map__card:nth-of-type(' + cardElementIndex + ')').style.display = 'none';
-      document.removeEventListener('keydown', this.onDocumentCardEscKeyDown);
+      document.removeEventListener('keydown', this.onDocumentEscKeyDown);
       this.booleanShow = false;
       this.indexShow = 0;
     },

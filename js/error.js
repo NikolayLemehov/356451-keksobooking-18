@@ -24,14 +24,14 @@
   };
   var showError = function () {
     if (window.card.booleanShow) {
-      document.removeEventListener('keydown', window.card.onDocumentCardEscKeyDown);
+      document.removeEventListener('keydown', window.card.onDocumentEscKeyDown);
     }
     errorElement.style.display = 'block';
     document.addEventListener('keydown', onDocumentErrorEscKeyDown);
   };
   var hideErrorElement = function () {
     if (window.card.booleanShow) {
-      document.addEventListener('keydown', window.card.onDocumentCardEscKeyDown);
+      document.addEventListener('keydown', window.card.onDocumentEscKeyDown);
     }
     errorElement.style.display = 'none';
     document.removeEventListener('keydown', onDocumentErrorEscKeyDown);
