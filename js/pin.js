@@ -40,7 +40,7 @@
     Array.from(pinElements).forEach(function (pin, pineIndex) {
       pin.addEventListener('click', function (evt) {
         evt.preventDefault();
-        window.card.smartShowCard(pineIndex + 1);
+        window.card.smartShow(pineIndex + 1);
       });
     });
   };

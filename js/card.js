@@ -110,7 +110,7 @@
       this.booleanShow = false;
       this.indexShow = 0;
     },
-    smartShowCard: function (cardElementIndex) {
+    smartShow: function (cardElementIndex) {
       if (!this.booleanShow) {
         this.show(cardElementIndex);
       }
