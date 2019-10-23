@@ -33,17 +33,17 @@
     }
   };
 
-  var selectedType = adFormTypeSelect.options[adFormTypeSelect.selectedIndex];
-  var minPrice = window.data.typeToPrice[selectedType.value];
+  var selectedTypeValue = adFormTypeSelect.value;
+  var minPrice = window.data.typeToPrice[selectedTypeValue];
   var validatePrice = function () {
-    selectedType = adFormTypeSelect.options[adFormTypeSelect.selectedIndex];
-    minPrice = window.data.typeToPrice[selectedType.value];
+    var selectedTypeElement = adFormTypeSelect.options[adFormTypeSelect.selectedIndex];
+    minPrice = window.data.typeToPrice[selectedTypeValue];
     var maxPrice = Number(adFormPriceInput.getAttribute('max'));
     adFormPriceInput.setAttribute('min', minPrice);
     adFormPriceInput.setAttribute('placeholder', minPrice);
     switch (true) {
       case (adFormPriceInput.value < minPrice):
-        adFormPriceInput.setCustomValidity('При типе жилья "' + selectedType.textContent +
+        adFormPriceInput.setCustomValidity('При типе жилья "' + selectedTypeElement.textContent +
           '" цена должна быть не меньше чем "' + minPrice + '".');
         break;
       case (adFormPriceInput.value > maxPrice):
@@ -107,8 +107,7 @@
       createActualCapacity(adFormRoomNumberSelect.value);
     },
     getActualPlaceholderPrice: function () {
-      selectedType = adFormTypeSelect.options[adFormTypeSelect.selectedIndex];
-      minPrice = window.data.typeToPrice[selectedType.value];
+      minPrice = window.data.typeToPrice[selectedTypeValue];
       adFormPriceInput.setAttribute('placeholder', minPrice);
     },
   };
