@@ -82,12 +82,66 @@
     var ghostTop = ghostBtnOffsetTop;
 
     var mapWidth = window.element.map.offsetWidth;
-    var isBtnOnMap = function () {
-      return (Math.round(ghostLeft + width / 2) >= 0) && (Math.round(ghostLeft + width / 2) <= mapWidth) &&
-        (ghostTop + height >= window.data.LOCATION_Y.MIN) && (ghostTop + height <= window.data.LOCATION_Y.MAX);
-    };
     var onMouseMove = function (moveEvt) {
       moveEvt.preventDefault();
+      var shift = {
+        x: null,
+        y: null,
+      };
+      var moveInMap = {
+        x: function () {
+          shift.x = moveEvt.clientX - startCoords.x;
+          left = mapPinMainBtn.offsetLeft + shift.x;
+          mapPinMainBtn.style.left = left + 'px';
+          startCoords.x = moveEvt.clientX;
+        },
+        y: function () {
+          shift.y = moveEvt.clientY - startCoords.y;
+          top = mapPinMainBtn.offsetTop + shift.y;
+          mapPinMainBtn.style.top = top + 'px';
+          startCoords.y = moveEvt.clientY;
+        },
+      };
+
+      var isBtnOut = {
+        left: function () {
+          return Math.round(ghostLeft + width / 2) < 0;
+        },
+        right: function () {
+          return Math.round(ghostLeft + width / 2) > mapWidth;
+        },
+        top: function () {
+          return ghostTop + height < window.data.LOCATION_Y.MIN;
+        },
+        bottom: function () {
+          return ghostTop + height > window.data.LOCATION_Y.MAX;
+        },
+      };
+
+      var isBtnOnMap = {
+        x: function () {
+          return !isBtnOut.left() && !isBtnOut.right();
+        },
+        y: function () {
+          return !isBtnOut.top() && !isBtnOut.bottom();
+        },
+      };
+
+      var toStick = {
+        left: function () {
+          mapPinMainBtn.style.left = (0 - width / 2) + 'px';
+        },
+        right: function () {
+          mapPinMainBtn.style.left = (mapWidth - width / 2) + 'px';
+        },
+        top: function () {
+          mapPinMainBtn.style.top = (window.data.LOCATION_Y.MIN - height) + 'px';
+        },
+        bottom: function () {
+          mapPinMainBtn.style.top = (window.data.LOCATION_Y.MAX - height) + 'px';
+        },
+      };
+
       var ghostShift = {
         x: moveEvt.clientX - startGhostCoords.x,
         y: moveEvt.clientY - startGhostCoords.y,
@@ -103,34 +157,42 @@
       startGhostCoords.y = moveEvt.clientY;
 
       switch (true) {
-        case (Math.round(ghostLeft + width / 2) < 0):
-          mapPinMainBtn.style.left = (0 - width / 2) + 'px';
+        case (isBtnOut.left() && isBtnOnMap.y()):
+          toStick.left();
+          moveInMap.y();
           break;
-        case (Math.round(ghostLeft + width / 2) > mapWidth):
-          mapPinMainBtn.style.left = (mapWidth - width / 2) + 'px';
+        case (isBtnOut.right() && isBtnOnMap.y()):
+          toStick.right();
+          moveInMap.y();
           break;
-      }
-
-      switch (true) {
-        case (ghostTop + height < window.data.LOCATION_Y.MIN):
-          mapPinMainBtn.style.top = (window.data.LOCATION_Y.MIN - height) + 'px';
+        case (isBtnOut.top() && isBtnOnMap.x()):
+          toStick.top();
+          moveInMap.x();
           break;
-        case (ghostTop + height > window.data.LOCATION_Y.MAX):
-          mapPinMainBtn.style.top = (window.data.LOCATION_Y.MAX - height) + 'px';
+        case (isBtnOut.bottom() && isBtnOnMap.x()):
+          toStick.bottom();
+          moveInMap.x();
           break;
-      }
-
-      if (isBtnOnMap()) {
-        var shift = {
-          x: moveEvt.clientX - startCoords.x,
-          y: moveEvt.clientY - startCoords.y,
-        };
-        left = mapPinMainBtn.offsetLeft + shift.x;
-        top = mapPinMainBtn.offsetTop + shift.y;
-        mapPinMainBtn.style.left = left + 'px';
-        mapPinMainBtn.style.top = top + 'px';
-        startCoords.x = moveEvt.clientX;
-        startCoords.y = moveEvt.clientY;
+        case (isBtnOut.left() && isBtnOut.top()):
+          toStick.left();
+          toStick.top();
+          break;
+        case (isBtnOut.left() && isBtnOut.bottom()):
+          toStick.left();
+          toStick.bottom();
+          break;
+        case (isBtnOut.right() && isBtnOut.top()):
+          toStick.right();
+          toStick.top();
+          break;
+        case (isBtnOut.right() && isBtnOut.bottom()):
+          toStick.right();
+          toStick.bottom();
+          break;
+        case (isBtnOnMap.x() && isBtnOnMap.y()):
+          moveInMap.x();
+          moveInMap.y();
+          break;
       }
       getAddressFromPinParameter();
     };
