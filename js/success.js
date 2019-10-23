@@ -34,12 +34,12 @@
   };
 
   window.success = {
-    onLoad: function (data) {
+    load: function (data) {
       window.page.data = data;
       window.page.actualData = window.page.getActualData(data);
       window.filter.updateAds();
     },
-    onSave: function () {
+    save: function () {
       showSuccess();
       window.form.element.reset();
       window.form.getActualPlaceholderPrice();

@@ -13,7 +13,7 @@
     activate: function () {
       window.map.activate();
       window.form.activate();
-      window.backend.load(window.success.onLoad, window.onError);
+      window.backend.load(window.success.load, window.onError);
       this.booleanActive = true;
     },
     deactivate: function () {
