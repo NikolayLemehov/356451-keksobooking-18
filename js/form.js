@@ -83,7 +83,7 @@
   adFormSubmitBtn.addEventListener('click', function (evt) {
     if (adFormElement.checkValidity()) {
       evt.preventDefault();
-      window.backend.save(new FormData(adFormElement), window.success.save, window.onError);
+      window.backend.save(new FormData(adFormElement), window.onSuccess.save, window.onError);
     }
   });
   var adFormResetBtn = document.querySelector('.ad-form__reset');

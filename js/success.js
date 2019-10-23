@@ -33,7 +33,7 @@
     hideSuccess();
   };
 
-  window.success = {
+  window.onSuccess = {
     load: function (data) {
       window.page.data = data;
       window.page.actualData = window.page.getActualData(data);
