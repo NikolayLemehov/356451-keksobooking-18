@@ -20,9 +20,11 @@
   var onDocumentErrorEscKeyDown = function (evt) {
     if (evt.keyCode === window.util.KEY_CODE.ESC) {
       hideErrorElement();
+      window.page.booleanActive = true;
     }
   };
   var showError = function () {
+    window.page.booleanActive = false;
     if (window.card.booleanShow) {
       document.removeEventListener('keydown', window.card.onDocumentEscKeyDown);
     }
