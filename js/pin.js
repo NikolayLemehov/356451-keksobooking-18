@@ -65,26 +65,74 @@
       x: evt.clientX,
       y: evt.clientY,
     };
+    var startGhostCoords = {
+      x: evt.clientX,
+      y: evt.clientY,
+    };
     var width = mapPinMainBtn.offsetWidth;
     var height = Math.round(mapPinMainBtn.offsetHeight + pinUtils.getShiftFromBottomYMainPin());
+
+    var ghostBtnOffsetLeft = mapPinMainBtn.offsetLeft;
+    var ghostBtnOffsetTop = mapPinMainBtn.offsetTop;
+
+    var left = mapPinMainBtn.offsetLeft;
+    var ghostLeft = ghostBtnOffsetLeft;
+
+    var top = mapPinMainBtn.offsetTop;
+    var ghostTop = ghostBtnOffsetTop;
+
+    var mapWidth = window.element.map.offsetWidth;
+    var isBtnOnMap = function () {
+      return (Math.round(ghostLeft + width / 2) >= 0) && (Math.round(ghostLeft + width / 2) <= mapWidth) &&
+        (ghostTop + height >= window.data.LOCATION_Y.MIN) && (ghostTop + height <= window.data.LOCATION_Y.MAX);
+    };
     var onMouseMove = function (moveEvt) {
       moveEvt.preventDefault();
-      var shift = {
-        x: moveEvt.clientX - startCoords.x,
-        y: moveEvt.clientY - startCoords.y,
+      var ghostShift = {
+        x: moveEvt.clientX - startGhostCoords.x,
+        y: moveEvt.clientY - startGhostCoords.y,
       };
-      var left = mapPinMainBtn.offsetLeft + shift.x;
-      var top = mapPinMainBtn.offsetTop + shift.y;
-      if (Math.round(left + width / 2) >= 0 && Math.round(left + width / 2) <= window.element.map.offsetWidth) {
+
+      ghostLeft = ghostBtnOffsetLeft + ghostShift.x;
+      ghostTop = ghostBtnOffsetTop + ghostShift.y;
+
+      ghostBtnOffsetLeft = ghostLeft;
+      ghostBtnOffsetTop = ghostTop;
+
+      startGhostCoords.x = moveEvt.clientX;
+      startGhostCoords.y = moveEvt.clientY;
+
+      switch (true) {
+        case (Math.round(ghostLeft + width / 2) < 0):
+          mapPinMainBtn.style.left = (0 - width / 2) + 'px';
+          break;
+        case (Math.round(ghostLeft + width / 2) > mapWidth):
+          mapPinMainBtn.style.left = (mapWidth - width / 2) + 'px';
+          break;
+      }
+
+      switch (true) {
+        case (ghostTop + height < window.data.LOCATION_Y.MIN):
+          mapPinMainBtn.style.top = (window.data.LOCATION_Y.MIN - height) + 'px';
+          break;
+        case (ghostTop + height > window.data.LOCATION_Y.MAX):
+          mapPinMainBtn.style.top = (window.data.LOCATION_Y.MAX - height) + 'px';
+          break;
+      }
+
+      if (isBtnOnMap()) {
+        var shift = {
+          x: moveEvt.clientX - startCoords.x,
+          y: moveEvt.clientY - startCoords.y,
+        };
+        left = mapPinMainBtn.offsetLeft + shift.x;
+        top = mapPinMainBtn.offsetTop + shift.y;
         mapPinMainBtn.style.left = left + 'px';
-        startCoords.x = moveEvt.clientX;
-        getAddressFromPinParameter();
-      }
-      if (top + height >= window.data.LOCATION_Y.MIN && top + height <= window.data.LOCATION_Y.MAX) {
         mapPinMainBtn.style.top = top + 'px';
+        startCoords.x = moveEvt.clientX;
         startCoords.y = moveEvt.clientY;
-        getAddressFromPinParameter();
       }
+      getAddressFromPinParameter();
     };
     var onMouseUp = function () {
       document.removeEventListener('mousemove', onMouseMove);
