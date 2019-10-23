@@ -54,10 +54,7 @@
     }
   };
 
-  var validateTimeout = function () {
-    adFormTimeoutSelect.selectedIndex = adFormTimeinSelect.selectedIndex;
-  };
-  var validateTimein = function () {
+  var synchronizeTimeInOut = function () {
     adFormTimeinSelect.selectedIndex = adFormTimeoutSelect.selectedIndex;
   };
 
@@ -74,10 +71,10 @@
     validatePrice();
   });
   adFormTimeinSelect.addEventListener('change', function () {
-    validateTimeout();
+    synchronizeTimeInOut();
   });
   adFormTimeoutSelect.addEventListener('change', function () {
-    validateTimein();
+    synchronizeTimeInOut();
   });
 
   adFormSubmitBtn.addEventListener('click', function (evt) {
