@@ -104,7 +104,7 @@
       adFormElement.classList.remove('ad-form--disabled');
       adFormHeaderElement.removeAttribute('disabled');
       window.util.setCollectionAble(adFormElements);
-      createActualCapacity(adFormRoomNumberSelect.options[adFormRoomNumberSelect.selectedIndex].value);
+      createActualCapacity(adFormRoomNumberSelect.value);
     },
     getActualPlaceholderPrice: function () {
       selectedType = adFormTypeSelect.options[adFormTypeSelect.selectedIndex];
