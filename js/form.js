@@ -25,7 +25,7 @@
   };
 
   var validateCapacity = function () {
-    createActualCapacity(adFormRoomNumberSelect.options[adFormRoomNumberSelect.selectedIndex].value);
+    createActualCapacity(adFormRoomNumberSelect.value);
     if (adFormCapacitySelect.options[adFormCapacitySelect.selectedIndex].disabled) {
       adFormCapacitySelect.setCustomValidity('При таком количестве комнат гостей должно быть другое количество.');
     } else {
