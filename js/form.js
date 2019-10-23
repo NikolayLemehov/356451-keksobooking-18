@@ -36,14 +36,14 @@
   var selectedTypeValue = adFormTypeSelect.value;
   var minPrice = window.data.typeToPrice[selectedTypeValue];
   var validatePrice = function () {
-    var selectedTypeElement = adFormTypeSelect.options[adFormTypeSelect.selectedIndex];
     minPrice = window.data.typeToPrice[selectedTypeValue];
     var maxPrice = Number(adFormPriceInput.getAttribute('max'));
     adFormPriceInput.setAttribute('min', minPrice);
     adFormPriceInput.setAttribute('placeholder', minPrice);
     switch (true) {
       case (adFormPriceInput.value < minPrice):
-        adFormPriceInput.setCustomValidity('При типе жилья "' + selectedTypeElement.textContent +
+        adFormPriceInput.setCustomValidity('При типе жилья "' +
+          adFormTypeSelect.options[adFormTypeSelect.selectedIndex].textContent +
           '" цена должна быть не меньше чем "' + minPrice + '".');
         break;
       case (adFormPriceInput.value > maxPrice):
