@@ -18,10 +18,10 @@
     Array.from(adFormCapacitySelect.options).forEach(function (it, i) {
       this[i].setAttribute('disabled', 'disabled');
     }, adFormCapacitySelect.options);
-    Array.from(window.data.roomNumberToCapacity[roomValue]).forEach(function (it, i) {
-      var selector = 'option[value="' + window.data.roomNumberToCapacity[roomValue][i] + '"]';
+    window.data.roomNumberToCapacity[roomValue].forEach(function (it, i, array) {
+      var selector = 'option[value="' + array[i] + '"]';
       adFormCapacitySelect.querySelector(selector).removeAttribute('disabled');
-    }, window.data.roomNumberToCapacity[roomValue]);
+    });
   };
 
   var validateCapacity = function () {
@@ -43,7 +43,7 @@
     switch (true) {
       case (adFormPriceInput.value < minPrice):
         adFormPriceInput.setCustomValidity('При типе жилья "' +
-          adFormTypeSelect.options[adFormTypeSelect.selectedIndex].textContent +
+          adFormTypeSelect.querySelector('option:checked').textContent +
           '" цена должна быть не меньше чем "' + minPrice + '".');
         break;
       case (adFormPriceInput.value > maxPrice):
