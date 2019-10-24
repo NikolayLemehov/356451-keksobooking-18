@@ -80,30 +80,6 @@
     var mapWidth = window.element.map.offsetWidth;
     var onMouseMove = function (moveEvt) {
       moveEvt.preventDefault();
-      var movePin = {
-        x: function () {
-          var shiftPinX = moveEvt.clientX - startPin.x;
-          mapPinMainBtn.style.left = (mapPinMainBtn.offsetLeft + shiftPinX) + 'px';
-          startPin.x = moveEvt.clientX;
-        },
-        y: function () {
-          var shiftPinY = moveEvt.clientY - startPin.y;
-          mapPinMainBtn.style.top = (mapPinMainBtn.offsetTop + shiftPinY) + 'px';
-          startPin.y = moveEvt.clientY;
-        },
-      };
-      var moveGhost = {
-        x: function () {
-          var shiftGhostX = moveEvt.clientX - startGhost.x;
-          ghost.left += shiftGhostX;
-          startGhost.x = moveEvt.clientX;
-        },
-        y: function () {
-          var shiftGhostY = moveEvt.clientY - startGhost.y;
-          ghost.top += shiftGhostY;
-          startGhost.y = moveEvt.clientY;
-        },
-      };
 
       var isBtnOut = {
         left: function () {
@@ -144,8 +120,24 @@
         },
       };
 
-      moveGhost.x();
-      moveGhost.y();
+      var movePin = {
+        x: function () {
+          var shiftPinX = moveEvt.clientX - startPin.x;
+          mapPinMainBtn.style.left = (mapPinMainBtn.offsetLeft + shiftPinX) + 'px';
+          startPin.x = moveEvt.clientX;
+        },
+        y: function () {
+          var shiftPinY = moveEvt.clientY - startPin.y;
+          mapPinMainBtn.style.top = (mapPinMainBtn.offsetTop + shiftPinY) + 'px';
+          startPin.y = moveEvt.clientY;
+        },
+      };
+      var shiftGhostX = moveEvt.clientX - startGhost.x;
+      ghost.left += shiftGhostX;
+      startGhost.x = moveEvt.clientX;
+      var shiftGhostY = moveEvt.clientY - startGhost.y;
+      ghost.top += shiftGhostY;
+      startGhost.y = moveEvt.clientY;
 
       switch (true) {
         case (isBtnOut.left() && isBtnOnMap.y()):
