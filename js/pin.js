@@ -69,8 +69,6 @@
     var startPin = new Coords(evt);
     var startGhost = new Coords(evt);
     var pin = {
-      left: mapPinMainBtn.offsetLeft,
-      top: mapPinMainBtn.offsetTop,
       width: mapPinMainBtn.offsetWidth,
       height: Math.round(mapPinMainBtn.offsetHeight + pinUtils.getShiftFromBottomYMainPin()),
     };
@@ -93,14 +91,12 @@
       var movePin = {
         x: function () {
           shiftPin.x = moveEvt.clientX - startPin.x;
-          pin.left = mapPinMainBtn.offsetLeft + shiftPin.x;
-          mapPinMainBtn.style.left = pin.left + 'px';
+          mapPinMainBtn.style.left = (mapPinMainBtn.offsetLeft + shiftPin.x) + 'px';
           startPin.x = moveEvt.clientX;
         },
         y: function () {
           shiftPin.y = moveEvt.clientY - startPin.y;
-          pin.top = mapPinMainBtn.offsetTop + shiftPin.y;
-          mapPinMainBtn.style.top = pin.top + 'px';
+          mapPinMainBtn.style.top = (mapPinMainBtn.offsetTop + shiftPin.y) + 'px';
           startPin.y = moveEvt.clientY;
         },
       };
