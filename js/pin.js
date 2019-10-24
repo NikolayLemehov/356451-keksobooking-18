@@ -72,13 +72,13 @@
     var width = mapPinMainBtn.offsetWidth;
     var height = Math.round(mapPinMainBtn.offsetHeight + pinUtils.getShiftFromBottomYMainPin());
 
+    var left = mapPinMainBtn.offsetLeft;
+    var top = mapPinMainBtn.offsetTop;
+
     var ghostBtnOffsetLeft = mapPinMainBtn.offsetLeft;
     var ghostBtnOffsetTop = mapPinMainBtn.offsetTop;
 
-    var left = mapPinMainBtn.offsetLeft;
     var ghostLeft = ghostBtnOffsetLeft;
-
-    var top = mapPinMainBtn.offsetTop;
     var ghostTop = ghostBtnOffsetTop;
 
     var mapWidth = window.element.map.offsetWidth;
