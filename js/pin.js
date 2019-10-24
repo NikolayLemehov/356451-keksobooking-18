@@ -92,20 +92,24 @@
     var mapWidth = window.element.map.offsetWidth;
     var onMouseMove = function (moveEvt) {
       moveEvt.preventDefault();
-      var shift = {
+      var shiftPin = {
+        x: null,
+        y: null,
+      };
+      var shiftGhost = {
         x: null,
         y: null,
       };
       var moveInMap = {
         x: function () {
-          shift.x = moveEvt.clientX - startCoords.x;
-          pin.left = mapPinMainBtn.offsetLeft + shift.x;
+          shiftPin.x = moveEvt.clientX - startCoords.x;
+          pin.left = mapPinMainBtn.offsetLeft + shiftPin.x;
           mapPinMainBtn.style.left = pin.left + 'px';
           startCoords.x = moveEvt.clientX;
         },
         y: function () {
-          shift.y = moveEvt.clientY - startCoords.y;
-          pin.top = mapPinMainBtn.offsetTop + shift.y;
+          shiftPin.y = moveEvt.clientY - startCoords.y;
+          pin.top = mapPinMainBtn.offsetTop + shiftPin.y;
           mapPinMainBtn.style.top = pin.top + 'px';
           startCoords.y = moveEvt.clientY;
         },
@@ -150,13 +154,11 @@
         },
       };
 
-      var ghostShift = {
-        x: moveEvt.clientX - startGhostCoords.x,
-        y: moveEvt.clientY - startGhostCoords.y,
-      };
+      shiftGhost.x = moveEvt.clientX - startGhostCoords.x;
+      shiftGhost.y = moveEvt.clientY - startGhostCoords.y;
 
-      ghost.left = ghostBtnOffset.left + ghostShift.x;
-      ghost.top = ghostBtnOffset.top + ghostShift.y;
+      ghost.left = ghostBtnOffset.left + shiftGhost.x;
+      ghost.top = ghostBtnOffset.top + shiftGhost.y;
 
       ghostBtnOffset.left = ghost.left;
       ghostBtnOffset.top = ghost.top;
