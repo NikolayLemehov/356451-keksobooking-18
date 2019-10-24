@@ -80,8 +80,10 @@
       top: mapPinMainBtn.offsetTop,
     };
 
-    var ghostLeft = ghostBtnOffset.left;
-    var ghostTop = ghostBtnOffset.top;
+    var ghost = {
+      left: ghostBtnOffset.left,
+      top: ghostBtnOffset.top,
+    };
 
     var mapWidth = window.element.map.offsetWidth;
     var onMouseMove = function (moveEvt) {
@@ -107,16 +109,16 @@
 
       var isBtnOut = {
         left: function () {
-          return Math.round(ghostLeft + width / 2) < 0;
+          return Math.round(ghost.left + width / 2) < 0;
         },
         right: function () {
-          return Math.round(ghostLeft + width / 2) > mapWidth;
+          return Math.round(ghost.left + width / 2) > mapWidth;
         },
         top: function () {
-          return ghostTop + height < window.data.LOCATION_Y.MIN;
+          return ghost.top + height < window.data.LOCATION_Y.MIN;
         },
         bottom: function () {
-          return ghostTop + height > window.data.LOCATION_Y.MAX;
+          return ghost.top + height > window.data.LOCATION_Y.MAX;
         },
       };
 
@@ -149,11 +151,11 @@
         y: moveEvt.clientY - startGhostCoords.y,
       };
 
-      ghostLeft = ghostBtnOffset.left + ghostShift.x;
-      ghostTop = ghostBtnOffset.top + ghostShift.y;
+      ghost.left = ghostBtnOffset.left + ghostShift.x;
+      ghost.top = ghostBtnOffset.top + ghostShift.y;
 
-      ghostBtnOffset.left = ghostLeft;
-      ghostBtnOffset.top = ghostTop;
+      ghostBtnOffset.left = ghost.left;
+      ghostBtnOffset.top = ghost.top;
 
       startGhostCoords.x = moveEvt.clientX;
       startGhostCoords.y = moveEvt.clientY;
