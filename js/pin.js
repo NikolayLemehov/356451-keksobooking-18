@@ -80,10 +80,6 @@
     var mapWidth = window.element.map.offsetWidth;
     var onMouseMove = function (moveEvt) {
       moveEvt.preventDefault();
-      var shiftGhost = {
-        x: null,
-        y: null,
-      };
       var movePin = {
         x: function () {
           var shiftPinX = moveEvt.clientX - startPin.x;
@@ -98,13 +94,13 @@
       };
       var moveGhost = {
         x: function () {
-          shiftGhost.x = moveEvt.clientX - startGhost.x;
-          ghost.left += shiftGhost.x;
+          var shiftGhostX = moveEvt.clientX - startGhost.x;
+          ghost.left += shiftGhostX;
           startGhost.x = moveEvt.clientX;
         },
         y: function () {
-          shiftGhost.y = moveEvt.clientY - startGhost.y;
-          ghost.top += shiftGhost.y;
+          var shiftGhostY = moveEvt.clientY - startGhost.y;
+          ghost.top += shiftGhostY;
           startGhost.y = moveEvt.clientY;
         },
       };
