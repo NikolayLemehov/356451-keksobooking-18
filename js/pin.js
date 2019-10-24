@@ -74,13 +74,9 @@
       width: mapPinMainBtn.offsetWidth,
       height: Math.round(mapPinMainBtn.offsetHeight + pinUtils.getShiftFromBottomYMainPin()),
     };
-    var ghostBtnOffset = {
+    var ghost = {
       left: mapPinMainBtn.offsetLeft,
       top: mapPinMainBtn.offsetTop,
-    };
-    var ghost = {
-      left: ghostBtnOffset.left,
-      top: ghostBtnOffset.top,
     };
 
     var mapWidth = window.element.map.offsetWidth;
@@ -111,14 +107,12 @@
       var moveGhost = {
         x: function () {
           shiftGhost.x = moveEvt.clientX - startGhost.x;
-          ghost.left = ghostBtnOffset.left + shiftGhost.x;
-          ghostBtnOffset.left = ghost.left;
+          ghost.left += shiftGhost.x;
           startGhost.x = moveEvt.clientX;
         },
         y: function () {
           shiftGhost.y = moveEvt.clientY - startGhost.y;
-          ghost.top = ghostBtnOffset.top + shiftGhost.y;
-          ghostBtnOffset.top = ghost.top;
+          ghost.top += shiftGhost.y;
           startGhost.y = moveEvt.clientY;
         },
       };
