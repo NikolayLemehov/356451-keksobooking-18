@@ -72,8 +72,10 @@
     var width = mapPinMainBtn.offsetWidth;
     var height = Math.round(mapPinMainBtn.offsetHeight + pinUtils.getShiftFromBottomYMainPin());
 
-    var left = mapPinMainBtn.offsetLeft;
-    var top = mapPinMainBtn.offsetTop;
+    var pin = {
+      left: mapPinMainBtn.offsetLeft,
+      top: mapPinMainBtn.offsetTop,
+    };
 
     var ghostBtnOffset = {
       left: mapPinMainBtn.offsetLeft,
@@ -95,14 +97,14 @@
       var moveInMap = {
         x: function () {
           shift.x = moveEvt.clientX - startCoords.x;
-          left = mapPinMainBtn.offsetLeft + shift.x;
-          mapPinMainBtn.style.left = left + 'px';
+          pin.left = mapPinMainBtn.offsetLeft + shift.x;
+          mapPinMainBtn.style.left = pin.left + 'px';
           startCoords.x = moveEvt.clientX;
         },
         y: function () {
           shift.y = moveEvt.clientY - startCoords.y;
-          top = mapPinMainBtn.offsetTop + shift.y;
-          mapPinMainBtn.style.top = top + 'px';
+          pin.top = mapPinMainBtn.offsetTop + shift.y;
+          mapPinMainBtn.style.top = pin.top + 'px';
           startCoords.y = moveEvt.clientY;
         },
       };
