@@ -94,7 +94,7 @@
         x: null,
         y: null,
       };
-      var moveInMap = {
+      var movePin = {
         x: function () {
           shiftPin.x = moveEvt.clientX - startPin.x;
           pin.left = mapPinMainBtn.offsetLeft + shiftPin.x;
@@ -106,6 +106,20 @@
           pin.top = mapPinMainBtn.offsetTop + shiftPin.y;
           mapPinMainBtn.style.top = pin.top + 'px';
           startPin.y = moveEvt.clientY;
+        },
+      };
+      var moveGhost = {
+        x: function () {
+          shiftGhost.x = moveEvt.clientX - startGhost.x;
+          ghost.left = ghostBtnOffset.left + shiftGhost.x;
+          ghostBtnOffset.left = ghost.left;
+          startGhost.x = moveEvt.clientX;
+        },
+        y: function () {
+          shiftGhost.y = moveEvt.clientY - startGhost.y;
+          ghost.top = ghostBtnOffset.top + shiftGhost.y;
+          ghostBtnOffset.top = ghost.top;
+          startGhost.y = moveEvt.clientY;
         },
       };
 
@@ -148,34 +162,25 @@
         },
       };
 
-      shiftGhost.x = moveEvt.clientX - startGhost.x;
-      shiftGhost.y = moveEvt.clientY - startGhost.y;
-
-      ghost.left = ghostBtnOffset.left + shiftGhost.x;
-      ghost.top = ghostBtnOffset.top + shiftGhost.y;
-
-      ghostBtnOffset.left = ghost.left;
-      ghostBtnOffset.top = ghost.top;
-
-      startGhost.x = moveEvt.clientX;
-      startGhost.y = moveEvt.clientY;
+      moveGhost.x();
+      moveGhost.y();
 
       switch (true) {
         case (isBtnOut.left() && isBtnOnMap.y()):
           toStick.left();
-          moveInMap.y();
+          movePin.y();
           break;
         case (isBtnOut.right() && isBtnOnMap.y()):
           toStick.right();
-          moveInMap.y();
+          movePin.y();
           break;
         case (isBtnOut.top() && isBtnOnMap.x()):
           toStick.top();
-          moveInMap.x();
+          movePin.x();
           break;
         case (isBtnOut.bottom() && isBtnOnMap.x()):
           toStick.bottom();
-          moveInMap.x();
+          movePin.x();
           break;
         case (isBtnOut.left() && isBtnOut.top()):
           toStick.left();
@@ -194,8 +199,8 @@
           toStick.bottom();
           break;
         case (isBtnOnMap.x() && isBtnOnMap.y()):
-          moveInMap.x();
-          moveInMap.y();
+          movePin.x();
+          movePin.y();
           break;
       }
       getAddressFromPinParameter();
