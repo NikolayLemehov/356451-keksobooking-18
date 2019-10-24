@@ -69,8 +69,10 @@
       x: evt.clientX,
       y: evt.clientY,
     };
-    var width = mapPinMainBtn.offsetWidth;
-    var height = Math.round(mapPinMainBtn.offsetHeight + pinUtils.getShiftFromBottomYMainPin());
+    var map = {
+      width: mapPinMainBtn.offsetWidth,
+      height: Math.round(mapPinMainBtn.offsetHeight + pinUtils.getShiftFromBottomYMainPin()),
+    };
 
     var pin = {
       left: mapPinMainBtn.offsetLeft,
@@ -111,16 +113,16 @@
 
       var isBtnOut = {
         left: function () {
-          return Math.round(ghost.left + width / 2) < 0;
+          return Math.round(ghost.left + map.width / 2) < 0;
         },
         right: function () {
-          return Math.round(ghost.left + width / 2) > mapWidth;
+          return Math.round(ghost.left + map.width / 2) > mapWidth;
         },
         top: function () {
-          return ghost.top + height < window.data.LOCATION_Y.MIN;
+          return ghost.top + map.height < window.data.LOCATION_Y.MIN;
         },
         bottom: function () {
-          return ghost.top + height > window.data.LOCATION_Y.MAX;
+          return ghost.top + map.height > window.data.LOCATION_Y.MAX;
         },
       };
 
@@ -135,16 +137,16 @@
 
       var toStick = {
         left: function () {
-          mapPinMainBtn.style.left = (0 - width / 2) + 'px';
+          mapPinMainBtn.style.left = (0 - map.width / 2) + 'px';
         },
         right: function () {
-          mapPinMainBtn.style.left = (mapWidth - width / 2) + 'px';
+          mapPinMainBtn.style.left = (mapWidth - map.width / 2) + 'px';
         },
         top: function () {
-          mapPinMainBtn.style.top = (window.data.LOCATION_Y.MIN - height) + 'px';
+          mapPinMainBtn.style.top = (window.data.LOCATION_Y.MIN - map.height) + 'px';
         },
         bottom: function () {
-          mapPinMainBtn.style.top = (window.data.LOCATION_Y.MAX - height) + 'px';
+          mapPinMainBtn.style.top = (window.data.LOCATION_Y.MAX - map.height) + 'px';
         },
       };
 
