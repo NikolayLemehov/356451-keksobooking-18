@@ -76,8 +76,8 @@
       left: mapPinMainBtn.offsetLeft,
       top: mapPinMainBtn.offsetTop,
     };
-
     var mapWidth = window.element.map.offsetWidth;
+
     var onMouseMove = function (moveEvt) {
       moveEvt.preventDefault();
 
