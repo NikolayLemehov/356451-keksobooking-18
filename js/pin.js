@@ -2,6 +2,10 @@
 
 (function () {
   var PIN_LIMIT = 5;
+  var Coords = function (evt) {
+    this.x = evt.clientX;
+    this.y = evt.clientY;
+  };
   var pinsElement = window.element.map.querySelector('.map__pins');
   var pinTemplate = document.querySelector('#pin').content.querySelector('.map__pin');
   var mapPinMainBtn = document.querySelector('.map__pin--main');
@@ -62,10 +66,7 @@
       return;
     }
 
-    var startPinCoords = {
-      x: evt.clientX,
-      y: evt.clientY,
-    };
+    var startPin = new Coords(evt);
     var startGhostCoords = {
       x: evt.clientX,
       y: evt.clientY,
@@ -98,16 +99,16 @@
       };
       var moveInMap = {
         x: function () {
-          shiftPin.x = moveEvt.clientX - startPinCoords.x;
+          shiftPin.x = moveEvt.clientX - startPin.x;
           pin.left = mapPinMainBtn.offsetLeft + shiftPin.x;
           mapPinMainBtn.style.left = pin.left + 'px';
-          startPinCoords.x = moveEvt.clientX;
+          startPin.x = moveEvt.clientX;
         },
         y: function () {
-          shiftPin.y = moveEvt.clientY - startPinCoords.y;
+          shiftPin.y = moveEvt.clientY - startPin.y;
           pin.top = mapPinMainBtn.offsetTop + shiftPin.y;
           mapPinMainBtn.style.top = pin.top + 'px';
-          startPinCoords.y = moveEvt.clientY;
+          startPin.y = moveEvt.clientY;
         },
       };
 
