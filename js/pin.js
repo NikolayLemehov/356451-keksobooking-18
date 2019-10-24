@@ -67,10 +67,7 @@
     }
 
     var startPin = new Coords(evt);
-    var startGhostCoords = {
-      x: evt.clientX,
-      y: evt.clientY,
-    };
+    var startGhost = new Coords(evt);
     var pin = {
       left: mapPinMainBtn.offsetLeft,
       top: mapPinMainBtn.offsetTop,
@@ -151,8 +148,8 @@
         },
       };
 
-      shiftGhost.x = moveEvt.clientX - startGhostCoords.x;
-      shiftGhost.y = moveEvt.clientY - startGhostCoords.y;
+      shiftGhost.x = moveEvt.clientX - startGhost.x;
+      shiftGhost.y = moveEvt.clientY - startGhost.y;
 
       ghost.left = ghostBtnOffset.left + shiftGhost.x;
       ghost.top = ghostBtnOffset.top + shiftGhost.y;
@@ -160,8 +157,8 @@
       ghostBtnOffset.left = ghost.left;
       ghostBtnOffset.top = ghost.top;
 
-      startGhostCoords.x = moveEvt.clientX;
-      startGhostCoords.y = moveEvt.clientY;
+      startGhost.x = moveEvt.clientX;
+      startGhost.y = moveEvt.clientY;
 
       switch (true) {
         case (isBtnOut.left() && isBtnOnMap.y()):
