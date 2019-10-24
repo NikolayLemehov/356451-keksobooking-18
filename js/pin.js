@@ -80,23 +80,19 @@
     var mapWidth = window.element.map.offsetWidth;
     var onMouseMove = function (moveEvt) {
       moveEvt.preventDefault();
-      var shiftPin = {
-        x: null,
-        y: null,
-      };
       var shiftGhost = {
         x: null,
         y: null,
       };
       var movePin = {
         x: function () {
-          shiftPin.x = moveEvt.clientX - startPin.x;
-          mapPinMainBtn.style.left = (mapPinMainBtn.offsetLeft + shiftPin.x) + 'px';
+          var shiftPinX = moveEvt.clientX - startPin.x;
+          mapPinMainBtn.style.left = (mapPinMainBtn.offsetLeft + shiftPinX) + 'px';
           startPin.x = moveEvt.clientX;
         },
         y: function () {
-          shiftPin.y = moveEvt.clientY - startPin.y;
-          mapPinMainBtn.style.top = (mapPinMainBtn.offsetTop + shiftPin.y) + 'px';
+          var shiftPinY = moveEvt.clientY - startPin.y;
+          mapPinMainBtn.style.top = (mapPinMainBtn.offsetTop + shiftPinY) + 'px';
           startPin.y = moveEvt.clientY;
         },
       };
