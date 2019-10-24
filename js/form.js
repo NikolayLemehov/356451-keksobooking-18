@@ -26,7 +26,7 @@
 
   var validateCapacity = function () {
     createActualCapacity(adFormRoomNumberSelect.value);
-    if (adFormCapacitySelect.options[adFormCapacitySelect.selectedIndex].disabled) {
+    if (adFormCapacitySelect.querySelector('option:checked').disabled) {
       adFormCapacitySelect.setCustomValidity('При таком количестве комнат гостей должно быть другое количество.');
     } else {
       adFormCapacitySelect.setCustomValidity('');
