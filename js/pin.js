@@ -132,11 +132,9 @@
           startPin.y = moveEvt.clientY;
         },
       };
-      var shiftGhostX = moveEvt.clientX - startGhost.x;
-      ghost.left += shiftGhostX;
+      ghost.left += moveEvt.clientX - startGhost.x;
       startGhost.x = moveEvt.clientX;
-      var shiftGhostY = moveEvt.clientY - startGhost.y;
-      ghost.top += shiftGhostY;
+      ghost.top += moveEvt.clientY - startGhost.y;
       startGhost.y = moveEvt.clientY;
 
       switch (true) {
