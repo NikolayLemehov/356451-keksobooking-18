@@ -2,10 +2,6 @@
 
 (function () {
   var PIN_LIMIT = 5;
-  var Coords = function (evt) {
-    this.x = evt.clientX;
-    this.y = evt.clientY;
-  };
   var pinsElement = window.element.map.querySelector('.map__pins');
   var pinTemplate = document.querySelector('#pin').content.querySelector('.map__pin');
   var mapPinMainBtn = document.querySelector('.map__pin--main');
@@ -58,133 +54,42 @@
     return Number(matrix.slice(matrix.lastIndexOf(', ') + 2, -1));
   };
   mapPinMainSvg.addEventListener('transitionend', function () {
+    window.render(movePin);
     getAddressFromPinParameter();
   });
-  mapPinMainBtn.addEventListener('mousedown', function (evt) {
-    if (!window.page.booleanActive) {
-      window.page.activate();
-      return;
-    }
-
-    var startPin = new Coords(evt);
-    var startGhost = new Coords(evt);
-    var pin = {
-      width: mapPinMainBtn.offsetWidth,
-      height: Math.round(mapPinMainBtn.offsetHeight + pinUtils.getShiftFromBottomYMainPin()),
-    };
-    var ghost = {
-      left: mapPinMainBtn.offsetLeft,
-      top: mapPinMainBtn.offsetTop,
-    };
-    var mapWidth = window.element.map.offsetWidth;
-
-    var onMouseMove = function (moveEvt) {
-      moveEvt.preventDefault();
-
-      var isBtnOut = {
-        left: function () {
-          return Math.round(ghost.left + pin.width / 2) < 0;
-        },
-        right: function () {
-          return Math.round(ghost.left + pin.width / 2) > mapWidth;
-        },
-        top: function () {
-          return ghost.top + pin.height < window.data.LOCATION_Y.MIN;
-        },
-        bottom: function () {
-          return ghost.top + pin.height > window.data.LOCATION_Y.MAX;
-        },
-      };
-
-      var isBtnOnMap = {
-        x: function () {
-          return !isBtnOut.left() && !isBtnOut.right();
-        },
-        y: function () {
-          return !isBtnOut.top() && !isBtnOut.bottom();
-        },
-      };
-
-      var toStick = {
-        left: function () {
-          mapPinMainBtn.style.left = (0 - pin.width / 2) + 'px';
-        },
-        right: function () {
-          mapPinMainBtn.style.left = (mapWidth - pin.width / 2) + 'px';
-        },
-        top: function () {
-          mapPinMainBtn.style.top = (window.data.LOCATION_Y.MIN - pin.height) + 'px';
-        },
-        bottom: function () {
-          mapPinMainBtn.style.top = (window.data.LOCATION_Y.MAX - pin.height) + 'px';
-        },
-      };
-
-      var movePin = {
-        x: function () {
-          var shiftPinX = moveEvt.clientX - startPin.x;
-          mapPinMainBtn.style.left = (mapPinMainBtn.offsetLeft + shiftPinX) + 'px';
-          startPin.x = moveEvt.clientX;
-        },
-        y: function () {
-          var shiftPinY = moveEvt.clientY - startPin.y;
-          mapPinMainBtn.style.top = (mapPinMainBtn.offsetTop + shiftPinY) + 'px';
-          startPin.y = moveEvt.clientY;
-        },
-      };
-      ghost.left += moveEvt.clientX - startGhost.x;
-      startGhost.x = moveEvt.clientX;
-      ghost.top += moveEvt.clientY - startGhost.y;
-      startGhost.y = moveEvt.clientY;
-
-      switch (true) {
-        case (isBtnOut.left() && isBtnOnMap.y()):
-          toStick.left();
-          movePin.y();
-          break;
-        case (isBtnOut.right() && isBtnOnMap.y()):
-          toStick.right();
-          movePin.y();
-          break;
-        case (isBtnOut.top() && isBtnOnMap.x()):
-          toStick.top();
-          movePin.x();
-          break;
-        case (isBtnOut.bottom() && isBtnOnMap.x()):
-          toStick.bottom();
-          movePin.x();
-          break;
-        case (isBtnOut.left() && isBtnOut.top()):
-          toStick.left();
-          toStick.top();
-          break;
-        case (isBtnOut.left() && isBtnOut.bottom()):
-          toStick.left();
-          toStick.bottom();
-          break;
-        case (isBtnOut.right() && isBtnOut.top()):
-          toStick.right();
-          toStick.top();
-          break;
-        case (isBtnOut.right() && isBtnOut.bottom()):
-          toStick.right();
-          toStick.bottom();
-          break;
-        case (isBtnOnMap.x() && isBtnOnMap.y()):
-          movePin.x();
-          movePin.y();
-          break;
+  var movePin = window.createSlider(function (sliderX, sliderY) {
+    mapPinMainBtn.addEventListener('mousedown', function (downEvt) {
+      if (!window.page.booleanActive) {
+        window.page.activate();
+        return;
       }
-      getAddressFromPinParameter();
-    };
-    var onMouseUp = function () {
-      document.removeEventListener('mousemove', onMouseMove);
-      document.removeEventListener('mouseup', onMouseUp);
-    };
-    document.addEventListener('mousemove', onMouseMove);
-    document.addEventListener('mouseup', onMouseUp);
-  });
+      var diffY = mapPinMainBtn.getBoundingClientRect().height / 2 -
+        (pinUtils.getBottomYMainPin() - window.map.getCoordsPinOnElement(mapPinMainBtn).topY);
+      sliderX.min = 0;
+      sliderX.max = window.element.map.getBoundingClientRect().width;
+      sliderY.min = window.data.LOCATION_Y.MIN + diffY;
+      sliderY.max = window.data.LOCATION_Y.MAX + diffY;
+      var getPinPosition = function (evt) {
+        sliderX.value = (evt.clientX - window.element.map.getBoundingClientRect().left);
+        mapPinMainBtn.style.left = (sliderX.value - mapPinMainBtn.getBoundingClientRect().width / 2) + 'px';
+        sliderY.value = (evt.clientY - window.element.map.getBoundingClientRect().top);
+        mapPinMainBtn.style.top = (sliderY.value - mapPinMainBtn.getBoundingClientRect().height / 2) + 'px';
+      };
+      getPinPosition(downEvt);
 
+      var onMouseMove = function (moveEvt) {
+        moveEvt.preventDefault();
+        getPinPosition(moveEvt);
+        getAddressFromPinParameter();
+      };
+      var onMouseUp = function () {
+        document.removeEventListener('mousemove', onMouseMove);
+        document.removeEventListener('mouseup', onMouseUp);
+      };
+      document.addEventListener('mousemove', onMouseMove);
+      document.addEventListener('mouseup', onMouseUp);
+    });
+  });
   mapPinMainBtn.addEventListener('keydown', function (evt) {
     if (evt.keyCode === window.util.KEY_CODE.ENTER && !window.page.booleanActive) {
       window.page.activate();
